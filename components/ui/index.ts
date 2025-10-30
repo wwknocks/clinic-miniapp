@@ -56,3 +56,9 @@ export type { MeterBarProps } from "./MeterBar";
 export { CTABanner } from "./CTABanner";
 
 export { PaywallDialog, type PricingPlan } from "./PaywallDialog";
+
+export { Checkbox } from "./Checkbox";
+export type { CheckboxProps } from "./Checkbox";
+
+export { UserDropdown } from "./UserDropdown";
+export type { UserDropdownProps } from "./UserDropdown";
