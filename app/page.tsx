@@ -1,7 +1,14 @@
 "use client";
 
 import { Button } from "@/components/ui/Button";
-import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from "@/components/ui/Card";
+import {
+  Card,
+  CardHeader,
+  CardTitle,
+  CardDescription,
+  CardContent,
+  CardFooter,
+} from "@/components/ui/Card";
 import { Input } from "@/components/ui/Input";
 import { Label } from "@/components/ui/Label";
 import { m } from "framer-motion";
@@ -26,7 +33,12 @@ export default function Home() {
           <m.div
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.3, type: "spring", stiffness: 100, delay: 0.1 }}
+            transition={{
+              duration: 0.3,
+              type: "spring",
+              stiffness: 100,
+              delay: 0.1,
+            }}
           >
             <Card>
               <CardHeader>
@@ -38,7 +50,11 @@ export default function Home() {
               <CardContent className="space-y-4 pt-4">
                 <div className="space-y-2">
                   <Label htmlFor="email">Email</Label>
-                  <Input id="email" type="email" placeholder="you@example.com" />
+                  <Input
+                    id="email"
+                    type="email"
+                    placeholder="you@example.com"
+                  />
                 </div>
                 <div className="space-y-2">
                   <Label htmlFor="password">Password</Label>
@@ -46,7 +62,9 @@ export default function Home() {
                 </div>
               </CardContent>
               <CardFooter className="gap-3">
-                <Button variant="accent" className="flex-1">Sign In</Button>
+                <Button variant="accent" className="flex-1">
+                  Sign In
+                </Button>
                 <Button variant="ghost">Cancel</Button>
               </CardFooter>
             </Card>
@@ -55,7 +73,12 @@ export default function Home() {
           <m.div
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.3, type: "spring", stiffness: 100, delay: 0.2 }}
+            transition={{
+              duration: 0.3,
+              type: "spring",
+              stiffness: 100,
+              delay: 0.2,
+            }}
           >
             <Card>
               <CardHeader>
@@ -67,12 +90,22 @@ export default function Home() {
               <CardContent className="space-y-4 pt-4">
                 <div className="space-y-3">
                   <div className="space-y-2">
-                    <p className="text-13 text-text-secondary">Button Variants</p>
+                    <p className="text-13 text-text-secondary">
+                      Button Variants
+                    </p>
                     <div className="flex flex-wrap gap-2">
-                      <Button variant="solid" size="sm">Solid</Button>
-                      <Button variant="accent" size="sm">Accent</Button>
-                      <Button variant="danger" size="sm">Danger</Button>
-                      <Button variant="ghost" size="sm">Ghost</Button>
+                      <Button variant="solid" size="sm">
+                        Solid
+                      </Button>
+                      <Button variant="accent" size="sm">
+                        Accent
+                      </Button>
+                      <Button variant="danger" size="sm">
+                        Danger
+                      </Button>
+                      <Button variant="ghost" size="sm">
+                        Ghost
+                      </Button>
                     </div>
                   </div>
                   <div className="space-y-2">
@@ -91,7 +124,12 @@ export default function Home() {
           <m.div
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.3, type: "spring", stiffness: 100, delay: 0.3 }}
+            transition={{
+              duration: 0.3,
+              type: "spring",
+              stiffness: 100,
+              delay: 0.3,
+            }}
             className="md:col-span-2"
           >
             <Card variant="solid" padding="lg">
@@ -116,7 +154,12 @@ export default function Home() {
           <m.div
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.3, type: "spring", stiffness: 100, delay: 0.4 }}
+            transition={{
+              duration: 0.3,
+              type: "spring",
+              stiffness: 100,
+              delay: 0.4,
+            }}
             className="md:col-span-2"
           >
             <Card>
