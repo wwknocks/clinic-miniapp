@@ -24,6 +24,38 @@ export interface ProjectData {
     recommendations: string[];
   };
   
+  // Enhanced analysis results
+  results?: {
+    scoringResult?: {
+      overallScore: number;
+      dimensionScores: {
+        value: number;
+        urgency: number;
+        certainty: number;
+        effort: number;
+        specificity: number;
+        proof: number;
+      };
+      metrics: Record<string, any>;
+      leverDeltas: any[];
+      timestamp: string;
+    };
+    llmOutputs?: {
+      strengths: string[];
+      weaknesses: string[];
+      recommendations: string[];
+      fixSuggestions: string[];
+      objectionHandlers: string[];
+      conversionKits: string[];
+    };
+    screenshot?: {
+      path: string;
+      signedUrl: string;
+    };
+    inputsHash?: string;
+    cachedAt?: string;
+  };
+  
   // Export preferences
   exportFormat?: "pdf" | "pptx" | "json";
   
