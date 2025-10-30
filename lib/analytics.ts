@@ -1,6 +1,3 @@
-// Analytics placeholder for PostHog or similar services
-// This can be expanded with actual analytics implementation
-
 type AnalyticsEvent = {
   event: string;
   properties?: Record<string, unknown>;
@@ -8,17 +5,16 @@ type AnalyticsEvent = {
 
 export const analytics = {
   track: ({ event, properties }: AnalyticsEvent) => {
-    // Placeholder for analytics tracking
-    // In production, this would send to PostHog, Google Analytics, etc.
     if (process.env.NODE_ENV === "development") {
       console.log("[Analytics]", event, properties);
     }
     
-    // TODO: Implement actual analytics tracking
-    // Example with PostHog:
-    // if (typeof window !== "undefined" && window.posthog) {
-    //   window.posthog.capture(event, properties);
-    // }
+    if (typeof window !== "undefined") {
+      const windowWithPosthog = window as typeof window & { posthog?: { capture: (event: string, properties?: Record<string, unknown>) => void } };
+      if (windowWithPosthog.posthog) {
+        windowWithPosthog.posthog.capture(event, properties);
+      }
+    }
   },
 
   page: (pageName: string, properties?: Record<string, unknown>) => {
@@ -78,6 +74,34 @@ export const analytics = {
     analytics.track({
       event: "pdf_uploaded",
       properties: { project_id: projectId, file_size: fileSize },
+    });
+  },
+
+  analysisRun: (projectId: string, userId?: string) => {
+    analytics.track({
+      event: "analysis_run",
+      properties: { projectId, userId },
+    });
+  },
+
+  firstScoreShown: (projectId: string, score: number, userId?: string) => {
+    analytics.track({
+      event: "first_score_shown",
+      properties: { projectId, score, userId },
+    });
+  },
+
+  screenshotCaptured: (projectId: string, success: boolean, userId?: string) => {
+    analytics.track({
+      event: "screenshot_captured",
+      properties: { projectId, success, userId },
+    });
+  },
+
+  llmCallCompleted: (projectId: string, duration: number, userId?: string) => {
+    analytics.track({
+      event: "llm_call_completed",
+      properties: { projectId, duration, userId },
     });
   },
 };
