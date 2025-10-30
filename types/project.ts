@@ -1,8 +1,21 @@
 export interface ProjectData {
-  // Input step data
+  // Input step data - Basic info (legacy)
   offerTitle?: string;
   companyName?: string;
   offerDetails?: string;
+  
+  // Input step data - New structured inputs
+  sourceType?: "url" | "pdf";
+  url?: string;
+  pdfId?: string;
+  pdfPath?: string;
+  pdfUrl?: string;
+  icp?: string;
+  priceTerms?: string;
+  proofLinks?: string[];
+  mechanism?: string;
+  primaryObjection?: string;
+  goal?: string;
   
   // Analysis results
   analysisResults?: {

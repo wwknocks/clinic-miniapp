@@ -60,5 +60,8 @@ export { PaywallDialog, type PricingPlan } from "./PaywallDialog";
 export { Checkbox } from "./Checkbox";
 export type { CheckboxProps } from "./Checkbox";
 
+export { RadioGroup, RadioGroupItem } from "./RadioGroup";
+export type { RadioGroupProps, RadioGroupItemProps } from "./RadioGroup";
+
 export { UserDropdown } from "./UserDropdown";
 export type { UserDropdownProps } from "./UserDropdown";
