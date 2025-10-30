@@ -3,7 +3,7 @@
 
 type AnalyticsEvent = {
   event: string;
-  properties?: Record<string, any>;
+  properties?: Record<string, unknown>;
 };
 
 export const analytics = {
@@ -21,7 +21,7 @@ export const analytics = {
     // }
   },
 
-  page: (pageName: string, properties?: Record<string, any>) => {
+  page: (pageName: string, properties?: Record<string, unknown>) => {
     analytics.track({ event: "page_view", properties: { page: pageName, ...properties } });
   },
 
@@ -39,7 +39,7 @@ export const analytics = {
     });
   },
 
-  projectUpdated: (projectId: string, updates: Record<string, any>) => {
+  projectUpdated: (projectId: string, updates: Record<string, unknown>) => {
     analytics.track({
       event: "project_updated",
       properties: { project_id: projectId, ...updates },

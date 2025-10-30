@@ -71,7 +71,7 @@ export const useProjectStore = create<ProjectState>((set, get) => ({
         userId: data.user_id || undefined,
         title: data.title,
         currentStep: data.current_step,
-        data: data.data,
+        data: (data.data as ProjectData) || {},
         createdAt: data.created_at,
         updatedAt: data.updated_at,
         status: data.status,

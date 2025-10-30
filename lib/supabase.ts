@@ -1,45 +1,13 @@
-import { createClient } from "@supabase/supabase-js";
+/**
+ * @deprecated Use the new Supabase utilities instead:
+ * - Client-side: import { supabase } from "@/lib/supabase/client"
+ * - Server-side: import { createClient } from "@/lib/supabase/server"
+ * - Admin: import { createServiceRoleClient } from "@/lib/supabase/server"
+ */
 
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || "https://placeholder.supabase.co";
-const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || "placeholder-key";
+import { supabase as clientSupabase } from "./supabase/client";
 
-export const supabase = createClient(supabaseUrl, supabaseAnonKey);
+export const supabase = clientSupabase;
 
-export type Database = {
-  public: {
-    Tables: {
-      projects: {
-        Row: {
-          id: string;
-          user_id: string | null;
-          title: string;
-          current_step: number;
-          data: Record<string, any>;
-          created_at: string;
-          updated_at: string;
-          status: "draft" | "analyzing" | "complete";
-        };
-        Insert: {
-          id?: string;
-          user_id?: string | null;
-          title: string;
-          current_step?: number;
-          data?: Record<string, any>;
-          created_at?: string;
-          updated_at?: string;
-          status?: "draft" | "analyzing" | "complete";
-        };
-        Update: {
-          id?: string;
-          user_id?: string | null;
-          title?: string;
-          current_step?: number;
-          data?: Record<string, any>;
-          created_at?: string;
-          updated_at?: string;
-          status?: "draft" | "analyzing" | "complete";
-        };
-      };
-    };
-  };
-};
+// Re-export Database type from the new location
+export type { Database } from "@/types/supabase";

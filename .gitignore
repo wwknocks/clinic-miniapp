@@ -37,3 +37,8 @@ next-env.d.ts
 
 # development logs
 *.log
+
+# supabase local development
+supabase/.branches
+supabase/.temp
+.env
