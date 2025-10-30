@@ -13,6 +13,10 @@ export interface ProjectData {
   
   // Export preferences
   exportFormat?: "pdf" | "pptx" | "json";
+  
+  // Allow additional fields for JSONB compatibility
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  [key: string]: any;
 }
 
 export interface Project {

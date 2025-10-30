@@ -110,11 +110,46 @@ Copy `.env.example` to `.env.local` and configure:
 cp .env.example .env.local
 ```
 
-Add your Supabase credentials (optional for development):
-```
+Add your Supabase credentials:
+```env
 NEXT_PUBLIC_SUPABASE_URL=your-project-url
 NEXT_PUBLIC_SUPABASE_ANON_KEY=your-anon-key
+SUPABASE_SERVICE_ROLE_KEY=your-service-role-key
 ```
+
+### Supabase Setup
+
+This project uses Supabase for authentication, database, and storage. See the [Supabase Setup Guide](./supabase/README.md) for detailed instructions.
+
+#### Quick Start (Local Development)
+
+1. Install [Supabase CLI](https://supabase.com/docs/guides/cli):
+   ```bash
+   npm install -g supabase
+   ```
+
+2. Start local Supabase (requires Docker):
+   ```bash
+   supabase start
+   ```
+
+3. Copy the credentials from the output to your `.env.local`:
+   ```env
+   NEXT_PUBLIC_SUPABASE_URL=http://localhost:54321
+   NEXT_PUBLIC_SUPABASE_ANON_KEY=eyJh...
+   SUPABASE_SERVICE_ROLE_KEY=eyJh...
+   ```
+
+4. Migrations are automatically applied on start. Access Supabase Studio at [http://localhost:54323](http://localhost:54323)
+
+#### Database Schema
+
+The project includes migrations for:
+- **profiles** - User profiles with automatic creation on signup
+- **projects** - Offer analysis projects with JSONB data
+- **storage** - PDF uploads bucket with 30-day TTL
+
+All tables have Row Level Security (RLS) enabled to ensure users can only access their own data.
 
 ### Development
 
@@ -157,15 +192,31 @@ npm start
 │   │   └── ...
 │   └── providers/
 │       └── motion-provider.tsx  # Framer Motion setup
+├── db/
+│   ├── profiles.ts        # Profile database operations
+│   └── projects.ts        # Project database operations
 ├── lib/
+│   ├── supabase/
+│   │   ├── client.ts      # Client-side Supabase client
+│   │   ├── server.ts      # Server-side Supabase client
+│   │   └── storage.ts     # Storage bucket utilities
 │   ├── stores/
 │   │   └── useProjectStore.ts  # Zustand project state
-│   ├── supabase.ts        # Supabase client setup
 │   ├── analytics.ts       # Analytics event tracking
+│   ├── errors.ts          # Error handling utilities
+│   ├── logger.ts          # Logging utilities
 │   ├── motion.ts          # Animation variants
 │   └── utils.ts           # Utility functions
+├── supabase/
+│   ├── migrations/        # Database migrations
+│   │   ├── 20240101000000_create_profiles.sql
+│   │   ├── 20240101000001_create_projects.sql
+│   │   └── 20240101000002_create_storage.sql
+│   ├── config.toml        # Supabase configuration
+│   └── README.md          # Supabase setup guide
 ├── types/
-│   └── project.ts         # TypeScript types
+│   ├── project.ts         # Project TypeScript types
+│   └── supabase.ts        # Generated Supabase types
 └── tailwind.config.ts     # Design tokens configuration
 ```
 

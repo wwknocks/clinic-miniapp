@@ -27,7 +27,7 @@ export function StepAnalyze() {
         <CardHeader>
           <CardTitle>Ready to Analyze</CardTitle>
           <CardDescription>
-            We'll evaluate your offer across multiple dimensions including compensation, benefits, growth potential, and more.
+            We&apos;ll evaluate your offer across multiple dimensions including compensation, benefits, growth potential, and more.
           </CardDescription>
         </CardHeader>
         <CardContent className="space-y-6 pt-4">
