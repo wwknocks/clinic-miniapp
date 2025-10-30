@@ -66,4 +66,18 @@ export const analytics = {
       properties: { project_id: projectId, format },
     });
   },
+
+  inputsCompleted: (projectId: string, data: Record<string, unknown>) => {
+    analytics.track({
+      event: "inputs_completed",
+      properties: { project_id: projectId, ...data },
+    });
+  },
+
+  pdfUploaded: (projectId: string, fileSize: number) => {
+    analytics.track({
+      event: "pdf_uploaded",
+      properties: { project_id: projectId, file_size: fileSize },
+    });
+  },
 };

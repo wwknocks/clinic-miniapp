@@ -7,7 +7,7 @@ import { Stepper } from "@/components/ui/Stepper";
 import { Card } from "@/components/ui/Card";
 import { useProjectStore } from "@/lib/stores/useProjectStore";
 import { analytics } from "@/lib/analytics";
-import { StepInputs } from "./StepInputs";
+import { StepInputsNew } from "./StepInputsNew";
 import { StepAnalyze } from "./StepAnalyze";
 import { StepResults } from "./StepResults";
 import { StepExports } from "./StepExports";
@@ -66,10 +66,21 @@ export function StepperContainer() {
   const isFirstStep = currentStep === 1;
   const isLastStep = currentStep === steps.length;
 
+  const isStepValid = () => {
+    if (currentStep === 1) {
+      const sourceType = project?.data.sourceType;
+      if (!sourceType) return false;
+      if (sourceType === "url") return !!project?.data.url;
+      if (sourceType === "pdf") return !!project?.data.pdfId;
+      return false;
+    }
+    return true;
+  };
+
   const renderStep = () => {
     switch (currentStep) {
       case 1:
-        return <StepInputs key="inputs" />;
+        return <StepInputsNew key="inputs" />;
       case 2:
         return <StepAnalyze key="analyze" />;
       case 3:
@@ -77,7 +88,7 @@ export function StepperContainer() {
       case 4:
         return <StepExports key="exports" />;
       default:
-        return <StepInputs key="inputs" />;
+        return <StepInputsNew key="inputs" />;
     }
   };
 
@@ -168,7 +179,7 @@ export function StepperContainer() {
               variant={isLastStep ? "accent" : "solid"}
               size="lg"
               onClick={nextStep}
-              disabled={isLastStep}
+              disabled={isLastStep || !isStepValid()}
               className="gap-2"
             >
               {isLastStep ? "Complete" : "Next"}
