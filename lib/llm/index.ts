@@ -1,54 +1,48 @@
-import OpenAI from "openai";
+/**
+ * LLM Module - Main Export
+ * Server-only module for OpenAI-compatible LLM with rate limiting, timeout, and token budgeting
+ */
 
-const openai = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY,
-});
+// Re-export enhanced client
+export { callLLM, batchLLMCalls, parallelLLMCalls, getUsageStats } from "./client";
+export type { LLMCallOptions } from "./client";
 
-export interface LLMPromptOptions {
-  systemPrompt: string;
-  userPrompt: string;
-  temperature?: number;
-  maxTokens?: number;
-}
+// Re-export types
+export type {
+  LLMResponse,
+  LLMUsage,
+  LLMError,
+  CopyRewriteOutput,
+  ObjectionPackOutput,
+  LinkedInCarouselOutput,
+  LinkedInCaptionOutput,
+  LinkedInCommentOutput,
+  LinkedInDMThreadOutput,
+  ABTestPlanOutput,
+} from "./types";
 
-export interface LLMResponse {
-  content: string;
-  usage?: {
-    promptTokens: number;
-    completionTokens: number;
-    totalTokens: number;
-  };
-}
+// Re-export templates
+export {
+  generateCopyRewrite,
+  generateObjectionPack,
+  generateLinkedInCarousel,
+  generateLinkedInCaption,
+  generateLinkedInComments,
+  generateLinkedInDMThread,
+  generate7DayABPlan,
+} from "./templates";
+export type {
+  CopyRewriterInputs,
+  ObjectionPackInputs,
+  LinkedInCarouselInputs,
+  LinkedInCaptionInputs,
+  LinkedInCommentInputs,
+  LinkedInDMInputs,
+  ABTestPlanInputs,
+} from "./templates";
 
-export async function callLLM(options: LLMPromptOptions): Promise<LLMResponse> {
-  const {
-    systemPrompt,
-    userPrompt,
-    temperature = 0.7,
-    maxTokens = 2000,
-  } = options;
-
-  const response = await openai.chat.completions.create({
-    model: "gpt-4o-mini",
-    messages: [
-      { role: "system", content: systemPrompt },
-      { role: "user", content: userPrompt },
-    ],
-    temperature,
-    max_tokens: maxTokens,
-  });
-
-  const content = response.choices[0]?.message?.content || "";
-  const usage = response.usage
-    ? {
-        promptTokens: response.usage.prompt_tokens,
-        completionTokens: response.usage.completion_tokens,
-        totalTokens: response.usage.total_tokens,
-      }
-    : undefined;
-
-  return { content, usage };
-}
+// Legacy compatibility - keep existing generateOfferAnalysis function
+import { callLLM as callLLMClient } from "./client";
 
 export interface OfferAnalysisInputs {
   url?: string;
@@ -104,11 +98,12 @@ Format your response as JSON with these keys:
   "conversionKits": ["kit 1", "kit 2", ...]
 }`;
 
-  const response = await callLLM({
+  const response = await callLLMClient({
     systemPrompt,
     userPrompt,
     temperature: 0.7,
     maxTokens: 3000,
+    jsonMode: true,
   });
 
   try {
