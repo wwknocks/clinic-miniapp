@@ -21,12 +21,14 @@ This document describes the implementation of the Step 1 data collection UI with
 ### 2. Validation
 
 #### Client-Side Validation (Zod)
+
 - Schema defined in `/lib/validation/input-schemas.ts`
 - Real-time field validation on blur/change
 - Inline error messages with icons
 - Type-safe validation with TypeScript
 
 #### Validation Rules
+
 - Source type is required
 - URL is required when source type is "url" (with URL format validation)
 - PDF is required when source type is "pdf" (with file type and size validation)
@@ -36,6 +38,7 @@ This document describes the implementation of the Step 1 data collection UI with
 ### 3. File Handling
 
 #### PDF Upload
+
 - Maximum file size: 50MB
 - Allowed MIME type: `application/pdf`
 - Organized by user ID in Supabase storage: `{userId}/{fileName}`
@@ -44,12 +47,14 @@ This document describes the implementation of the Step 1 data collection UI with
 - Automatic cleanup of old PDFs on replacement
 
 #### Storage Structure
+
 - Bucket name: `pdf-uploads`
 - Path format: `{userId}/{timestamp}-{random}.pdf`
 - Signed URLs with 30-day expiration
 - Row Level Security (RLS) policies enforced
 
 #### TTL Policy
+
 - Database function: `cleanup_old_pdfs()`
 - Automatically deletes files older than 30 days
 - Should be scheduled via pg_cron or Supabase Edge Functions
@@ -66,6 +71,7 @@ This document describes the implementation of the Step 1 data collection UI with
 ### 5. Analytics Tracking
 
 Events tracked via PostHog:
+
 - `project_created`: When a new project is initialized
 - `pdf_uploaded`: When a PDF is successfully uploaded (includes file size)
 - `inputs_completed`: When all required and optional fields are filled
@@ -126,7 +132,7 @@ interface ProjectData {
   pdfId?: string;
   pdfPath?: string;
   pdfUrl?: string;
-  
+
   // Analysis inputs
   icp?: string;
   priceTerms?: string;
@@ -134,7 +140,7 @@ interface ProjectData {
   mechanism?: string;
   primaryObjection?: string;
   goal?: string;
-  
+
   // ... other fields
 }
 ```
@@ -142,16 +148,19 @@ interface ProjectData {
 ## Server Actions
 
 ### uploadPDF(formData: FormData)
+
 - Validates file type and size
 - Uploads to Supabase storage
 - Generates signed URL
 - Returns file metadata
 
 ### deletePDF(pdfPath: string)
+
 - Removes file from storage
 - Called when replacing PDF or removing upload
 
 ### refreshSignedUrl(pdfPath: string)
+
 - Regenerates signed URL for existing PDF
 - Useful for expired URLs
 
@@ -205,18 +214,21 @@ interface ProjectData {
 ## Troubleshooting
 
 ### PDF Upload Fails
+
 - Check Supabase storage bucket is created
 - Verify RLS policies are in place
 - Confirm file size < 50MB
 - Ensure correct MIME type
 
 ### Auto-Save Not Working
+
 - Check Supabase connection
 - Verify project store initialization
 - Check browser console for errors
 - Confirm debounce timing
 
 ### Validation Not Showing
+
 - Verify Zod schema is correct
 - Check error state updates
 - Ensure validation functions are called
@@ -233,6 +245,7 @@ interface ProjectData {
 ## Environment Variables
 
 Required for full functionality:
+
 ```
 NEXT_PUBLIC_SUPABASE_URL=your-supabase-url
 NEXT_PUBLIC_SUPABASE_ANON_KEY=your-supabase-anon-key

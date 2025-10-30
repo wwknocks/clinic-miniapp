@@ -13,8 +13,7 @@ const buttonVariants = cva(
           "bg-accent text-bg hover:bg-accent/90 hover:-translate-y-0.5 shadow-glass",
         danger:
           "bg-danger text-white hover:bg-danger/90 hover:-translate-y-0.5 shadow-glass",
-        ghost:
-          "hover:bg-white/5 text-text-primary",
+        ghost: "hover:bg-white/5 text-text-primary",
       },
       size: {
         sm: "h-9 px-3 text-13",

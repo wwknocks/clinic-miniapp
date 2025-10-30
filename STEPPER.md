@@ -21,24 +21,28 @@ State is automatically synced to Supabase on changes, with graceful degradation 
 ### Steps
 
 #### 1. Inputs (`StepInputs.tsx`)
+
 - Collects basic offer information
 - Fields: Offer Title, Company Name, Offer Details
 - Auto-saves on input change
 - Validates required fields (future enhancement)
 
 #### 2. Analyze (`StepAnalyze.tsx`)
+
 - Triggers AI analysis of the offer
 - Shows analysis progress
 - Displays what will be analyzed
 - Future: Integration with OpenAI API
 
 #### 3. Results (`StepResults.tsx`)
+
 - Displays analysis findings
 - Organized into: Strengths, Concerns, Recommendations
 - Uses color-coded badges and icons
 - Future: Data visualization charts
 
 #### 4. Exports (`StepExports.tsx`)
+
 - Multiple export format options (PDF, PPTX, JSON)
 - Share functionality
 - Download management
@@ -51,6 +55,7 @@ State is automatically synced to Supabase on changes, with graceful degradation 
 Main container component that orchestrates the workflow:
 
 **Features:**
+
 - Header with hero copy and disclaimer
 - Step indicator (using `Stepper` UI component)
 - Content area with AnimatePresence for transitions
@@ -61,6 +66,7 @@ Main container component that orchestrates the workflow:
 **Props:** None (uses store internally)
 
 **Key Functions:**
+
 - `renderStep()` - Renders current step component
 - `initializeProject()` - Creates new project on mount
 - Focus management on step changes
@@ -68,6 +74,7 @@ Main container component that orchestrates the workflow:
 ### Individual Step Components
 
 Each step component:
+
 - Receives no props (uses store)
 - Implements `fadeInUp` animation variants
 - Handles its own form state via store
@@ -110,11 +117,11 @@ All step transitions use Framer Motion:
 ```tsx
 export const fadeInUp: Variants = {
   hidden: { opacity: 0, y: 20 },
-  visible: { 
-    opacity: 1, 
+  visible: {
+    opacity: 1,
     y: 0,
-    transition: { duration: 0.3, ease: "easeOut" }
-  }
+    transition: { duration: 0.3, ease: "easeOut" },
+  },
 };
 ```
 
@@ -148,6 +155,7 @@ Project state persists in Zustand store during session.
 ### Supabase Sync
 
 On every state change:
+
 1. Update local store immediately (optimistic)
 2. Attempt to save to Supabase `projects` table
 3. Log warning if sync fails (non-blocking)
@@ -183,18 +191,21 @@ Implementation is ready for PostHog integration.
 ## Future Enhancements
 
 ### Short Term
+
 - Form validation on Inputs step
 - Disable Next button if required fields empty
 - Real-time save indicator
 - History/recent projects list
 
 ### Medium Term
+
 - OpenAI integration for actual analysis
 - Export generation (PDF, PPTX)
 - Data visualization in Results
 - Collaborative sharing
 
 ### Long Term
+
 - Multi-user collaboration
 - Version history
 - Template library
@@ -203,17 +214,20 @@ Implementation is ready for PostHog integration.
 ## Testing
 
 ### Unit Tests
+
 - Test store actions (next, previous, updateData)
 - Test individual step components
 - Test navigation button states
 
 ### E2E Tests
+
 - Complete workflow walkthrough
 - Form data persistence
 - Animation completion
 - Accessibility audit
 
 ### Manual Testing Checklist
+
 - [ ] Navigate through all steps
 - [ ] Fill form and verify auto-save
 - [ ] Refresh page and check persistence
@@ -225,16 +239,19 @@ Implementation is ready for PostHog integration.
 ## Troubleshooting
 
 ### State not persisting
+
 - Check Supabase credentials in `.env.local`
 - Verify `projects` table exists
 - Check browser console for errors
 
 ### Animations janky
+
 - Ensure MotionProvider wraps app
 - Check for layout shifts causing reflows
 - Verify CSS transitions don't conflict
 
 ### Steps not rendering
+
 - Check store initialization
 - Verify step number is 1-4
 - Ensure components are properly exported
@@ -248,7 +265,7 @@ interface ProjectState {
   project: Project | null;
   isLoading: boolean;
   error: string | null;
-  
+
   initializeProject: () => Promise<void>;
   loadProject: (id: string) => Promise<void>;
   updateProject: (updates: Partial<Project>) => Promise<void>;

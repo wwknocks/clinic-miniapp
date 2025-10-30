@@ -141,7 +141,7 @@ async function retryWithBackoff<T>(
     return await fn();
   } catch (error: unknown) {
     const apiError = error as { status?: number };
-    
+
     // Don't retry certain errors
     if (
       apiError.status === 401 ||
@@ -243,7 +243,9 @@ export async function callLLM(
     const llmError: LLMError = {
       type: apiError.status === 429 ? "rate_limit" : "api_error",
       message: apiError.message || "Unknown error",
-      retryable: apiError.status === 429 || (apiError.status !== undefined && apiError.status >= 500),
+      retryable:
+        apiError.status === 429 ||
+        (apiError.status !== undefined && apiError.status >= 500),
     };
 
     throw llmError;

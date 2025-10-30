@@ -12,7 +12,12 @@ interface TooltipProps {
   className?: string;
 }
 
-const Tooltip = ({ content, children, side = "top", className }: TooltipProps) => {
+const Tooltip = ({
+  content,
+  children,
+  side = "top",
+  className,
+}: TooltipProps) => {
   const [isVisible, setIsVisible] = React.useState(false);
 
   const sideClasses = {

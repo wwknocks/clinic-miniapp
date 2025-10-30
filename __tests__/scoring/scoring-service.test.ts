@@ -109,7 +109,11 @@ describe("Scoring Service", () => {
   });
 
   it("should handle good SaaS landing page fixture", async () => {
-    const fixturePath = path.join(process.cwd(), "fixtures", "saas_lp_good.html");
+    const fixturePath = path.join(
+      process.cwd(),
+      "fixtures",
+      "saas_lp_good.html"
+    );
     const html = fs.readFileSync(fixturePath, "utf-8");
     const content = await parseHTML(html);
     const result = calculateScores(content);
@@ -122,7 +126,11 @@ describe("Scoring Service", () => {
   });
 
   it("should handle weak agency landing page fixture", async () => {
-    const fixturePath = path.join(process.cwd(), "fixtures", "agency_lp_weak.html");
+    const fixturePath = path.join(
+      process.cwd(),
+      "fixtures",
+      "agency_lp_weak.html"
+    );
     const html = fs.readFileSync(fixturePath, "utf-8");
     const content = await parseHTML(html);
     const result = calculateScores(content);
@@ -161,7 +169,7 @@ describe("Scoring Service", () => {
       proof: 0.15,
       numbers: 0.12,
       cta: 0.18,
-      guarantee: 0.20,
+      guarantee: 0.2,
       timeToValue: 0.14,
       mechanism: 0.16,
     };

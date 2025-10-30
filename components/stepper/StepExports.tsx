@@ -1,7 +1,13 @@
 "use client";
 
 import { m } from "framer-motion";
-import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/Card";
+import {
+  Card,
+  CardHeader,
+  CardTitle,
+  CardDescription,
+  CardContent,
+} from "@/components/ui/Card";
 import { Button } from "@/components/ui/Button";
 import { Badge } from "@/components/ui/Badge";
 import { FileText, FileDown, FileJson, Share2 } from "lucide-react";
@@ -48,7 +54,8 @@ export function StepExports() {
             <div className="flex items-center justify-between">
               <div className="space-y-1">
                 <p className="text-13 text-text-secondary">
-                  Includes executive summary, detailed findings, and recommendations
+                  Includes executive summary, detailed findings, and
+                  recommendations
                 </p>
                 <p className="text-11 text-text-tertiary">
                   Perfect for sharing with advisors or keeping for your records

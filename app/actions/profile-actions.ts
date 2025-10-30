@@ -14,11 +14,11 @@ export async function getCurrentProfile() {
   try {
     logger.debug("Fetching current profile");
     const profile = await ProfileService.getCurrentProfile();
-    
+
     if (!profile) {
       return { success: false, error: "Profile not found" };
     }
-    
+
     return { success: true, data: profile };
   } catch (error) {
     logError(error, { action: "getCurrentProfile" });

@@ -11,12 +11,14 @@ A comprehensive deterministic scoring system has been implemented to analyze lan
 #### Core Components
 
 **Parsers** (`/lib/scoring/parsers/`)
+
 - `html-parser.ts` - Cheerio-based HTML parsing with safe fallbacks
 - `pdf-parser.ts` - PDF parsing with text extraction
 - Extracts: text content, word count, headings, links, images
 - Handles errors gracefully without throwing exceptions
 
 **Metric Checks** (`/lib/scoring/checks/`)
+
 - `proof-density.ts` - Detects percentages, dollar amounts, testimonials, case studies
 - `numbers-per-500.ts` - Counts and scores numeric specificity
 - `cta-detection.ts` - Identifies call-to-action elements
@@ -25,6 +27,7 @@ A comprehensive deterministic scoring system has been implemented to analyze lan
 - `mechanism-presence.ts` - Evaluates "how it works" explanations
 
 **Scoring Model** (`/lib/scoring/models/`)
+
 - `types.ts` - TypeScript interfaces for all data structures
 - `weights.ts` - Dimension weights and EV lift mappings
   - Value: 22%
@@ -35,12 +38,14 @@ A comprehensive deterministic scoring system has been implemented to analyze lan
   - Proof: 12%
 
 **Service Function** (`/lib/scoring/scoring-service.ts`)
+
 - `calculateScores()` - Main scoring algorithm
 - Computes dimension scores from metrics
 - Calculates overall weighted score
 - Generates lever deltas with EV/hour rankings
 
 **API Layer** (`/lib/scoring/api.ts`)
+
 - `analyzeContent()` - Analyze HTML or PDF content
 - `analyzeHTMLFile()` - Analyze HTML files by path
 - `analyzePDFFile()` - Analyze PDF files by path
@@ -51,16 +56,17 @@ A comprehensive deterministic scoring system has been implemented to analyze lan
 
 Each improvement lever has been mapped to expected value lift percentages:
 
-| Lever | EV Lift % | Estimated Hours |
-|-------|-----------|-----------------|
-| Guarantee | 20% | 5 |
-| CTA | 18% | 3 |
-| Mechanism | 16% | 8 |
-| Proof | 15% | 4 |
-| Time to Value | 14% | 6 |
-| Numbers | 12% | 2 |
+| Lever         | EV Lift % | Estimated Hours |
+| ------------- | --------- | --------------- |
+| Guarantee     | 20%       | 5               |
+| CTA           | 18%       | 3               |
+| Mechanism     | 16%       | 8               |
+| Proof         | 15%       | 4               |
+| Time to Value | 14%       | 6               |
+| Numbers       | 12%       | 2               |
 
 **EV/Hour Calculation:**
+
 ```
 EV/Hour = (EV Lift % × (Delta / 100)) / Estimated Hours
 ```
@@ -162,8 +168,9 @@ const result = await analyzeHTMLFile("./landing-page.html");
 
 ```typescript
 interface ScoringResult {
-  overallScore: number;              // 0-100 weighted score
-  dimensionScores: {                 // Individual dimensions
+  overallScore: number; // 0-100 weighted score
+  dimensionScores: {
+    // Individual dimensions
     value: number;
     urgency: number;
     certainty: number;
@@ -171,7 +178,8 @@ interface ScoringResult {
     specificity: number;
     proof: number;
   };
-  metrics: {                         // Raw metric checks
+  metrics: {
+    // Raw metric checks
     proofDensity: MetricCheck;
     numbersPerFiveHundredWords: MetricCheck;
     ctaDetection: MetricCheck;
@@ -179,7 +187,7 @@ interface ScoringResult {
     timeToFirstValue: MetricCheck;
     mechanismPresence: MetricCheck;
   };
-  leverDeltas: LeverDelta[];        // Sorted by EV/hour
+  leverDeltas: LeverDelta[]; // Sorted by EV/hour
   timestamp: string;
 }
 ```
@@ -187,12 +195,14 @@ interface ScoringResult {
 ### 8. Example Output
 
 For the good SaaS fixture:
+
 - **Overall Score**: 85.43
 - **Top Improvement**: Numbers (3.00% EV/Hour, 2 hours estimated)
 - **Strongest Areas**: Time to Value (100), Guarantee (100)
 - **Weakest Area**: Numbers (50.00)
 
 For the weak agency fixture:
+
 - **Overall Score**: 5.04
 - **Top Improvement**: CTA (6.00% EV/Hour, 3 hours estimated)
 - **All metrics score poorly**, indicating multiple improvement opportunities
@@ -200,6 +210,7 @@ For the weak agency fixture:
 ## CI/CD Integration
 
 Tests run via:
+
 ```bash
 npm test              # Run all tests
 npm run test:watch    # Watch mode
@@ -207,6 +218,7 @@ npm run test:ui       # UI mode
 ```
 
 All 65 tests pass in CI, ensuring:
+
 - Deterministic analysis produces expected results
 - Edge cases are handled properly
 - Scoring math is correct
@@ -234,6 +246,7 @@ const merged = {
 ## Files Created
 
 ### Source Files (12)
+
 - `/lib/scoring/models/types.ts`
 - `/lib/scoring/models/weights.ts`
 - `/lib/scoring/parsers/html-parser.ts`
@@ -253,6 +266,7 @@ const merged = {
 - `/lib/scoring/example.ts`
 
 ### Test Files (5)
+
 - `/__tests__/scoring/parsers.test.ts`
 - `/__tests__/scoring/checks.test.ts`
 - `/__tests__/scoring/scoring-service.test.ts`
@@ -260,11 +274,13 @@ const merged = {
 - `/__tests__/scoring/api.test.ts`
 
 ### Fixtures (3)
+
 - `/fixtures/saas_lp_good.html`
 - `/fixtures/agency_lp_weak.html`
 - `/fixtures/proposal.txt`
 
 ### Configuration
+
 - `/vitest.config.ts`
 - Updated `/package.json` with test scripts
 
@@ -287,6 +303,7 @@ const merged = {
 ## Next Steps
 
 The scoring engine is ready for:
+
 1. Integration with LLM-based analysis
 2. UI dashboard visualization
 3. API endpoint exposure

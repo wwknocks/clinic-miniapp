@@ -37,18 +37,21 @@ export function ToastProvider({ children }: { children: React.ReactNode }) {
     setToasts((prev) => prev.filter((toast) => toast.id !== id));
   }, []);
 
-  const addToast = React.useCallback((toast: Omit<Toast, "id">) => {
-    const id = Math.random().toString(36).substring(7);
-    const newToast = { ...toast, id };
-    setToasts((prev) => [...prev, newToast]);
+  const addToast = React.useCallback(
+    (toast: Omit<Toast, "id">) => {
+      const id = Math.random().toString(36).substring(7);
+      const newToast = { ...toast, id };
+      setToasts((prev) => [...prev, newToast]);
 
-    const duration = toast.duration ?? 5000;
-    if (duration > 0) {
-      setTimeout(() => {
-        removeToast(id);
-      }, duration);
-    }
-  }, [removeToast]);
+      const duration = toast.duration ?? 5000;
+      if (duration > 0) {
+        setTimeout(() => {
+          removeToast(id);
+        }, duration);
+      }
+    },
+    [removeToast]
+  );
 
   return (
     <ToastContext.Provider value={{ toasts, addToast, removeToast }}>
@@ -65,7 +68,11 @@ function Toaster() {
     <div className="fixed top-0 right-0 z-[100] flex flex-col gap-2 p-4 max-w-md w-full pointer-events-none">
       <AnimatePresence mode="popLayout">
         {toasts.map((toast) => (
-          <ToastItem key={toast.id} toast={toast} onClose={() => removeToast(toast.id)} />
+          <ToastItem
+            key={toast.id}
+            toast={toast}
+            onClose={() => removeToast(toast.id)}
+          />
         ))}
       </AnimatePresence>
     </div>
@@ -117,13 +124,22 @@ function ToastItem({ toast, onClose }: ToastItemProps) {
       layout
     >
       <div className="flex items-start gap-3">
-        <Icon className={cn("h-5 w-5 mt-0.5 flex-shrink-0", iconClasses[toast.variant || "default"])} />
+        <Icon
+          className={cn(
+            "h-5 w-5 mt-0.5 flex-shrink-0",
+            iconClasses[toast.variant || "default"]
+          )}
+        />
         <div className="flex-1 space-y-1">
           {toast.title && (
-            <div className="text-15 font-medium text-text-primary">{toast.title}</div>
+            <div className="text-15 font-medium text-text-primary">
+              {toast.title}
+            </div>
           )}
           {toast.description && (
-            <div className="text-13 text-text-secondary">{toast.description}</div>
+            <div className="text-13 text-text-secondary">
+              {toast.description}
+            </div>
           )}
         </div>
         <button

@@ -8,9 +8,16 @@ export const analytics = {
     if (process.env.NODE_ENV === "development") {
       console.log("[Analytics]", event, properties);
     }
-    
+
     if (typeof window !== "undefined") {
-      const windowWithPosthog = window as typeof window & { posthog?: { capture: (event: string, properties?: Record<string, unknown>) => void } };
+      const windowWithPosthog = window as typeof window & {
+        posthog?: {
+          capture: (
+            event: string,
+            properties?: Record<string, unknown>
+          ) => void;
+        };
+      };
       if (windowWithPosthog.posthog) {
         windowWithPosthog.posthog.capture(event, properties);
       }
@@ -18,7 +25,10 @@ export const analytics = {
   },
 
   page: (pageName: string, properties?: Record<string, unknown>) => {
-    analytics.track({ event: "page_view", properties: { page: pageName, ...properties } });
+    analytics.track({
+      event: "page_view",
+      properties: { page: pageName, ...properties },
+    });
   },
 
   stepChanged: (stepNumber: number, stepName: string) => {
@@ -91,7 +101,11 @@ export const analytics = {
     });
   },
 
-  screenshotCaptured: (projectId: string, success: boolean, userId?: string) => {
+  screenshotCaptured: (
+    projectId: string,
+    success: boolean,
+    userId?: string
+  ) => {
     analytics.track({
       event: "screenshot_captured",
       properties: { projectId, success, userId },

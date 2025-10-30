@@ -12,7 +12,10 @@ export interface SelectProps
 }
 
 const Select = React.forwardRef<HTMLSelectElement, SelectProps>(
-  ({ className, options, onValueChange, placeholder, onChange, ...props }, ref) => {
+  (
+    { className, options, onValueChange, placeholder, onChange, ...props },
+    ref
+  ) => {
     return (
       <div className="relative">
         <select

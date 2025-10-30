@@ -54,7 +54,9 @@ export async function analyzeContent(
   }
 }
 
-export async function analyzeHTMLFile(filePath: string): Promise<AnalyzeResult> {
+export async function analyzeHTMLFile(
+  filePath: string
+): Promise<AnalyzeResult> {
   try {
     const fs = await import("fs");
     const content = fs.readFileSync(filePath, "utf-8");
@@ -62,7 +64,8 @@ export async function analyzeHTMLFile(filePath: string): Promise<AnalyzeResult> 
   } catch (error) {
     return {
       success: false,
-      error: error instanceof Error ? error.message : "Failed to read HTML file",
+      error:
+        error instanceof Error ? error.message : "Failed to read HTML file",
     };
   }
 }

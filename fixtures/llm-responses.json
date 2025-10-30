@@ -78,7 +78,12 @@
     "hook": "I analyzed 500+ offers that generated $100M+. Here's the pattern they all share:",
     "body": "Every high-converting offer has these 3 elements:\n\n1. Crystal-clear specificity (not \"better results\" but \"37% more qualified leads in 60 days\")\n\n2. Risk reversal so strong it feels unfair (90-day guarantees, free trials, pay-on-results)\n\n3. Social proof with numbers (not \"trusted by many\" but \"2,347 companies in 47 countries\")\n\nMost offers fail because they're trying to appeal to everyone. The best offers repel 90% of people and magnetically attract the right 10%.\n\nYour offer doesn't need to be perfect. It needs to be SPECIFIC.",
     "cta": "Want me to analyze your offer? Drop a comment or DM me.",
-    "hashtags": ["#ConversionOptimization", "#OfferCreation", "#B2BMarketing", "#SalesStrategy"]
+    "hashtags": [
+      "#ConversionOptimization",
+      "#OfferCreation",
+      "#B2BMarketing",
+      "#SalesStrategy"
+    ]
   },
   "linkedin_comment": {
     "comments": [
@@ -135,11 +140,18 @@
           {
             "name": "Variant A - Specific Outcome",
             "hypothesis": "Specific numbers increase trust and interest",
-            "changes": ["New headline: 'Add $50K MRR in 90 Days or Your Money Back'"],
+            "changes": [
+              "New headline: 'Add $50K MRR in 90 Days or Your Money Back'"
+            ],
             "expected_impact": "+0.5% conversion rate"
           }
         ],
-        "metrics_to_track": ["Time on page", "Scroll depth", "CTA click rate", "Conversion rate"],
+        "metrics_to_track": [
+          "Time on page",
+          "Scroll depth",
+          "CTA click rate",
+          "Conversion rate"
+        ],
         "success_criteria": "10% improvement in engagement metrics or 0.3%+ conversion lift"
       },
       {
@@ -162,7 +174,12 @@
             "expected_impact": "+0.4% conversion rate"
           }
         ],
-        "metrics_to_track": ["Bounce rate", "Time to CTA click", "Form starts", "Conversion rate"],
+        "metrics_to_track": [
+          "Bounce rate",
+          "Time to CTA click",
+          "Form starts",
+          "Conversion rate"
+        ],
         "success_criteria": "Reduced bounce rate by 5%+ or conversion lift 0.3%+"
       }
     ],

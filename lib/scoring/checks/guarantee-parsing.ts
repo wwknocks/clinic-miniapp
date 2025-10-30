@@ -3,7 +3,10 @@ import { MetricCheck, ParsedContent } from "../models/types";
 const GUARANTEE_PATTERNS = [
   { pattern: /\b(\d+)[- ]day money[- ]back guarantee\b/gi, type: "money-back" },
   { pattern: /\b(\d+)[- ]day guarantee\b/gi, type: "time-based" },
-  { pattern: /\b100% (money[- ]back|satisfaction) guarantee\b/gi, type: "full" },
+  {
+    pattern: /\b100% (money[- ]back|satisfaction) guarantee\b/gi,
+    type: "full",
+  },
   { pattern: /\bno questions asked\b/gi, type: "unconditional" },
   { pattern: /\bsatisfaction guaranteed\b/gi, type: "satisfaction" },
   { pattern: /\brisk[- ]free\b/gi, type: "risk-free" },

@@ -108,11 +108,7 @@ describe("LLM Client", () => {
 
       const calls = Array(10)
         .fill(null)
-        .map(
-          (_, i) =>
-            async () =>
-              ({ result: `test-${i}` })
-        );
+        .map((_, i) => async () => ({ result: `test-${i}` }));
 
       const results = await parallelLLMCalls(calls, 3);
 

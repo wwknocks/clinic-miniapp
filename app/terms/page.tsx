@@ -24,7 +24,9 @@ export default function TermsPage() {
 
           <div className="space-y-8 text-text-primary">
             <section>
-              <h2 className="text-24 font-semibold mb-4">1. Acceptance of Terms</h2>
+              <h2 className="text-24 font-semibold mb-4">
+                1. Acceptance of Terms
+              </h2>
               <p className="text-15 leading-relaxed text-text-secondary">
                 By accessing and using this service, you accept and agree to be
                 bound by the terms and provision of this agreement. If you do
@@ -110,9 +112,7 @@ export default function TermsPage() {
             </section>
 
             <section>
-              <h2 className="text-24 font-semibold mb-4">
-                7. Governing Law
-              </h2>
+              <h2 className="text-24 font-semibold mb-4">7. Governing Law</h2>
               <p className="text-15 leading-relaxed text-text-secondary">
                 These terms and conditions are governed by and construed in
                 accordance with the laws and you irrevocably submit to the

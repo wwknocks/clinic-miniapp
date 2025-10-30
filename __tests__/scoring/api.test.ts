@@ -1,8 +1,5 @@
 import { describe, it, expect } from "vitest";
-import {
-  analyzeContent,
-  analyzeHTMLFile,
-} from "@/lib/scoring/api";
+import { analyzeContent, analyzeHTMLFile } from "@/lib/scoring/api";
 import * as path from "path";
 
 describe("Scoring API", () => {
@@ -92,7 +89,11 @@ describe("Scoring API", () => {
 
   describe("analyzeHTMLFile", () => {
     it("should analyze good SaaS landing page fixture", async () => {
-      const fixturePath = path.join(process.cwd(), "fixtures", "saas_lp_good.html");
+      const fixturePath = path.join(
+        process.cwd(),
+        "fixtures",
+        "saas_lp_good.html"
+      );
       const result = await analyzeHTMLFile(fixturePath);
 
       expect(result.success).toBe(true);
@@ -102,7 +103,9 @@ describe("Scoring API", () => {
       if (result.result) {
         expect(result.result.metrics.proofDensity.value).toBeGreaterThan(50);
         expect(result.result.metrics.ctaDetection.value).toBeGreaterThan(70);
-        expect(result.result.metrics.guaranteeParsing.value).toBeGreaterThan(80);
+        expect(result.result.metrics.guaranteeParsing.value).toBeGreaterThan(
+          80
+        );
         expect(result.result.leverDeltas.length).toBe(6);
 
         const topLever = result.result.leverDeltas[0];
@@ -112,7 +115,11 @@ describe("Scoring API", () => {
     });
 
     it("should analyze weak agency landing page fixture", async () => {
-      const fixturePath = path.join(process.cwd(), "fixtures", "agency_lp_weak.html");
+      const fixturePath = path.join(
+        process.cwd(),
+        "fixtures",
+        "agency_lp_weak.html"
+      );
       const result = await analyzeHTMLFile(fixturePath);
 
       expect(result.success).toBe(true);
@@ -138,7 +145,11 @@ describe("Scoring API", () => {
     });
 
     it("should provide actionable recommendations", async () => {
-      const fixturePath = path.join(process.cwd(), "fixtures", "agency_lp_weak.html");
+      const fixturePath = path.join(
+        process.cwd(),
+        "fixtures",
+        "agency_lp_weak.html"
+      );
       const result = await analyzeHTMLFile(fixturePath);
 
       expect(result.success).toBe(true);
@@ -186,8 +197,16 @@ describe("Scoring API", () => {
     });
 
     it("should score high-quality content higher than low-quality", async () => {
-      const goodFixture = path.join(process.cwd(), "fixtures", "saas_lp_good.html");
-      const weakFixture = path.join(process.cwd(), "fixtures", "agency_lp_weak.html");
+      const goodFixture = path.join(
+        process.cwd(),
+        "fixtures",
+        "saas_lp_good.html"
+      );
+      const weakFixture = path.join(
+        process.cwd(),
+        "fixtures",
+        "agency_lp_weak.html"
+      );
 
       const goodResult = await analyzeHTMLFile(goodFixture);
       const weakResult = await analyzeHTMLFile(weakFixture);

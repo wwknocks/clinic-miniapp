@@ -4,7 +4,14 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { z } from "zod";
-import { Button, Card, Input, Label, Checkbox, useToast } from "@/components/ui";
+import {
+  Button,
+  Card,
+  Input,
+  Label,
+  Checkbox,
+  useToast,
+} from "@/components/ui";
 import { signUp } from "@/app/actions/auth-actions";
 import { motion } from "framer-motion";
 import { fadeInUp } from "@/lib/motion";
@@ -81,7 +88,8 @@ export default function SignupPage() {
 
       toast({
         title: "Account created!",
-        description: "Welcome to the platform. Please check your email to verify your account.",
+        description:
+          "Welcome to the platform. Please check your email to verify your account.",
         variant: "success",
       });
 

@@ -1,5 +1,14 @@
-import { ParsedContent, ScoringResult, DimensionScores, LeverDelta } from "./models/types";
-import { DEFAULT_WEIGHTS, LEVER_TO_EV_LIFT, ESTIMATED_HOURS } from "./models/weights";
+import {
+  ParsedContent,
+  ScoringResult,
+  DimensionScores,
+  LeverDelta,
+} from "./models/types";
+import {
+  DEFAULT_WEIGHTS,
+  LEVER_TO_EV_LIFT,
+  ESTIMATED_HOURS,
+} from "./models/weights";
 import {
   calculateProofDensity,
   calculateNumbersPer500Words,
@@ -22,7 +31,8 @@ export function calculateScores(content: ParsedContent): ScoringResult {
     urgency: (ctaDetection.value + timeToFirstValue.value) / 2,
     certainty: (proofDensity.value + guaranteeParsing.value) / 2,
     effort: timeToFirstValue.value,
-    specificity: (numbersPerFiveHundredWords.value + mechanismPresence.value) / 2,
+    specificity:
+      (numbersPerFiveHundredWords.value + mechanismPresence.value) / 2,
     proof: proofDensity.value,
   };
 

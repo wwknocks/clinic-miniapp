@@ -52,35 +52,50 @@ export interface RadioGroupItemProps
 export const RadioGroupItem = React.forwardRef<
   HTMLInputElement,
   RadioGroupItemProps
->(({ className, value, label, description, checked, onCheckedChange, ...props }, ref) => {
-  return (
-    <label
-      className={cn(
-        "flex items-start space-x-3 rounded-xl border border-white/10 bg-glass backdrop-blur-md p-4 cursor-pointer transition-all duration-200",
-        "hover:border-white/20 hover:bg-white/5",
-        checked && "border-accent bg-accent/10",
-        className
-      )}
-    >
-      <input
-        ref={ref}
-        type="radio"
-        value={value}
-        checked={checked}
-        onChange={(e) => {
-          onCheckedChange?.(e.target.checked);
-          props.onChange?.(e);
-        }}
-        className="mt-0.5 h-4 w-4 rounded-full border border-white/30 bg-transparent text-accent focus:ring-2 focus:ring-accent focus:ring-offset-0"
-        {...props}
-      />
-      <div className="flex-1">
-        <div className="text-15 font-medium text-text-primary">{label}</div>
-        {description && (
-          <div className="text-13 text-text-secondary mt-1">{description}</div>
+>(
+  (
+    {
+      className,
+      value,
+      label,
+      description,
+      checked,
+      onCheckedChange,
+      ...props
+    },
+    ref
+  ) => {
+    return (
+      <label
+        className={cn(
+          "flex items-start space-x-3 rounded-xl border border-white/10 bg-glass backdrop-blur-md p-4 cursor-pointer transition-all duration-200",
+          "hover:border-white/20 hover:bg-white/5",
+          checked && "border-accent bg-accent/10",
+          className
         )}
-      </div>
-    </label>
-  );
-});
+      >
+        <input
+          ref={ref}
+          type="radio"
+          value={value}
+          checked={checked}
+          onChange={(e) => {
+            onCheckedChange?.(e.target.checked);
+            props.onChange?.(e);
+          }}
+          className="mt-0.5 h-4 w-4 rounded-full border border-white/30 bg-transparent text-accent focus:ring-2 focus:ring-accent focus:ring-offset-0"
+          {...props}
+        />
+        <div className="flex-1">
+          <div className="text-15 font-medium text-text-primary">{label}</div>
+          {description && (
+            <div className="text-13 text-text-secondary mt-1">
+              {description}
+            </div>
+          )}
+        </div>
+      </label>
+    );
+  }
+);
 RadioGroupItem.displayName = "RadioGroupItem";

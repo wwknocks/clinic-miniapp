@@ -10,7 +10,11 @@ interface LogEntry {
 class Logger {
   private isDevelopment = process.env.NODE_ENV === "development";
 
-  private log(level: LogLevel, message: string, context?: Record<string, unknown>) {
+  private log(
+    level: LogLevel,
+    message: string,
+    context?: Record<string, unknown>
+  ) {
     const entry: LogEntry = {
       level,
       message,

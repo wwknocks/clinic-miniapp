@@ -11,7 +11,13 @@ import { computeInputsHash, isCacheValid } from "@/lib/analysis/cache";
 import { createServiceRoleClient } from "@/lib/supabase/server";
 
 export interface AnalysisProgress {
-  stage: "initializing" | "deterministic" | "llm" | "screenshot" | "complete" | "error";
+  stage:
+    | "initializing"
+    | "deterministic"
+    | "llm"
+    | "screenshot"
+    | "complete"
+    | "error";
   progress: number;
   message: string;
 }
@@ -38,19 +44,23 @@ async function fetchContentFromUrl(url: string): Promise<string> {
 
 async function fetchPdfContent(pdfPath: string): Promise<Buffer> {
   const supabase = await createServiceRoleClient();
-  
+
   const { data, error } = await supabase.storage
     .from(process.env.NEXT_PUBLIC_STORAGE_BUCKET || "pdf-uploads")
     .download(pdfPath);
 
   if (error || !data) {
-    throw new Error(`Failed to download PDF: ${error?.message || "Unknown error"}`);
+    throw new Error(
+      `Failed to download PDF: ${error?.message || "Unknown error"}`
+    );
   }
 
   return Buffer.from(await data.arrayBuffer());
 }
 
-export async function runAnalysis(projectId: string): Promise<RunAnalysisResult> {
+export async function runAnalysis(
+  projectId: string
+): Promise<RunAnalysisResult> {
   const startTime = Date.now();
 
   try {
@@ -90,7 +100,7 @@ export async function runAnalysis(projectId: string): Promise<RunAnalysisResult>
     };
 
     logger.info("Running deterministic analysis", { projectId });
-    
+
     let content: string | Buffer | null = null;
     let contentType: "html" | "pdf" = "html";
 
@@ -110,9 +120,9 @@ export async function runAnalysis(projectId: string): Promise<RunAnalysisResult>
 
       if (analysisResult.success && analysisResult.result) {
         results.scoringResult = analysisResult.result;
-        logger.info("Deterministic analysis complete", { 
-          projectId, 
-          score: analysisResult.result.overallScore 
+        logger.info("Deterministic analysis complete", {
+          projectId,
+          score: analysisResult.result.overallScore,
         });
       }
     }
@@ -146,29 +156,51 @@ export async function runAnalysis(projectId: string): Promise<RunAnalysisResult>
     results.llmOutputs = llmOutputs;
 
     const llmDuration = Date.now() - llmStartTime;
-    analyticsServer.llmCallCompleted(projectId, llmDuration, project.user_id || undefined);
+    analyticsServer.llmCallCompleted(
+      projectId,
+      llmDuration,
+      project.user_id || undefined
+    );
 
     logger.info("LLM analysis complete", { projectId, duration: llmDuration });
 
     if (projectData.sourceType === "url" && projectData.url) {
       logger.info("Capturing screenshot", { projectId });
-      
+
       const screenshotResult = await captureScreenshotWithFallback({
         url: projectData.url as string,
         projectId,
         userId: project.user_id || "anonymous",
       });
 
-      if (screenshotResult.success && screenshotResult.path && screenshotResult.signedUrl) {
+      if (
+        screenshotResult.success &&
+        screenshotResult.path &&
+        screenshotResult.signedUrl
+      ) {
         results.screenshot = {
           path: screenshotResult.path,
           signedUrl: screenshotResult.signedUrl,
         };
-        analyticsServer.screenshotCaptured(projectId, true, project.user_id || undefined);
-        logger.info("Screenshot captured", { projectId, path: screenshotResult.path });
+        analyticsServer.screenshotCaptured(
+          projectId,
+          true,
+          project.user_id || undefined
+        );
+        logger.info("Screenshot captured", {
+          projectId,
+          path: screenshotResult.path,
+        });
       } else {
-        analyticsServer.screenshotCaptured(projectId, false, project.user_id || undefined);
-        logger.warn("Screenshot capture failed", { projectId, error: screenshotResult.error });
+        analyticsServer.screenshotCaptured(
+          projectId,
+          false,
+          project.user_id || undefined
+        );
+        logger.warn("Screenshot capture failed", {
+          projectId,
+          error: screenshotResult.error,
+        });
       }
     }
 
@@ -183,7 +215,9 @@ export async function runAnalysis(projectId: string): Promise<RunAnalysisResult>
       updated_at: new Date().toISOString(),
     });
 
-    const scoringResult = results.scoringResult as { overallScore?: number } | undefined;
+    const scoringResult = results.scoringResult as
+      | { overallScore?: number }
+      | undefined;
     if (scoringResult?.overallScore) {
       analyticsServer.firstScoreShown(
         projectId,
@@ -199,7 +233,7 @@ export async function runAnalysis(projectId: string): Promise<RunAnalysisResult>
     return { success: true };
   } catch (error) {
     logError(error, { action: "runAnalysis", projectId });
-    
+
     await AdminProjectService.update(projectId, {
       status: "draft",
     }).catch(() => {});
@@ -212,7 +246,7 @@ export async function runAnalysis(projectId: string): Promise<RunAnalysisResult>
 export async function getAnalysisStatus(projectId: string) {
   try {
     const project = await ProjectService.getById(projectId);
-    
+
     if (!project) {
       return { success: false, error: "Project not found" };
     }

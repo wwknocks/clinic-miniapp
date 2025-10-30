@@ -21,7 +21,8 @@ const steps = [
 ];
 
 export function StepperContainer() {
-  const { project, initializeProject, nextStep, previousStep } = useProjectStore();
+  const { project, initializeProject, nextStep, previousStep } =
+    useProjectStore();
   const contentRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -45,7 +46,10 @@ export function StepperContainer() {
 
     // Track step changes
     if (project) {
-      analytics.stepChanged(project.currentStep, steps[project.currentStep - 1].label);
+      analytics.stepChanged(
+        project.currentStep,
+        steps[project.currentStep - 1].label
+      );
     }
   }, [project?.currentStep]);
 
@@ -102,12 +106,13 @@ export function StepperContainer() {
               <div className="space-y-2 flex-1">
                 <h1 className="text-32 font-bold">Offer Wind Tunnel</h1>
                 <p className="text-15 text-text-secondary max-w-2xl">
-                  Make confident career decisions with AI-powered offer analysis. 
-                  Get comprehensive insights on compensation, benefits, and growth potential.
+                  Make confident career decisions with AI-powered offer
+                  analysis. Get comprehensive insights on compensation,
+                  benefits, and growth potential.
                 </p>
               </div>
             </div>
-            
+
             {/* Disclaimer */}
             <Card variant="glass" padding="sm">
               <div className="flex items-start gap-3 p-4">
@@ -117,9 +122,11 @@ export function StepperContainer() {
                     Educational Tool Disclaimer
                   </p>
                   <p className="text-11 text-text-secondary">
-                    This tool provides analysis and recommendations for educational purposes. 
-                    Always consult with financial advisors, career counselors, or legal professionals 
-                    before making important career decisions. Individual circumstances vary significantly.
+                    This tool provides analysis and recommendations for
+                    educational purposes. Always consult with financial
+                    advisors, career counselors, or legal professionals before
+                    making important career decisions. Individual circumstances
+                    vary significantly.
                   </p>
                 </div>
               </div>
@@ -145,9 +152,7 @@ export function StepperContainer() {
           aria-live="polite"
           aria-label={`Step ${currentStep}: ${steps[currentStep - 1].label}`}
         >
-          <AnimatePresence mode="wait">
-            {renderStep()}
-          </AnimatePresence>
+          <AnimatePresence mode="wait">{renderStep()}</AnimatePresence>
         </div>
 
         {/* Navigation controls */}
@@ -197,13 +202,25 @@ export function StepperContainer() {
               Quick Actions
             </p>
             <div className="space-y-2">
-              <Button variant="ghost" size="sm" className="w-full justify-start text-13">
+              <Button
+                variant="ghost"
+                size="sm"
+                className="w-full justify-start text-13"
+              >
                 Save Progress
               </Button>
-              <Button variant="ghost" size="sm" className="w-full justify-start text-13">
+              <Button
+                variant="ghost"
+                size="sm"
+                className="w-full justify-start text-13"
+              >
                 View History
               </Button>
-              <Button variant="ghost" size="sm" className="w-full justify-start text-13">
+              <Button
+                variant="ghost"
+                size="sm"
+                className="w-full justify-start text-13"
+              >
                 Get Help
               </Button>
             </div>

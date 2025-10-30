@@ -21,10 +21,10 @@ export const useProjectStore = create<ProjectState>((set, get) => ({
 
   initializeProject: async () => {
     set({ isLoading: true, error: null });
-    
+
     try {
       const newProject = createDefaultProject();
-      
+
       // Try to save to Supabase if configured
       try {
         const { error } = await supabase.from("projects").insert({
@@ -46,16 +46,19 @@ export const useProjectStore = create<ProjectState>((set, get) => ({
 
       set({ project: newProject, isLoading: false });
     } catch (error) {
-      set({ 
-        error: error instanceof Error ? error.message : "Failed to initialize project",
-        isLoading: false 
+      set({
+        error:
+          error instanceof Error
+            ? error.message
+            : "Failed to initialize project",
+        isLoading: false,
       });
     }
   },
 
   loadProject: async (id: string) => {
     set({ isLoading: true, error: null });
-    
+
     try {
       const { data, error } = await supabase
         .from("projects")
@@ -79,9 +82,10 @@ export const useProjectStore = create<ProjectState>((set, get) => ({
 
       set({ project, isLoading: false });
     } catch (error) {
-      set({ 
-        error: error instanceof Error ? error.message : "Failed to load project",
-        isLoading: false 
+      set({
+        error:
+          error instanceof Error ? error.message : "Failed to load project",
+        isLoading: false,
       });
     }
   },
@@ -127,7 +131,7 @@ export const useProjectStore = create<ProjectState>((set, get) => ({
   setCurrentStep: (step: number) => {
     const { project, updateProject } = get();
     if (!project) return;
-    
+
     if (step >= 1 && step <= TOTAL_STEPS) {
       updateProject({ currentStep: step });
     }
@@ -136,7 +140,7 @@ export const useProjectStore = create<ProjectState>((set, get) => ({
   nextStep: () => {
     const { project } = get();
     if (!project) return;
-    
+
     if (project.currentStep < TOTAL_STEPS) {
       get().setCurrentStep(project.currentStep + 1);
     }
@@ -145,7 +149,7 @@ export const useProjectStore = create<ProjectState>((set, get) => ({
   previousStep: () => {
     const { project } = get();
     if (!project) return;
-    
+
     if (project.currentStep > 1) {
       get().setCurrentStep(project.currentStep - 1);
     }

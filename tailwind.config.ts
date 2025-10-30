@@ -78,9 +78,9 @@ const config: Config = {
         sans: ["var(--font-inter)", "system-ui", "sans-serif"],
       },
       animation: {
-        "shimmer": "shimmer 2s linear infinite",
+        shimmer: "shimmer 2s linear infinite",
         "pulse-glow": "pulse-glow 2s ease-in-out infinite",
-        "gradient": "gradient 8s linear infinite",
+        gradient: "gradient 8s linear infinite",
         "slide-up": "slide-up 0.3s ease-out",
         "slide-down": "slide-down 0.3s ease-out",
         "fade-in": "fade-in 0.2s ease-out",
@@ -92,8 +92,14 @@ const config: Config = {
           "100%": { backgroundPosition: "1000px 0" },
         },
         "pulse-glow": {
-          "0%, 100%": { opacity: "1", boxShadow: "0 0 20px rgba(138, 180, 255, 0.3)" },
-          "50%": { opacity: "0.8", boxShadow: "0 0 30px rgba(138, 180, 255, 0.5)" },
+          "0%, 100%": {
+            opacity: "1",
+            boxShadow: "0 0 20px rgba(138, 180, 255, 0.3)",
+          },
+          "50%": {
+            opacity: "0.8",
+            boxShadow: "0 0 30px rgba(138, 180, 255, 0.5)",
+          },
         },
         gradient: {
           "0%, 100%": { backgroundPosition: "0% 50%" },

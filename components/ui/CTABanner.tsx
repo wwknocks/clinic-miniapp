@@ -71,7 +71,9 @@ const CTABanner = ({
 
       <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4 pr-8">
         <div className="flex-1">
-          <h3 className="text-18 font-semibold text-text-primary mb-1">{title}</h3>
+          <h3 className="text-18 font-semibold text-text-primary mb-1">
+            {title}
+          </h3>
           {description && (
             <p className="text-15 text-text-secondary">{description}</p>
           )}
@@ -79,10 +81,7 @@ const CTABanner = ({
 
         <div className="flex items-center gap-3">
           {secondaryAction && (
-            <Button
-              variant="ghost"
-              onClick={secondaryAction.onClick}
-            >
+            <Button variant="ghost" onClick={secondaryAction.onClick}>
               {secondaryAction.label}
             </Button>
           )}

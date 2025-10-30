@@ -2,7 +2,13 @@
 
 import { useState, useEffect } from "react";
 import { m } from "framer-motion";
-import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/Card";
+import {
+  Card,
+  CardHeader,
+  CardTitle,
+  CardDescription,
+  CardContent,
+} from "@/components/ui/Card";
 import { Input } from "@/components/ui/Input";
 import { Label } from "@/components/ui/Label";
 import { Textarea } from "@/components/ui/Textarea";
@@ -14,7 +20,16 @@ import { fadeInUp } from "@/lib/motion";
 import { validateField } from "@/lib/validation/input-schemas";
 import { uploadPDF, deletePDF } from "@/app/actions/upload-actions";
 import { analytics } from "@/lib/analytics";
-import { Plus, X, Upload, FileText, AlertCircle, CheckCircle, Loader2, HelpCircle } from "lucide-react";
+import {
+  Plus,
+  X,
+  Upload,
+  FileText,
+  AlertCircle,
+  CheckCircle,
+  Loader2,
+  HelpCircle,
+} from "lucide-react";
 import { cn } from "@/lib/utils";
 
 export function StepInputsNew() {
@@ -70,7 +85,10 @@ export function StepInputsNew() {
     }
 
     if (file.size > 50 * 1024 * 1024) {
-      setErrors((prev) => ({ ...prev, pdfId: "File size must be less than 50MB" }));
+      setErrors((prev) => ({
+        ...prev,
+        pdfId: "File size must be less than 50MB",
+      }));
       return;
     }
 
@@ -157,8 +175,9 @@ export function StepInputsNew() {
       if (project && isFormValid()) {
         setIsSaving(true);
         setTimeout(() => setIsSaving(false), 500);
-        
-        const hasAllOptionalFields = icp && priceTerms && mechanism && primaryObjection && goal;
+
+        const hasAllOptionalFields =
+          icp && priceTerms && mechanism && primaryObjection && goal;
         if (hasAllOptionalFields) {
           analytics.inputsCompleted(project.id, {
             sourceType,
@@ -174,7 +193,18 @@ export function StepInputsNew() {
     }, 1000);
 
     return () => clearTimeout(timer);
-  }, [sourceType, url, pdfId, icp, priceTerms, proofLinks, mechanism, primaryObjection, goal, project]);
+  }, [
+    sourceType,
+    url,
+    pdfId,
+    icp,
+    priceTerms,
+    proofLinks,
+    mechanism,
+    primaryObjection,
+    goal,
+    project,
+  ]);
 
   return (
     <m.div
@@ -290,7 +320,9 @@ export function StepInputsNew() {
                           <p className="text-13 text-text-primary mb-1">
                             Click to upload or drag and drop
                           </p>
-                          <p className="text-11 text-text-tertiary">PDF (max 50MB)</p>
+                          <p className="text-11 text-text-tertiary">
+                            PDF (max 50MB)
+                          </p>
                         </>
                       )}
                     </div>
@@ -316,8 +348,12 @@ export function StepInputsNew() {
                 <div className="flex items-center gap-3 p-4 rounded-xl border border-white/10 bg-glass backdrop-blur-md">
                   <FileText className="h-5 w-5 text-accent flex-shrink-0" />
                   <div className="flex-1 min-w-0">
-                    <p className="text-13 text-text-primary truncate">{pdfId}</p>
-                    <p className="text-11 text-text-tertiary">PDF uploaded successfully</p>
+                    <p className="text-13 text-text-primary truncate">
+                      {pdfId}
+                    </p>
+                    <p className="text-11 text-text-tertiary">
+                      PDF uploaded successfully
+                    </p>
                   </div>
                   <Button
                     type="button"
@@ -397,7 +433,8 @@ export function StepInputsNew() {
             value={priceTerms}
             onChange={(e) => {
               updateProjectData({ priceTerms: e.target.value });
-              if (e.target.value) validateAndUpdate("priceTerms", e.target.value);
+              if (e.target.value)
+                validateAndUpdate("priceTerms", e.target.value);
             }}
             className={cn(errors.priceTerms && "border-red-500")}
           />
@@ -480,7 +517,8 @@ export function StepInputsNew() {
             value={mechanism}
             onChange={(e) => {
               updateProjectData({ mechanism: e.target.value });
-              if (e.target.value) validateAndUpdate("mechanism", e.target.value);
+              if (e.target.value)
+                validateAndUpdate("mechanism", e.target.value);
             }}
             className={cn(errors.mechanism && "border-red-500")}
           />
@@ -516,7 +554,8 @@ export function StepInputsNew() {
             value={primaryObjection}
             onChange={(e) => {
               updateProjectData({ primaryObjection: e.target.value });
-              if (e.target.value) validateAndUpdate("primaryObjection", e.target.value);
+              if (e.target.value)
+                validateAndUpdate("primaryObjection", e.target.value);
             }}
             className={cn(errors.primaryObjection && "border-red-500")}
           />
@@ -566,9 +605,12 @@ export function StepInputsNew() {
         <div className="flex items-start gap-3 p-4 rounded-xl border border-yellow-500/30 bg-yellow-500/5">
           <AlertCircle className="h-5 w-5 text-yellow-500 flex-shrink-0 mt-0.5" />
           <div>
-            <p className="text-13 text-yellow-500 font-medium">Required fields missing</p>
+            <p className="text-13 text-yellow-500 font-medium">
+              Required fields missing
+            </p>
             <p className="text-11 text-text-secondary mt-1">
-              Please select a source type and provide either a URL or upload a PDF to continue
+              Please select a source type and provide either a URL or upload a
+              PDF to continue
             </p>
           </div>
         </div>
@@ -578,7 +620,9 @@ export function StepInputsNew() {
         <div className="flex items-center gap-3 p-4 rounded-xl border border-green-500/30 bg-green-500/5">
           <CheckCircle className="h-5 w-5 text-green-500 flex-shrink-0" />
           <div>
-            <p className="text-13 text-green-500 font-medium">Ready to analyze</p>
+            <p className="text-13 text-green-500 font-medium">
+              Ready to analyze
+            </p>
             <p className="text-11 text-text-secondary mt-1">
               All required fields are complete. Click Next to continue.
             </p>

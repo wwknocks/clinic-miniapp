@@ -13,7 +13,17 @@ export interface ProgressProps extends React.HTMLAttributes<HTMLDivElement> {
 }
 
 const Progress = React.forwardRef<HTMLDivElement, ProgressProps>(
-  ({ className, value = 0, max = 100, showLabel = false, variant = "accent", ...props }, ref) => {
+  (
+    {
+      className,
+      value = 0,
+      max = 100,
+      showLabel = false,
+      variant = "accent",
+      ...props
+    },
+    ref
+  ) => {
     const percentage = Math.min(Math.max((value / max) * 100, 0), 100);
 
     const variantClasses = {
@@ -28,7 +38,9 @@ const Progress = React.forwardRef<HTMLDivElement, ProgressProps>(
       <div ref={ref} className={cn("w-full", className)} {...props}>
         <div className="flex items-center justify-between mb-2">
           {showLabel && (
-            <span className="text-13 text-text-secondary">{Math.round(percentage)}%</span>
+            <span className="text-13 text-text-secondary">
+              {Math.round(percentage)}%
+            </span>
           )}
         </div>
         <div className="relative h-2 w-full overflow-hidden rounded-full bg-glass border border-white/10">

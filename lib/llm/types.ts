@@ -91,9 +91,7 @@ export const LinkedInCommentOutputSchema = z.object({
   ),
 });
 
-export type LinkedInCommentOutput = z.infer<
-  typeof LinkedInCommentOutputSchema
->;
+export type LinkedInCommentOutput = z.infer<typeof LinkedInCommentOutputSchema>;
 
 export const LinkedInDMThreadSchema = z.object({
   messages: z.array(

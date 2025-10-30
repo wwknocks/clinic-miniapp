@@ -67,16 +67,21 @@ const scores = calculateScores(parsed);
 ### Metrics
 
 #### 1. Proof Density
+
 Counts proof elements like percentages, dollar amounts, multipliers, testimonials, case studies, and data references. Higher density indicates more credible claims.
 
 #### 2. Numbers Per 500 Words
+
 Tracks the frequency of specific numbers and statistics. Ideal range: 10-30 per 500 words.
 
 #### 3. CTA Detection
+
 Identifies calls-to-action in text and links. Evaluates quantity and quality of CTAs.
 
 #### 4. Guarantee Parsing
+
 Detects and scores different types of guarantees:
+
 - Money-back guarantee: 100 points
 - 100% satisfaction guarantee: 100 points
 - Time-based guarantee: 90 points
@@ -84,9 +89,11 @@ Detects and scores different types of guarantees:
 - Free trial: 75 points
 
 #### 5. Time to First Value
+
 Measures indicators of quick value delivery (e.g., "in 5 minutes", "instant", "immediate").
 
 #### 6. Mechanism Presence
+
 Evaluates whether the solution explains "how it works" with step-by-step processes.
 
 ## EV Lift Mapping
@@ -104,7 +111,7 @@ Each lever has an associated expected value (EV) lift percentage:
 
 ```typescript
 interface ScoringResult {
-  overallScore: number;              // 0-100
+  overallScore: number; // 0-100
   dimensionScores: {
     value: number;
     urgency: number;
@@ -121,7 +128,7 @@ interface ScoringResult {
     timeToFirstValue: MetricCheck;
     mechanismPresence: MetricCheck;
   };
-  leverDeltas: LeverDelta[];          // Sorted by EV/hour
+  leverDeltas: LeverDelta[]; // Sorted by EV/hour
   timestamp: string;
 }
 ```

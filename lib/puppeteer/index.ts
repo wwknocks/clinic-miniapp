@@ -96,9 +96,10 @@ export async function captureScreenshot(
       throw new Error(`Failed to upload screenshot: ${error.message}`);
     }
 
-    const { data: signedUrlData, error: signedUrlError } = await supabase.storage
-      .from(BUCKET_NAME)
-      .createSignedUrl(data.path, 31536000);
+    const { data: signedUrlData, error: signedUrlError } =
+      await supabase.storage
+        .from(BUCKET_NAME)
+        .createSignedUrl(data.path, 31536000);
 
     if (signedUrlError) {
       console.warn("Failed to create signed URL:", signedUrlError);
@@ -132,7 +133,8 @@ export async function captureScreenshotWithFallback(
     console.error("Screenshot capture failed, returning fallback:", error);
     return {
       success: false,
-      error: error instanceof Error ? error.message : "Screenshot capture failed",
+      error:
+        error instanceof Error ? error.message : "Screenshot capture failed",
     };
   }
 }

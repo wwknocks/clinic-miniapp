@@ -112,11 +112,13 @@ export const overlayVariants: Variants = {
 export const cardHover = {
   rest: {
     y: 0,
-    boxShadow: "0 8px 32px 0 rgba(0, 0, 0, 0.37), inset 0 1px 1px 0 rgba(255, 255, 255, 0.1)",
+    boxShadow:
+      "0 8px 32px 0 rgba(0, 0, 0, 0.37), inset 0 1px 1px 0 rgba(255, 255, 255, 0.1)",
   },
   hover: {
     y: -4,
-    boxShadow: "0 16px 48px 0 rgba(0, 0, 0, 0.5), inset 0 1px 2px 0 rgba(255, 255, 255, 0.1)",
+    boxShadow:
+      "0 16px 48px 0 rgba(0, 0, 0, 0.5), inset 0 1px 2px 0 rgba(255, 255, 255, 0.1)",
     transition: {
       duration: 0.2,
       ease: "easeOut",

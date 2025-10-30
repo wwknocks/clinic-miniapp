@@ -13,7 +13,7 @@ export const LEVER_TO_EV_LIFT: Record<string, number> = {
   proof: 0.15,
   numbers: 0.12,
   cta: 0.18,
-  guarantee: 0.20,
+  guarantee: 0.2,
   timeToValue: 0.14,
   mechanism: 0.16,
 };

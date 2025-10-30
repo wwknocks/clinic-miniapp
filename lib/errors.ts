@@ -100,7 +100,7 @@ export function logError(
   context?: Record<string, unknown>
 ): void {
   const errorInfo = handleError(error);
-  
+
   console.error("[Error]", {
     ...errorInfo,
     context,

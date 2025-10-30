@@ -40,6 +40,7 @@ supabase start
 ```
 
 This will start:
+
 - PostgreSQL database on `localhost:54322`
 - API server on `localhost:54321`
 - Studio (web UI) on `localhost:54323`
@@ -89,6 +90,7 @@ supabase migration list
 ### 6. Access Supabase Studio
 
 Open [http://localhost:54323](http://localhost:54323) to access the Supabase Studio web interface where you can:
+
 - Browse tables and data
 - Run SQL queries
 - Manage storage buckets
@@ -165,11 +167,13 @@ Create an Edge Function that calls the cleanup function and schedule it with a c
 ### Tables
 
 #### `profiles`
+
 - Stores user profile information
 - Automatically created when a user signs up
 - One-to-one relationship with `auth.users`
 
 #### `projects`
+
 - Stores offer analysis projects
 - Linked to users via `user_id`
 - Contains project data as JSONB
@@ -177,6 +181,7 @@ Create an Edge Function that calls the cleanup function and schedule it with a c
 ### Storage
 
 #### `pdf-uploads` Bucket
+
 - Private bucket for PDF uploads
 - Files organized by user ID: `{userId}/{fileName}`
 - 50MB file size limit
@@ -207,7 +212,7 @@ import { createClient } from "@/lib/supabase/server";
 
 export async function myServerAction() {
   const supabase = await createClient();
-  
+
   // RLS enforces access based on authenticated user
   const { data } = await supabase.from("projects").select("*");
 }
@@ -220,7 +225,7 @@ import { createServiceRoleClient } from "@/lib/supabase/server";
 
 export async function adminTask() {
   const supabase = await createServiceRoleClient();
-  
+
   // Bypasses RLS - use with caution!
   const { data } = await supabase.from("projects").select("*");
 }

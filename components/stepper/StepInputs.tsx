@@ -1,7 +1,13 @@
 "use client";
 
 import { m } from "framer-motion";
-import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/Card";
+import {
+  Card,
+  CardHeader,
+  CardTitle,
+  CardDescription,
+  CardContent,
+} from "@/components/ui/Card";
 import { Input } from "@/components/ui/Input";
 import { Label } from "@/components/ui/Label";
 import { Textarea } from "@/components/ui/Textarea";
@@ -29,9 +35,7 @@ export function StepInputs() {
       <Card>
         <CardHeader>
           <CardTitle>Basic Information</CardTitle>
-          <CardDescription>
-            Tell us about the offer and company
-          </CardDescription>
+          <CardDescription>Tell us about the offer and company</CardDescription>
         </CardHeader>
         <CardContent className="space-y-6 pt-4">
           <div className="space-y-2">
@@ -40,7 +44,9 @@ export function StepInputs() {
               id="offerTitle"
               placeholder="e.g., Senior Software Engineer at TechCorp"
               value={project?.data.offerTitle || ""}
-              onChange={(e) => updateProjectData({ offerTitle: e.target.value })}
+              onChange={(e) =>
+                updateProjectData({ offerTitle: e.target.value })
+              }
             />
           </div>
 
@@ -50,7 +56,9 @@ export function StepInputs() {
               id="companyName"
               placeholder="e.g., TechCorp Inc."
               value={project?.data.companyName || ""}
-              onChange={(e) => updateProjectData({ companyName: e.target.value })}
+              onChange={(e) =>
+                updateProjectData({ companyName: e.target.value })
+              }
             />
           </div>
 
@@ -61,10 +69,13 @@ export function StepInputs() {
               placeholder="Paste your offer letter or provide key details like compensation, benefits, equity, location, etc."
               rows={8}
               value={project?.data.offerDetails || ""}
-              onChange={(e) => updateProjectData({ offerDetails: e.target.value })}
+              onChange={(e) =>
+                updateProjectData({ offerDetails: e.target.value })
+              }
             />
             <p className="text-11 text-text-tertiary">
-              Include salary, equity, benefits, work arrangements, and any other relevant information
+              Include salary, equity, benefits, work arrangements, and any other
+              relevant information
             </p>
           </div>
         </CardContent>

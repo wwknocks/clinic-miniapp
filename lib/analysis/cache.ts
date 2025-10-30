@@ -30,7 +30,9 @@ export function computeInputsHash(inputs: CacheableInputs): string {
   return crypto.createHash("sha256").update(inputString).digest("hex");
 }
 
-export function isCacheValid(projectData: ProjectData | Record<string, unknown>): boolean {
+export function isCacheValid(
+  projectData: ProjectData | Record<string, unknown>
+): boolean {
   const data = projectData as ProjectData;
   if (!data.results?.inputsHash || !data.results?.cachedAt) {
     return false;

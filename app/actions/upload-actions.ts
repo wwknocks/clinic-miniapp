@@ -82,7 +82,9 @@ export async function uploadPDF(formData: FormData): Promise<UploadPDFResult> {
   }
 }
 
-export async function deletePDF(pdfPath: string): Promise<{ success: boolean; error?: string }> {
+export async function deletePDF(
+  pdfPath: string
+): Promise<{ success: boolean; error?: string }> {
   try {
     const supabase = await createClient();
 
@@ -106,7 +108,9 @@ export async function deletePDF(pdfPath: string): Promise<{ success: boolean; er
   }
 }
 
-export async function refreshSignedUrl(pdfPath: string): Promise<{ success: boolean; url?: string; error?: string }> {
+export async function refreshSignedUrl(
+  pdfPath: string
+): Promise<{ success: boolean; url?: string; error?: string }> {
   try {
     const supabase = await createClient();
 

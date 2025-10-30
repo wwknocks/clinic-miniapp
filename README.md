@@ -17,6 +17,7 @@ An AI-powered offer analysis tool featuring a 4-step guided workflow with an iOS
 ## Design Tokens
 
 ### Colors
+
 - **Background**: `#0B0F14` - Deep dark background
 - **Panel**: `#0F141B` - Card/panel background
 - **Glass**: `rgba(255, 255, 255, 0.06)` - Frosted glass effect
@@ -28,10 +29,12 @@ An AI-powered offer analysis tool featuring a 4-step guided workflow with an iOS
 - **Danger**: `#FF6B6B` - Error/danger states
 
 ### Typography
+
 - **Font**: Inter (400, 500, 600, 700)
 - **Scale**: 11px, 13px, 15px, 18px, 24px, 32px, 40px
 
 ### Spacing & Borders
+
 - **Card Radius**: `rounded-2xl` (1rem)
 - **Input/Button Radius**: `rounded-xl` (0.75rem)
 - **Shadow**: Custom glass shadow with inset highlight
@@ -39,6 +42,7 @@ An AI-powered offer analysis tool featuring a 4-step guided workflow with an iOS
 ## Components
 
 ### Button
+
 ```tsx
 import { Button } from "@/components/ui/Button";
 
@@ -51,23 +55,29 @@ import { Button } from "@/components/ui/Button";
 **Sizes**: `sm`, `md`, `lg`
 
 ### Card
+
 ```tsx
-import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/Card";
+import {
+  Card,
+  CardHeader,
+  CardTitle,
+  CardDescription,
+  CardContent,
+} from "@/components/ui/Card";
 
 <Card>
   <CardHeader>
     <CardTitle>Title</CardTitle>
     <CardDescription>Description</CardDescription>
   </CardHeader>
-  <CardContent>
-    Content goes here
-  </CardContent>
-</Card>
+  <CardContent>Content goes here</CardContent>
+</Card>;
 ```
 
 **Variants**: `glass` (default), `solid`
 
 ### Input & Label
+
 ```tsx
 import { Input } from "@/components/ui/Input";
 import { Label } from "@/components/ui/Label";
@@ -75,7 +85,7 @@ import { Label } from "@/components/ui/Label";
 <div>
   <Label htmlFor="email">Email</Label>
   <Input id="email" type="email" placeholder="you@example.com" />
-</div>
+</div>;
 ```
 
 ## Stepper Workflow
@@ -88,6 +98,7 @@ The application features a 4-step guided workflow for offer analysis:
 4. **Exports** - Download reports in multiple formats (PDF, PPTX, JSON)
 
 Each step includes:
+
 - Smooth Framer Motion transitions
 - Accessible focus management
 - Progress tracking
@@ -111,6 +122,7 @@ cp .env.example .env.local
 ```
 
 Add your Supabase credentials:
+
 ```env
 NEXT_PUBLIC_SUPABASE_URL=your-project-url
 NEXT_PUBLIC_SUPABASE_ANON_KEY=your-anon-key
@@ -124,16 +136,19 @@ This project uses Supabase for authentication, database, and storage. See the [S
 #### Quick Start (Local Development)
 
 1. Install [Supabase CLI](https://supabase.com/docs/guides/cli):
+
    ```bash
    npm install -g supabase
    ```
 
 2. Start local Supabase (requires Docker):
+
    ```bash
    supabase start
    ```
 
 3. Copy the credentials from the output to your `.env.local`:
+
    ```env
    NEXT_PUBLIC_SUPABASE_URL=http://localhost:54321
    NEXT_PUBLIC_SUPABASE_ANON_KEY=eyJh...
@@ -145,6 +160,7 @@ This project uses Supabase for authentication, database, and storage. See the [S
 #### Database Schema
 
 The project includes migrations for:
+
 - **profiles** - User profiles with automatic creation on signup
 - **projects** - Offer analysis projects with JSONB data
 - **storage** - PDF uploads bucket with 30-day TTL
@@ -223,9 +239,11 @@ npm start
 ## Customization
 
 ### Tailwind Config
+
 All design tokens are defined in `tailwind.config.ts`. Modify colors, typography, and other tokens there.
 
 ### Component Variants
+
 Components use `class-variance-authority` for variant management. Extend variants in the component files.
 
 ## State Management
@@ -244,9 +262,9 @@ import { useProjectStore } from "@/lib/stores/useProjectStore";
 
 function MyComponent() {
   const { project, updateProjectData, nextStep } = useProjectStore();
-  
+
   return (
-    <input 
+    <input
       value={project?.data.offerTitle || ""}
       onChange={(e) => updateProjectData({ offerTitle: e.target.value })}
     />

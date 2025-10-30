@@ -51,7 +51,11 @@ const MeterBar = ({
     <div className={cn("w-full", className)}>
       {(label || showValue) && (
         <div className="flex items-center justify-between mb-2">
-          {label && <span className="text-13 text-text-primary font-medium">{label}</span>}
+          {label && (
+            <span className="text-13 text-text-primary font-medium">
+              {label}
+            </span>
+          )}
           {showValue && (
             <span className="text-13 text-text-secondary">
               {value} / {max}

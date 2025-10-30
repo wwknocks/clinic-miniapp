@@ -5,6 +5,7 @@ This document provides an overview of the Supabase backend setup for the Offer W
 ## 📋 Overview
 
 The application now has a complete Supabase backend integration with:
+
 - ✅ Database schema with migrations
 - ✅ Row Level Security (RLS) policies
 - ✅ Storage bucket configuration with 30-day TTL
@@ -55,9 +56,11 @@ The application now has a complete Supabase backend integration with:
 ### Tables
 
 #### `profiles`
+
 User profile information with automatic creation on signup.
 
 **Columns:**
+
 - `id` (UUID, PK): Profile ID
 - `user_id` (UUID, FK → auth.users): User reference
 - `email` (TEXT): User email
@@ -67,15 +70,18 @@ User profile information with automatic creation on signup.
 - `updated_at` (TIMESTAMPTZ): Last update timestamp (auto-updated)
 
 **Features:**
+
 - Auto-creates profile when user signs up
 - Auto-updates `updated_at` on changes
 - Unique constraint on `user_id`
 - Index on `user_id` for fast lookups
 
 #### `projects`
+
 Offer analysis projects with JSONB data storage.
 
 **Columns:**
+
 - `id` (UUID, PK): Project ID
 - `user_id` (UUID, FK → auth.users): User reference
 - `title` (TEXT): Project title (default: "Untitled Project")
@@ -86,6 +92,7 @@ Offer analysis projects with JSONB data storage.
 - `updated_at` (TIMESTAMPTZ): Last update timestamp (auto-updated)
 
 **Features:**
+
 - JSONB storage for flexible data structure
 - Auto-updates `updated_at` on changes
 - Multiple indexes for query optimization
@@ -94,9 +101,11 @@ Offer analysis projects with JSONB data storage.
 ### Storage
 
 #### `pdf-uploads` Bucket
+
 Private storage bucket for PDF file uploads.
 
 **Configuration:**
+
 - Private bucket (requires authentication)
 - 50MB file size limit
 - Allowed mime types: `application/pdf`
@@ -104,6 +113,7 @@ Private storage bucket for PDF file uploads.
 - Files organized by user: `{userId}/{fileName}`
 
 **Features:**
+
 - Signed URL generation (1-hour validity)
 - Automatic cleanup of files older than 30 days
 - User-isolated storage paths
@@ -113,10 +123,12 @@ Private storage bucket for PDF file uploads.
 All tables have RLS enabled with the following policies:
 
 ### User Policies
+
 - Users can only SELECT, INSERT, UPDATE, DELETE their own records
 - Enforced through `auth.uid() = user_id` condition
 
 ### Service Role Policy
+
 - Service role can perform ALL operations on any record
 - Used for background jobs and admin operations
 - Bypasses RLS when using `createServiceRoleClient()`
@@ -188,16 +200,19 @@ SUPABASE_SERVICE_ROLE_KEY=your-service-role-key  # Server-only, keep secret!
 ### Local Development
 
 1. Install Supabase CLI:
+
    ```bash
    npm install -g supabase
    ```
 
 2. Start local Supabase:
+
    ```bash
    supabase start
    ```
 
 3. Copy credentials to `.env.local`:
+
    ```env
    NEXT_PUBLIC_SUPABASE_URL=http://localhost:54321
    NEXT_PUBLIC_SUPABASE_ANON_KEY=eyJh...
@@ -402,6 +417,7 @@ See the [Supabase Setup Guide](./supabase/README.md#troubleshooting) for common 
 ## 📞 Support
 
 For Supabase-specific issues:
+
 - [Supabase Documentation](https://supabase.com/docs)
 - [Supabase Discord](https://discord.supabase.com)
 - [GitHub Issues](https://github.com/supabase/supabase/issues)

@@ -79,11 +79,11 @@ export async function getProject(id: string) {
   try {
     logger.debug("Fetching project", { id });
     const project = await ProjectService.getById(id);
-    
+
     if (!project) {
       return { success: false, error: "Project not found" };
     }
-    
+
     return { success: true, data: project };
   } catch (error) {
     logError(error, { action: "getProject", id });

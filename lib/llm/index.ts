@@ -4,7 +4,12 @@
  */
 
 // Re-export enhanced client
-export { callLLM, batchLLMCalls, parallelLLMCalls, getUsageStats } from "./client";
+export {
+  callLLM,
+  batchLLMCalls,
+  parallelLLMCalls,
+  getUsageStats,
+} from "./client";
 export type { LLMCallOptions } from "./client";
 
 // Re-export types
@@ -111,9 +116,9 @@ Format your response as JSON with these keys:
     if (!jsonMatch) {
       throw new Error("No JSON found in response");
     }
-    
+
     const parsed = JSON.parse(jsonMatch[0]);
-    
+
     return {
       strengths: parsed.strengths || [],
       weaknesses: parsed.weaknesses || [],

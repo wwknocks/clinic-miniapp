@@ -20,7 +20,11 @@ const DialogContext = React.createContext<{
   onOpenChange: () => {},
 });
 
-const Dialog = ({ open: controlledOpen, onOpenChange, children }: DialogProps) => {
+const Dialog = ({
+  open: controlledOpen,
+  onOpenChange,
+  children,
+}: DialogProps) => {
   const [internalOpen, setInternalOpen] = React.useState(false);
   const open = controlledOpen !== undefined ? controlledOpen : internalOpen;
 
@@ -138,7 +142,10 @@ const DialogHeader = ({
   ...props
 }: React.HTMLAttributes<HTMLDivElement>) => (
   <div
-    className={cn("flex flex-col space-y-2 text-center sm:text-left mb-4", className)}
+    className={cn(
+      "flex flex-col space-y-2 text-center sm:text-left mb-4",
+      className
+    )}
     {...props}
   />
 );
@@ -173,7 +180,10 @@ const DialogFooter = ({
   ...props
 }: React.HTMLAttributes<HTMLDivElement>) => (
   <div
-    className={cn("flex flex-col-reverse sm:flex-row sm:justify-end sm:space-x-2 mt-6", className)}
+    className={cn(
+      "flex flex-col-reverse sm:flex-row sm:justify-end sm:space-x-2 mt-6",
+      className
+    )}
     {...props}
   />
 );

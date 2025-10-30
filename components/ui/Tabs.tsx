@@ -20,9 +20,21 @@ interface TabsProps {
 }
 
 const Tabs = React.forwardRef<HTMLDivElement, TabsProps>(
-  ({ value: controlledValue, defaultValue, onValueChange, children, className }, ref) => {
-    const [internalValue, setInternalValue] = React.useState(defaultValue || "");
-    const value = controlledValue !== undefined ? controlledValue : internalValue;
+  (
+    {
+      value: controlledValue,
+      defaultValue,
+      onValueChange,
+      children,
+      className,
+    },
+    ref
+  ) => {
+    const [internalValue, setInternalValue] = React.useState(
+      defaultValue || ""
+    );
+    const value =
+      controlledValue !== undefined ? controlledValue : internalValue;
 
     const handleValueChange = (newValue: string) => {
       if (controlledValue === undefined) {
@@ -57,13 +69,15 @@ const TabsList = React.forwardRef<
 ));
 TabsList.displayName = "TabsList";
 
-interface TabsTriggerProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+interface TabsTriggerProps
+  extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   value: string;
 }
 
 const TabsTrigger = React.forwardRef<HTMLButtonElement, TabsTriggerProps>(
   ({ className, value, ...props }, ref) => {
-    const { value: selectedValue, onValueChange } = React.useContext(TabsContext);
+    const { value: selectedValue, onValueChange } =
+      React.useContext(TabsContext);
     const isSelected = selectedValue === value;
 
     return (

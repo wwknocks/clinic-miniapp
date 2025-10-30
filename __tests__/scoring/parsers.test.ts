@@ -63,7 +63,11 @@ describe("HTML Parser", () => {
   });
 
   it("should parse the good SaaS landing page fixture", async () => {
-    const fixturePath = path.join(process.cwd(), "fixtures", "saas_lp_good.html");
+    const fixturePath = path.join(
+      process.cwd(),
+      "fixtures",
+      "saas_lp_good.html"
+    );
     const html = fs.readFileSync(fixturePath, "utf-8");
     const result = await parseHTML(html);
 
@@ -75,7 +79,11 @@ describe("HTML Parser", () => {
   });
 
   it("should parse the weak agency landing page fixture", async () => {
-    const fixturePath = path.join(process.cwd(), "fixtures", "agency_lp_weak.html");
+    const fixturePath = path.join(
+      process.cwd(),
+      "fixtures",
+      "agency_lp_weak.html"
+    );
     const html = fs.readFileSync(fixturePath, "utf-8");
     const result = await parseHTML(html);
 

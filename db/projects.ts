@@ -54,7 +54,10 @@ export class ProjectService {
     }
 
     if (filters?.offset) {
-      query = query.range(filters.offset, filters.offset + (filters.limit || 10) - 1);
+      query = query.range(
+        filters.offset,
+        filters.offset + (filters.limit || 10) - 1
+      );
     }
 
     const { data, error } = await query;
@@ -90,7 +93,10 @@ export class ProjectService {
     }
 
     if (filters?.offset) {
-      query = query.range(filters.offset, filters.offset + (filters.limit || 10) - 1);
+      query = query.range(
+        filters.offset,
+        filters.offset + (filters.limit || 10) - 1
+      );
     }
 
     const { data, error } = await query;
@@ -239,7 +245,10 @@ export class AdminProjectService {
     }
 
     if (filters?.offset) {
-      query = query.range(filters.offset, filters.offset + (filters.limit || 10) - 1);
+      query = query.range(
+        filters.offset,
+        filters.offset + (filters.limit || 10) - 1
+      );
     }
 
     const { data, error } = await query;
@@ -307,7 +316,9 @@ export class AdminProjectService {
    * Get projects that are stuck in "analyzing" status
    * (useful for background cleanup jobs)
    */
-  static async getStuckProjects(olderThanMinutes: number = 30): Promise<Project[]> {
+  static async getStuckProjects(
+    olderThanMinutes: number = 30
+  ): Promise<Project[]> {
     const supabase = await createServiceRoleClient();
 
     const cutoffTime = new Date();

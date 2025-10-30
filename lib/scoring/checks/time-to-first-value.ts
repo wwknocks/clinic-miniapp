@@ -16,9 +16,7 @@ const VALUE_PATTERNS = [
   /\bget started in\b/gi,
 ];
 
-export function calculateTimeToFirstValue(
-  content: ParsedContent
-): MetricCheck {
+export function calculateTimeToFirstValue(content: ParsedContent): MetricCheck {
   if (!content.success) {
     return {
       name: "Time to First Value",
@@ -53,7 +51,9 @@ export function calculateTimeToFirstValue(
   if (timeMatch) {
     const firstMatch = timeMatch[0];
     const timeValue = parseInt(firstMatch.match(/\d+/)?.[0] || "0");
-    const unit = firstMatch.match(/(minute|hour|day|second)/i)?.[0].toLowerCase();
+    const unit = firstMatch
+      .match(/(minute|hour|day|second)/i)?.[0]
+      .toLowerCase();
 
     if (unit === "second" || unit === "minute") {
       score = 100;

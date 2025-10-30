@@ -24,10 +24,13 @@ export const analyticsServer = {
     if (process.env.NODE_ENV === "development") {
       console.log("[Analytics Server]", event, properties);
     }
-    
+
     const posthog = getPostHogClient();
     if (posthog) {
-      const distinctId = (properties?.userId as string) || (properties?.projectId as string) || "anonymous";
+      const distinctId =
+        (properties?.userId as string) ||
+        (properties?.projectId as string) ||
+        "anonymous";
       posthog.capture({
         distinctId,
         event,
@@ -50,7 +53,11 @@ export const analyticsServer = {
     });
   },
 
-  screenshotCaptured: (projectId: string, success: boolean, userId?: string) => {
+  screenshotCaptured: (
+    projectId: string,
+    success: boolean,
+    userId?: string
+  ) => {
     analyticsServer.track({
       event: "screenshot_captured",
       properties: { projectId, success, userId },

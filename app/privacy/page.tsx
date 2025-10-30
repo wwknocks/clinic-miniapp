@@ -81,7 +81,9 @@ export default function PrivacyPage() {
                   To enable you to participate in features when you choose to do
                   so
                 </li>
-                <li>To improve our website, products/services and customer service</li>
+                <li>
+                  To improve our website, products/services and customer service
+                </li>
                 <li>
                   To administer and protect our business and website (including
                   troubleshooting, data analysis, testing, system maintenance,
@@ -113,7 +115,9 @@ export default function PrivacyPage() {
             </section>
 
             <section>
-              <h2 className="text-24 font-semibold mb-4">6. Your Legal Rights</h2>
+              <h2 className="text-24 font-semibold mb-4">
+                6. Your Legal Rights
+              </h2>
               <p className="text-15 leading-relaxed text-text-secondary mb-4">
                 Under certain circumstances, you have rights under data
                 protection laws in relation to your personal data, including the

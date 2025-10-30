@@ -117,11 +117,7 @@ import { generateLinkedInCarousel } from "@/lib/llm";
 
 const result = await generateLinkedInCarousel({
   topic: "5 Conversion Killers Destroying Your Offer",
-  keyPoints: [
-    "Vague value propositions",
-    "Missing social proof",
-    "Weak CTAs",
-  ],
+  keyPoints: ["Vague value propositions", "Missing social proof", "Weak CTAs"],
   targetAudience: "B2B marketers and founders",
   cta: "Get free offer analysis",
 });
@@ -293,6 +289,7 @@ Mock responses are defined in `lib/llm/mocks.ts` and cover all template function
 ### Prompt Safety Preamble
 
 All templates include a safety preamble that instructs the LLM to:
+
 - Base responses ONLY on provided data
 - Never fabricate information
 - Acknowledge missing information explicitly
@@ -301,6 +298,7 @@ All templates include a safety preamble that instructs the LLM to:
 ### Character Limits
 
 Each template enforces character limits to prevent:
+
 - Token limit overruns
 - Excessive costs
 - Timeout issues
@@ -358,6 +356,7 @@ npm test -- __tests__/llm
 ```
 
 Tests cover:
+
 - Rate limiting behavior
 - Token budgeting
 - Prompt character limit enforcement
@@ -415,24 +414,29 @@ To add new templates:
 ## Troubleshooting
 
 ### "Prompt too long" error
+
 - Reduce input size or increase `LLM_MAX_PROMPT_TOKENS`
 - Check that template limits are appropriate
 
 ### Rate limit errors
+
 - Increase `LLM_MAX_REQUESTS_PER_MINUTE` if API plan allows
 - Implement queuing/backoff in your application
 
 ### Timeout errors
+
 - Increase `LLM_REQUEST_TIMEOUT`
 - Reduce `maxTokens` for faster responses
 - Check network connectivity
 
 ### Parse errors
+
 - Verify JSON mode is enabled for structured outputs
 - Check that schemas match expected output format
 - Review fallback handling
 
 ### Mock responses not working
+
 - Verify `LLM_USE_MOCKS=true` in environment
 - Check that `mockKey` matches key in `mocks.ts`
 - Ensure mock fixtures are valid JSON

@@ -47,7 +47,10 @@ function parseJSONResponse<T>(
     return validated;
   } catch (error: unknown) {
     const err = error as { message?: string };
-    console.error("[LLM] Failed to parse response:", err.message || String(error));
+    console.error(
+      "[LLM] Failed to parse response:",
+      err.message || String(error)
+    );
     return fallback;
   }
 }
@@ -175,7 +178,8 @@ Format as valid JSON:
 }`;
 
   const offerText = truncateInput(inputs.offer, maxInputChars);
-  const objectionsText = inputs.primaryObjections?.join("\n") || "Generate common objections";
+  const objectionsText =
+    inputs.primaryObjections?.join("\n") || "Generate common objections";
 
   const userPrompt = `Create an objection handling pack for this offer:
 
@@ -599,7 +603,8 @@ Format as valid JSON:
 }`;
 
   const offerText = truncateInput(inputs.offerDescription, maxInputChars);
-  const weaknesses = inputs.primaryWeaknesses?.join("\n") || "Analyze for weaknesses";
+  const weaknesses =
+    inputs.primaryWeaknesses?.join("\n") || "Analyze for weaknesses";
   const goals = inputs.testingGoals?.join("\n") || "Maximize conversion rate";
 
   const userPrompt = `Create a 7-day A/B testing plan:

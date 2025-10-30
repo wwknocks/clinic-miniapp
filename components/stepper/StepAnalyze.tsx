@@ -2,7 +2,13 @@
 
 import { useState, useEffect, useCallback } from "react";
 import { m } from "framer-motion";
-import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/Card";
+import {
+  Card,
+  CardHeader,
+  CardTitle,
+  CardDescription,
+  CardContent,
+} from "@/components/ui/Card";
 import { Button } from "@/components/ui/Button";
 import { Progress } from "@/components/ui/Progress";
 import { Sparkles, CheckCircle, AlertCircle } from "lucide-react";
@@ -36,7 +42,11 @@ export function StepAnalyze() {
   }, [project, updateProject]);
 
   useEffect(() => {
-    if (project && project.status === "complete" && (project.data as Record<string, unknown>)?.results) {
+    if (
+      project &&
+      project.status === "complete" &&
+      (project.data as Record<string, unknown>)?.results
+    ) {
       setAnalysisState("complete");
       setProgress(100);
       setStatusMessage("Analysis complete!");
@@ -88,9 +98,11 @@ export function StepAnalyze() {
 
       if (result.success) {
         setProgress(100);
-        setStatusMessage(result.cached ? "Using cached results!" : "Analysis complete!");
+        setStatusMessage(
+          result.cached ? "Using cached results!" : "Analysis complete!"
+        );
         setAnalysisState("complete");
-        
+
         const updatedProject = await getAnalysisStatus(project.id);
         if (updatedProject.success) {
           await updateProject({ status: "complete" });
@@ -238,7 +250,9 @@ export function StepAnalyze() {
       <Card variant="solid" padding="lg">
         <CardHeader>
           <CardTitle>
-            {analysisState === "complete" ? "Analysis Results" : "Ready to Analyze"}
+            {analysisState === "complete"
+              ? "Analysis Results"
+              : "Ready to Analyze"}
           </CardTitle>
           <CardDescription>
             {analysisState === "complete"
@@ -246,9 +260,7 @@ export function StepAnalyze() {
               : "We'll evaluate your offer across multiple dimensions including value, urgency, certainty, and more."}
           </CardDescription>
         </CardHeader>
-        <CardContent className="space-y-6 pt-4">
-          {renderContent()}
-        </CardContent>
+        <CardContent className="space-y-6 pt-4">{renderContent()}</CardContent>
       </Card>
     </m.div>
   );

@@ -50,13 +50,17 @@ const PaywallDialog = ({
             </div>
           </div>
           <DialogTitle className="text-center">{title}</DialogTitle>
-          <DialogDescription className="text-center">{description}</DialogDescription>
+          <DialogDescription className="text-center">
+            {description}
+          </DialogDescription>
         </DialogHeader>
 
-        <div className={cn(
-          "grid gap-6 mt-6",
-          plans.length === 1 ? "grid-cols-1" : "md:grid-cols-2"
-        )}>
+        <div
+          className={cn(
+            "grid gap-6 mt-6",
+            plans.length === 1 ? "grid-cols-1" : "md:grid-cols-2"
+          )}
+        >
           {plans.map((plan, index) => (
             <div
               key={index}

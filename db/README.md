@@ -172,10 +172,7 @@ const allProjects = await AdminProjectService.getAll({
 await AdminProjectService.update(projectId, updates);
 
 // Bulk update multiple projects
-await AdminProjectService.bulkUpdate(
-  [id1, id2, id3],
-  { status: "draft" }
-);
+await AdminProjectService.bulkUpdate([id1, id2, id3], { status: "draft" });
 
 // Find stuck projects for cleanup
 const stuckProjects = await AdminProjectService.getStuckProjects(30);
@@ -196,10 +193,10 @@ try {
 } catch (error) {
   // Log the error with context
   logError(error, { projectId: id });
-  
+
   // Get formatted error info
   const errorInfo = handleError(error);
-  
+
   // Return user-friendly error
   return {
     success: false,
@@ -272,12 +269,12 @@ import { ProjectService } from "@/db/projects";
 
 export async function getProjectsPage(page: number, pageSize: number = 10) {
   const offset = (page - 1) * pageSize;
-  
+
   const projects = await ProjectService.getAll({
     limit: pageSize,
     offset,
   });
-  
+
   return {
     projects,
     page,
@@ -295,21 +292,21 @@ import { logger } from "@/lib/logger";
 
 export async function cleanupStuckProjects() {
   logger.info("Starting cleanup of stuck projects");
-  
+
   // Find projects stuck in "analyzing" for more than 30 minutes
   const stuckProjects = await AdminProjectService.getStuckProjects(30);
-  
+
   if (stuckProjects.length === 0) {
     logger.info("No stuck projects found");
     return;
   }
-  
+
   logger.info(`Found ${stuckProjects.length} stuck projects`);
-  
+
   // Reset them to draft status
   const ids = stuckProjects.map((p) => p.id);
   await AdminProjectService.bulkUpdate(ids, { status: "draft" });
-  
+
   logger.info(`Reset ${ids.length} projects to draft status`);
 }
 ```

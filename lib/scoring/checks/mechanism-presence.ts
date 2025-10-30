@@ -38,7 +38,9 @@ export function detectMechanismPresence(content: ParsedContent): MetricCheck {
   const hasProcess = /\b(our )?process\b/gi.test(content.text);
   const hasSteps = /\bstep[- ]by[- ]step\b/gi.test(content.text);
 
-  const stepNumbers = content.text.match(/\b(step \d|[123]\.|first|second|third)\b/gi);
+  const stepNumbers = content.text.match(
+    /\b(step \d|[123]\.|first|second|third)\b/gi
+  );
   const hasNumberedSteps = stepNumbers && stepNumbers.length >= 3;
 
   if (hasHowItWorks) mechanismScore += 30;

@@ -34,7 +34,8 @@ export function useAutoSave<T>({
   useEffect(() => {
     if (!enabled) return;
 
-    const dataChanged = JSON.stringify(data) !== JSON.stringify(previousDataRef.current);
+    const dataChanged =
+      JSON.stringify(data) !== JSON.stringify(previousDataRef.current);
 
     if (dataChanged) {
       if (timeoutRef.current) {

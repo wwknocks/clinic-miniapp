@@ -8,6 +8,9 @@ node_modules/
 
 # testing
 /coverage
+/playwright-report/
+/test-results/
+/e2e-results/
 
 # next.js
 .next/

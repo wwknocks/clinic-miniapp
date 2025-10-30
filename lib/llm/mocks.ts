@@ -114,7 +114,7 @@ const MOCK_RESPONSES: Record<string, string> = {
 
   linkedin_caption: JSON.stringify({
     hook: "I analyzed 500+ offers that generated $100M+. Here's the pattern they all share:",
-    body: "Every high-converting offer has these 3 elements:\n\n1. Crystal-clear specificity (not \"better results\" but \"37% more qualified leads in 60 days\")\n\n2. Risk reversal so strong it feels unfair (90-day guarantees, free trials, pay-on-results)\n\n3. Social proof with numbers (not \"trusted by many\" but \"2,347 companies in 47 countries\")\n\nMost offers fail because they're trying to appeal to everyone. The best offers repel 90% of people and magnetically attract the right 10%.\n\nYour offer doesn't need to be perfect. It needs to be SPECIFIC.",
+    body: 'Every high-converting offer has these 3 elements:\n\n1. Crystal-clear specificity (not "better results" but "37% more qualified leads in 60 days")\n\n2. Risk reversal so strong it feels unfair (90-day guarantees, free trials, pay-on-results)\n\n3. Social proof with numbers (not "trusted by many" but "2,347 companies in 47 countries")\n\nMost offers fail because they\'re trying to appeal to everyone. The best offers repel 90% of people and magnetically attract the right 10%.\n\nYour offer doesn\'t need to be perfect. It needs to be SPECIFIC.',
     cta: "Want me to analyze your offer? Drop a comment or DM me.",
     hashtags: [
       "#ConversionOptimization",

@@ -3,7 +3,7 @@ export interface ProjectData {
   offerTitle?: string;
   companyName?: string;
   offerDetails?: string;
-  
+
   // Input step data - New structured inputs
   sourceType?: "url" | "pdf";
   url?: string;
@@ -16,14 +16,14 @@ export interface ProjectData {
   mechanism?: string;
   primaryObjection?: string;
   goal?: string;
-  
+
   // Analysis results
   analysisResults?: {
     strengths: string[];
     weaknesses: string[];
     recommendations: string[];
   };
-  
+
   // Enhanced analysis results
   results?: {
     scoringResult?: {
@@ -55,10 +55,10 @@ export interface ProjectData {
     inputsHash?: string;
     cachedAt?: string;
   };
-  
+
   // Export preferences
   exportFormat?: "pdf" | "pptx" | "json";
-  
+
   // Allow additional fields for JSONB compatibility
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   [key: string]: any;
@@ -79,7 +79,7 @@ export interface ProjectState {
   project: Project | null;
   isLoading: boolean;
   error: string | null;
-  
+
   // Actions
   initializeProject: () => Promise<void>;
   loadProject: (id: string) => Promise<void>;

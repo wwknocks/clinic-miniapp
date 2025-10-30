@@ -5,6 +5,7 @@ This document describes the Step 2 analysis pipeline implementation for the Offe
 ## Overview
 
 The analysis pipeline orchestrates three main components:
+
 1. **Deterministic Analysis**: Scoring engine that evaluates offers based on metrics
 2. **LLM Analysis**: OpenAI-powered insights generation
 3. **Screenshot Capture**: Puppeteer-based screenshot capture of offer pages
@@ -12,6 +13,7 @@ The analysis pipeline orchestrates three main components:
 ## Architecture
 
 ### Server Action
+
 - **File**: `app/actions/analysis-actions.ts`
 - **Main Function**: `runAnalysis(projectId: string)`
 - **Status Function**: `getAnalysisStatus(projectId: string)`
@@ -19,6 +21,7 @@ The analysis pipeline orchestrates three main components:
 ### Core Services
 
 #### 1. LLM Service (`lib/llm/index.ts`)
+
 - Integrates with OpenAI GPT-4o-mini
 - Generates structured analysis outputs:
   - Strengths
@@ -29,17 +32,20 @@ The analysis pipeline orchestrates three main components:
   - Conversion kit ideas
 
 #### 2. Puppeteer Service (`lib/puppeteer/index.ts`)
+
 - Captures screenshots at 2× resolution (3840×2160)
 - Uploads to Supabase storage
 - Generates signed URLs (valid for 1 year)
 - Implements fallback handling if capture fails
 
 #### 3. Caching Service (`lib/analysis/cache.ts`)
+
 - Computes SHA-256 hash of inputs
 - Validates cached results
 - Prevents redundant LLM calls
 
 #### 4. Analytics Service (`lib/analytics.ts`)
+
 - Integrates with PostHog
 - Tracks key events:
   - `analysis_run`
@@ -163,6 +169,7 @@ NEXT_PUBLIC_STORAGE_BUCKET=pdf-uploads
 ## Testing
 
 ### Manual Testing
+
 1. Create a project with URL source
 2. Navigate to Step 2
 3. Click "Start Analysis"
@@ -173,6 +180,7 @@ NEXT_PUBLIC_STORAGE_BUCKET=pdf-uploads
 8. Verify cached results are used
 
 ### Edge Cases
+
 - Missing OpenAI API key → Should fail gracefully
 - Invalid URL → Should return error
 - Screenshot failure → Should complete without screenshot
@@ -200,6 +208,7 @@ NEXT_PUBLIC_STORAGE_BUCKET=pdf-uploads
 ## Monitoring
 
 Key metrics to monitor:
+
 - Analysis completion rate
 - Average analysis duration
 - LLM token usage

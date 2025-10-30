@@ -6,18 +6,18 @@ Dark iOS liquid-glass design system built with Tailwind CSS, shadcn/ui, and Fram
 
 ### Colors
 
-| Token | Value | Usage |
-|-------|-------|-------|
-| `bg` | `#0B0F14` | Page background |
-| `panel` | `#0F141B` | Card/panel backgrounds |
-| `glass` | `rgba(255, 255, 255, 0.06)` | Glassmorphism overlays |
-| `accent` | `#8AB4FF` | Primary actions, links |
-| `success` | `#3DDC97` | Success states |
-| `warning` | `#FFD166` | Warning states |
-| `danger` | `#FF6B6B` | Error/destructive actions |
-| `text-primary` | `#E6EDF3` | Primary text |
-| `text-secondary` | `#9FB0C3` | Secondary text |
-| `text-tertiary` | `#6B7886` | Tertiary text |
+| Token            | Value                       | Usage                     |
+| ---------------- | --------------------------- | ------------------------- |
+| `bg`             | `#0B0F14`                   | Page background           |
+| `panel`          | `#0F141B`                   | Card/panel backgrounds    |
+| `glass`          | `rgba(255, 255, 255, 0.06)` | Glassmorphism overlays    |
+| `accent`         | `#8AB4FF`                   | Primary actions, links    |
+| `success`        | `#3DDC97`                   | Success states            |
+| `warning`        | `#FFD166`                   | Warning states            |
+| `danger`         | `#FF6B6B`                   | Error/destructive actions |
+| `text-primary`   | `#E6EDF3`                   | Primary text              |
+| `text-secondary` | `#9FB0C3`                   | Secondary text            |
+| `text-tertiary`  | `#6B7886`                   | Tertiary text             |
 
 ### Typography Scale
 
@@ -34,6 +34,7 @@ Usage: `text-40`, `text-32`, `text-24`, `text-18`, `text-15`, `text-13`, `text-1
 ### Spacing
 
 Standard Tailwind spacing scale + custom tokens:
+
 - `spacing-18` (4.5rem)
 - `spacing-22` (5.5rem)
 
@@ -71,7 +72,9 @@ Standard Tailwind spacing scale + custom tokens:
 ```tsx
 import { Button } from "@/components/ui";
 
-<Button variant="accent" size="md">Click me</Button>
+<Button variant="accent" size="md">
+  Click me
+</Button>;
 ```
 
 ### Card
@@ -82,7 +85,13 @@ Glassmorphism card component with header, content, footer sections.
 **Padding**: `none`, `sm`, `md`, `lg`
 
 ```tsx
-import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui";
+import {
+  Card,
+  CardHeader,
+  CardTitle,
+  CardDescription,
+  CardContent,
+} from "@/components/ui";
 
 <Card variant="glass">
   <CardHeader>
@@ -90,12 +99,13 @@ import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/com
     <CardDescription>Description</CardDescription>
   </CardHeader>
   <CardContent>Content</CardContent>
-</Card>
+</Card>;
 ```
 
 ### Form Inputs
 
 #### Input
+
 ```tsx
 import { Input, Label } from "@/components/ui";
 
@@ -104,6 +114,7 @@ import { Input, Label } from "@/components/ui";
 ```
 
 #### Select
+
 ```tsx
 import { Select } from "@/components/ui";
 
@@ -114,14 +125,15 @@ import { Select } from "@/components/ui";
   ]}
   placeholder="Choose..."
   onValueChange={(value) => console.log(value)}
-/>
+/>;
 ```
 
 #### Textarea
+
 ```tsx
 import { Textarea } from "@/components/ui";
 
-<Textarea placeholder="Enter message..." rows={4} />
+<Textarea placeholder="Enter message..." rows={4} />;
 ```
 
 ### Badge
@@ -131,7 +143,7 @@ import { Textarea } from "@/components/ui";
 ```tsx
 import { Badge } from "@/components/ui";
 
-<Badge variant="accent">New</Badge>
+<Badge variant="accent">New</Badge>;
 ```
 
 ### Tabs
@@ -146,7 +158,7 @@ import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui";
   </TabsList>
   <TabsContent value="tab1">Content 1</TabsContent>
   <TabsContent value="tab2">Content 2</TabsContent>
-</Tabs>
+</Tabs>;
 ```
 
 ### Progress
@@ -156,7 +168,7 @@ import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui";
 ```tsx
 import { Progress } from "@/components/ui";
 
-<Progress value={75} max={100} showLabel />
+<Progress value={75} max={100} showLabel />;
 ```
 
 ### MeterBar
@@ -169,7 +181,7 @@ Data visualization component for showing metrics.
 ```tsx
 import { MeterBar } from "@/components/ui";
 
-<MeterBar label="CPU Usage" value={75} max={100} variant="accent" />
+<MeterBar label="CPU Usage" value={75} max={100} variant="accent" />;
 ```
 
 ### Stepper
@@ -186,7 +198,7 @@ import { Stepper } from "@/components/ui";
     { label: "Step 3", description: "Description" },
   ]}
   currentStep={2}
-/>
+/>;
 ```
 
 ### Tooltip
@@ -198,13 +210,21 @@ import { Tooltip } from "@/components/ui";
 
 <Tooltip content="Tooltip text" side="top">
   <Button>Hover me</Button>
-</Tooltip>
+</Tooltip>;
 ```
 
 ### Dialog (Modal)
 
 ```tsx
-import { Dialog, DialogTrigger, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter } from "@/components/ui";
+import {
+  Dialog,
+  DialogTrigger,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogDescription,
+  DialogFooter,
+} from "@/components/ui";
 
 <Dialog>
   <DialogTrigger>
@@ -220,7 +240,7 @@ import { Dialog, DialogTrigger, DialogContent, DialogHeader, DialogTitle, Dialog
       <Button variant="accent">Confirm</Button>
     </DialogFooter>
   </DialogContent>
-</Dialog>
+</Dialog>;
 ```
 
 ### Toast
@@ -249,7 +269,7 @@ Loading placeholder component.
 ```tsx
 import { Skeleton } from "@/components/ui";
 
-<Skeleton className="h-12 w-full" />
+<Skeleton className="h-12 w-full" />;
 ```
 
 ### CTA Banner
@@ -274,7 +294,7 @@ import { CTABanner } from "@/components/ui";
     onClick: () => console.log("Learn"),
   }}
   onClose={() => console.log("Closed")}
-/>
+/>;
 ```
 
 ### Paywall Dialog
@@ -301,7 +321,7 @@ import { PaywallDialog } from "@/components/ui";
     },
   ]}
   onSelectPlan={(planName) => console.log(planName)}
-/>
+/>;
 ```
 
 ## 🎭 Motion System
@@ -329,14 +349,10 @@ Located in `/lib/motion.ts`:
 import { m } from "framer-motion";
 import { fadeInUp, staggerChildren } from "@/lib/motion";
 
-<m.div
-  variants={staggerChildren}
-  initial="hidden"
-  animate="visible"
->
+<m.div variants={staggerChildren} initial="hidden" animate="visible">
   <m.div variants={fadeInUp}>Child 1</m.div>
   <m.div variants={fadeInUp}>Child 2</m.div>
-</m.div>
+</m.div>;
 ```
 
 ## 🎨 Utility Classes
@@ -344,27 +360,27 @@ import { fadeInUp, staggerChildren } from "@/lib/motion";
 ### Glass Effects
 
 ```tsx
-className="glass-panel"  // Standard glass panel
-className="glass-card"   // Glass card with hover effect
+className = "glass-panel"; // Standard glass panel
+className = "glass-card"; // Glass card with hover effect
 ```
 
 ### Gradients
 
 ```tsx
-className="gradient-bg"          // Static gradient background
-className="animated-gradient"    // Animated gradient
+className = "gradient-bg"; // Static gradient background
+className = "animated-gradient"; // Animated gradient
 ```
 
 ### Scrollbars
 
 ```tsx
-className="scrollbar-thin"  // Styled thin scrollbars
+className = "scrollbar-thin"; // Styled thin scrollbars
 ```
 
 ### Focus Ring
 
 ```tsx
-className="focus-ring"  // Standard focus ring for accessibility
+className = "focus-ring"; // Standard focus ring for accessibility
 ```
 
 ## 📱 Responsive Design

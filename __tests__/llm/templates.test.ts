@@ -24,9 +24,15 @@ describe("LLM Templates", () => {
 
       expect(TEMPLATE_LIMITS.copyRewriter.maxOutputTokens).toBeGreaterThan(0);
       expect(TEMPLATE_LIMITS.objectionPack.maxOutputTokens).toBeGreaterThan(0);
-      expect(TEMPLATE_LIMITS.linkedInCarousel.maxOutputTokens).toBeGreaterThan(0);
-      expect(TEMPLATE_LIMITS.linkedInCaption.maxOutputTokens).toBeGreaterThan(0);
-      expect(TEMPLATE_LIMITS.linkedInComment.maxOutputTokens).toBeGreaterThan(0);
+      expect(TEMPLATE_LIMITS.linkedInCarousel.maxOutputTokens).toBeGreaterThan(
+        0
+      );
+      expect(TEMPLATE_LIMITS.linkedInCaption.maxOutputTokens).toBeGreaterThan(
+        0
+      );
+      expect(TEMPLATE_LIMITS.linkedInComment.maxOutputTokens).toBeGreaterThan(
+        0
+      );
       expect(TEMPLATE_LIMITS.linkedInDM.maxOutputTokens).toBeGreaterThan(0);
       expect(TEMPLATE_LIMITS.abTestPlan.maxOutputTokens).toBeGreaterThan(0);
     });

@@ -31,12 +31,9 @@ const Stepper = ({ steps, currentStep, className }: StepperProps) => {
                 <div
                   className={cn(
                     "flex items-center justify-center w-10 h-10 rounded-full border-2 transition-all duration-200",
-                    isComplete &&
-                      "bg-accent border-accent text-bg",
-                    isCurrent &&
-                      "bg-accent/20 border-accent text-accent",
-                    isUpcoming &&
-                      "bg-glass border-white/10 text-text-secondary"
+                    isComplete && "bg-accent border-accent text-bg",
+                    isCurrent && "bg-accent/20 border-accent text-accent",
+                    isUpcoming && "bg-glass border-white/10 text-text-secondary"
                   )}
                 >
                   {isComplete ? (
@@ -49,7 +46,7 @@ const Stepper = ({ steps, currentStep, className }: StepperProps) => {
                   <div
                     className={cn(
                       "text-13 font-medium transition-colors",
-                      (isComplete || isCurrent)
+                      isComplete || isCurrent
                         ? "text-text-primary"
                         : "text-text-secondary"
                     )}
@@ -67,9 +64,7 @@ const Stepper = ({ steps, currentStep, className }: StepperProps) => {
                 <div
                   className={cn(
                     "h-0.5 flex-1 mx-2 mb-8 transition-all duration-200",
-                    stepNumber < currentStep
-                      ? "bg-accent"
-                      : "bg-white/10"
+                    stepNumber < currentStep ? "bg-accent" : "bg-white/10"
                   )}
                 />
               )}

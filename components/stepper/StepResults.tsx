@@ -1,7 +1,13 @@
 "use client";
 
 import { m } from "framer-motion";
-import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/Card";
+import {
+  Card,
+  CardHeader,
+  CardTitle,
+  CardDescription,
+  CardContent,
+} from "@/components/ui/Card";
 import { Badge } from "@/components/ui/Badge";
 import { TrendingUp, AlertCircle, Lightbulb } from "lucide-react";
 import { fadeInUp, staggerChildren } from "@/lib/motion";
@@ -46,11 +52,14 @@ export function StepResults() {
           <CardContent className="pt-4">
             <div className="space-y-3 text-15">
               <p className="text-text-secondary">
-                Analysis results will appear here after running the analysis in the previous step.
+                Analysis results will appear here after running the analysis in
+                the previous step.
               </p>
               <ul className="space-y-2 text-13 text-text-tertiary">
                 <li>• Competitive base salary above market average</li>
-                <li>• Comprehensive benefits package with strong health coverage</li>
+                <li>
+                  • Comprehensive benefits package with strong health coverage
+                </li>
                 <li>• Clear career progression path with mentorship program</li>
               </ul>
             </div>
@@ -65,9 +74,7 @@ export function StepResults() {
               </div>
               <div className="flex-1">
                 <CardTitle>Areas of Concern</CardTitle>
-                <CardDescription>
-                  Potential weaknesses or risks
-                </CardDescription>
+                <CardDescription>Potential weaknesses or risks</CardDescription>
               </div>
               <Badge variant="warning">2 Found</Badge>
             </div>
@@ -75,8 +82,12 @@ export function StepResults() {
           <CardContent className="pt-4">
             <div className="space-y-3 text-15">
               <ul className="space-y-2 text-13 text-text-tertiary">
-                <li>• Equity vesting schedule is longer than industry standard</li>
-                <li>• Limited remote work flexibility compared to competitors</li>
+                <li>
+                  • Equity vesting schedule is longer than industry standard
+                </li>
+                <li>
+                  • Limited remote work flexibility compared to competitors
+                </li>
               </ul>
             </div>
           </CardContent>
@@ -100,10 +111,19 @@ export function StepResults() {
           <CardContent className="pt-4">
             <div className="space-y-3 text-15">
               <ul className="space-y-2 text-13 text-text-tertiary">
-                <li>• Consider negotiating for a signing bonus to offset equity vesting</li>
+                <li>
+                  • Consider negotiating for a signing bonus to offset equity
+                  vesting
+                </li>
                 <li>• Request more details about the remote work policy</li>
-                <li>• Ask about annual performance review cycle and raise structure</li>
-                <li>• Clarify professional development budget and conference attendance</li>
+                <li>
+                  • Ask about annual performance review cycle and raise
+                  structure
+                </li>
+                <li>
+                  • Clarify professional development budget and conference
+                  attendance
+                </li>
               </ul>
             </div>
           </CardContent>

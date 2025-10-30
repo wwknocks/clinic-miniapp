@@ -42,7 +42,9 @@ export default function DesignSystemPage() {
   const [progress, setProgress] = React.useState(45);
   const [paywallOpen, setPaywallOpen] = React.useState(false);
 
-  const handleToast = (variant: "default" | "success" | "error" | "warning" | "info") => {
+  const handleToast = (
+    variant: "default" | "success" | "error" | "warning" | "info"
+  ) => {
     addToast({
       title: `${variant.charAt(0).toUpperCase() + variant.slice(1)} Toast`,
       description: "This is a test notification message",
@@ -60,18 +62,25 @@ export default function DesignSystemPage() {
         animate="visible"
       >
         <m.div variants={fadeInUp}>
-          <h1 className="text-40 font-bold text-text-primary mb-4">Design System</h1>
+          <h1 className="text-40 font-bold text-text-primary mb-4">
+            Design System
+          </h1>
           <p className="text-18 text-text-secondary">
-            Dark iOS liquid-glass design system with Tailwind, shadcn/ui, and Framer Motion
+            Dark iOS liquid-glass design system with Tailwind, shadcn/ui, and
+            Framer Motion
           </p>
         </m.div>
 
         <m.section variants={fadeInUp}>
-          <h2 className="text-32 font-bold text-text-primary mb-6">Theme Tokens</h2>
-          
+          <h2 className="text-32 font-bold text-text-primary mb-6">
+            Theme Tokens
+          </h2>
+
           <div className="space-y-8">
             <div>
-              <h3 className="text-24 font-semibold text-text-primary mb-4">Colors</h3>
+              <h3 className="text-24 font-semibold text-text-primary mb-4">
+                Colors
+              </h3>
               <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                 <div className="space-y-2">
                   <div className="h-20 rounded-xl bg-bg border border-white/10" />
@@ -107,14 +116,26 @@ export default function DesignSystemPage() {
             </div>
 
             <div>
-              <h3 className="text-24 font-semibold text-text-primary mb-4">Typography Scale</h3>
+              <h3 className="text-24 font-semibold text-text-primary mb-4">
+                Typography Scale
+              </h3>
               <div className="space-y-4">
-                <div className="text-40 text-text-primary">40px - Hero Heading</div>
-                <div className="text-32 text-text-primary">32px - Page Title</div>
-                <div className="text-24 text-text-primary">24px - Section Heading</div>
+                <div className="text-40 text-text-primary">
+                  40px - Hero Heading
+                </div>
+                <div className="text-32 text-text-primary">
+                  32px - Page Title
+                </div>
+                <div className="text-24 text-text-primary">
+                  24px - Section Heading
+                </div>
                 <div className="text-18 text-text-primary">18px - Subtitle</div>
-                <div className="text-15 text-text-primary">15px - Body Text</div>
-                <div className="text-13 text-text-secondary">13px - Small Text</div>
+                <div className="text-15 text-text-primary">
+                  15px - Body Text
+                </div>
+                <div className="text-13 text-text-secondary">
+                  13px - Small Text
+                </div>
                 <div className="text-11 text-text-tertiary">11px - Caption</div>
               </div>
             </div>
@@ -126,15 +147,23 @@ export default function DesignSystemPage() {
           <Card>
             <CardContent className="pt-6">
               <div className="flex flex-wrap gap-4">
-                <Button variant="solid" size="sm">Small Solid</Button>
-                <Button variant="solid" size="md">Medium Solid</Button>
-                <Button variant="solid" size="lg">Large Solid</Button>
+                <Button variant="solid" size="sm">
+                  Small Solid
+                </Button>
+                <Button variant="solid" size="md">
+                  Medium Solid
+                </Button>
+                <Button variant="solid" size="lg">
+                  Large Solid
+                </Button>
               </div>
               <div className="flex flex-wrap gap-4 mt-4">
                 <Button variant="accent">Accent</Button>
                 <Button variant="danger">Danger</Button>
                 <Button variant="ghost">Ghost</Button>
-                <Button variant="solid" disabled>Disabled</Button>
+                <Button variant="solid" disabled>
+                  Disabled
+                </Button>
               </div>
             </CardContent>
           </Card>
@@ -174,7 +203,9 @@ export default function DesignSystemPage() {
         </m.section>
 
         <m.section variants={fadeInUp}>
-          <h2 className="text-32 font-bold text-text-primary mb-6">Form Inputs</h2>
+          <h2 className="text-32 font-bold text-text-primary mb-6">
+            Form Inputs
+          </h2>
           <Card>
             <CardContent className="pt-6 space-y-6">
               <div className="space-y-2">
@@ -229,13 +260,19 @@ export default function DesignSystemPage() {
                   <TabsTrigger value="tab3">Settings</TabsTrigger>
                 </TabsList>
                 <TabsContent value="tab1">
-                  <p className="text-15 text-text-secondary">Overview content goes here</p>
+                  <p className="text-15 text-text-secondary">
+                    Overview content goes here
+                  </p>
                 </TabsContent>
                 <TabsContent value="tab2">
-                  <p className="text-15 text-text-secondary">Analytics content goes here</p>
+                  <p className="text-15 text-text-secondary">
+                    Analytics content goes here
+                  </p>
                 </TabsContent>
                 <TabsContent value="tab3">
-                  <p className="text-15 text-text-secondary">Settings content goes here</p>
+                  <p className="text-15 text-text-secondary">
+                    Settings content goes here
+                  </p>
                 </TabsContent>
               </Tabs>
             </CardContent>
@@ -243,17 +280,25 @@ export default function DesignSystemPage() {
         </m.section>
 
         <m.section variants={fadeInUp}>
-          <h2 className="text-32 font-bold text-text-primary mb-6">Progress & Meters</h2>
+          <h2 className="text-32 font-bold text-text-primary mb-6">
+            Progress & Meters
+          </h2>
           <Card>
             <CardContent className="pt-6 space-y-6">
               <div>
                 <p className="text-15 text-text-primary mb-4">Progress Bar</p>
                 <Progress value={progress} showLabel />
                 <div className="flex gap-2 mt-4">
-                  <Button size="sm" onClick={() => setProgress(Math.max(0, progress - 10))}>
+                  <Button
+                    size="sm"
+                    onClick={() => setProgress(Math.max(0, progress - 10))}
+                  >
                     Decrease
                   </Button>
-                  <Button size="sm" onClick={() => setProgress(Math.min(100, progress + 10))}>
+                  <Button
+                    size="sm"
+                    onClick={() => setProgress(Math.min(100, progress + 10))}
+                  >
                     Increase
                   </Button>
                 </div>
@@ -263,9 +308,24 @@ export default function DesignSystemPage() {
                 <p className="text-15 text-text-primary mb-4">Meter Bars</p>
                 <div className="space-y-4">
                   <MeterBar label="CPU Usage" value={75} variant="accent" />
-                  <MeterBar label="Memory" value={60} max={100} variant="success" />
-                  <MeterBar label="Storage" value={85} max={100} variant="warning" />
-                  <MeterBar label="Network" value={95} max={100} variant="danger" />
+                  <MeterBar
+                    label="Memory"
+                    value={60}
+                    max={100}
+                    variant="success"
+                  />
+                  <MeterBar
+                    label="Storage"
+                    value={85}
+                    max={100}
+                    variant="warning"
+                  />
+                  <MeterBar
+                    label="Network"
+                    value={95}
+                    max={100}
+                    variant="danger"
+                  />
                 </div>
               </div>
             </CardContent>
@@ -316,10 +376,18 @@ export default function DesignSystemPage() {
           <Card>
             <CardContent className="pt-6">
               <div className="flex flex-wrap gap-3">
-                <Button onClick={() => handleToast("default")}>Default Toast</Button>
-                <Button onClick={() => handleToast("success")}>Success Toast</Button>
-                <Button onClick={() => handleToast("error")}>Error Toast</Button>
-                <Button onClick={() => handleToast("warning")}>Warning Toast</Button>
+                <Button onClick={() => handleToast("default")}>
+                  Default Toast
+                </Button>
+                <Button onClick={() => handleToast("success")}>
+                  Success Toast
+                </Button>
+                <Button onClick={() => handleToast("error")}>
+                  Error Toast
+                </Button>
+                <Button onClick={() => handleToast("warning")}>
+                  Warning Toast
+                </Button>
                 <Button onClick={() => handleToast("info")}>Info Toast</Button>
               </div>
             </CardContent>
@@ -352,7 +420,9 @@ export default function DesignSystemPage() {
         </m.section>
 
         <m.section variants={fadeInUp}>
-          <h2 className="text-32 font-bold text-text-primary mb-6">Skeleton Loading</h2>
+          <h2 className="text-32 font-bold text-text-primary mb-6">
+            Skeleton Loading
+          </h2>
           <Card>
             <CardContent className="pt-6">
               <div className="space-y-4">
@@ -365,7 +435,9 @@ export default function DesignSystemPage() {
         </m.section>
 
         <m.section variants={fadeInUp}>
-          <h2 className="text-32 font-bold text-text-primary mb-6">CTA Banner</h2>
+          <h2 className="text-32 font-bold text-text-primary mb-6">
+            CTA Banner
+          </h2>
           <CTABanner
             title="Upgrade to Pro"
             description="Get access to premium features and unlock your full potential"
@@ -382,7 +454,9 @@ export default function DesignSystemPage() {
         </m.section>
 
         <m.section variants={fadeInUp}>
-          <h2 className="text-32 font-bold text-text-primary mb-6">Paywall Dialog</h2>
+          <h2 className="text-32 font-bold text-text-primary mb-6">
+            Paywall Dialog
+          </h2>
           <Card>
             <CardContent className="pt-6">
               <Button onClick={() => setPaywallOpen(true)}>Show Paywall</Button>
@@ -440,7 +514,8 @@ export default function DesignSystemPage() {
               Design System Complete
             </h3>
             <p className="text-15 text-text-secondary">
-              All components are accessible, responsive, and support prefers-reduced-motion
+              All components are accessible, responsive, and support
+              prefers-reduced-motion
             </p>
           </Card>
         </m.div>

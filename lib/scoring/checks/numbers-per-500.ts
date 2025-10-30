@@ -23,7 +23,8 @@ export function calculateNumbersPer500Words(
   if (per500 < idealRange[0]) {
     score = (per500 / idealRange[0]) * 70;
   } else if (per500 <= idealRange[1]) {
-    score = 70 + ((per500 - idealRange[0]) / (idealRange[1] - idealRange[0])) * 30;
+    score =
+      70 + ((per500 - idealRange[0]) / (idealRange[1] - idealRange[0])) * 30;
   } else {
     score = Math.max(100 - (per500 - idealRange[1]) * 2, 50);
   }
