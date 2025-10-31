@@ -22,6 +22,7 @@ export function parseGuarantee(content: ParsedContent): MetricCheck {
       value: 0,
       rawValue: "unknown",
       description: "Guarantee type and strength",
+      confidence: 0.2,
     };
   }
 
@@ -43,6 +44,7 @@ export function parseGuarantee(content: ParsedContent): MetricCheck {
       value: 0,
       rawValue: "none",
       description: "No guarantee found",
+      confidence: Math.min(1, Math.max(0.5, content.wordCount / 200)),
     };
   }
 
@@ -64,10 +66,13 @@ export function parseGuarantee(content: ParsedContent): MetricCheck {
 
   const bonusScore = Math.min((foundGuarantees.length - 1) * 5, 15);
 
+  const confidence = Math.min(1, 0.6 + foundGuarantees.length * 0.1);
+
   return {
     name: "Guarantee Parsing",
     value: Math.min(maxScore + bonusScore, 100),
     rawValue: foundGuarantees.map((g) => g.type).join(", "),
     description: `Found ${foundGuarantees.length} guarantee(s): ${foundGuarantees[0].match}`,
+    confidence,
   };
 }

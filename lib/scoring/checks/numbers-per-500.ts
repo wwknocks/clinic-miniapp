@@ -9,6 +9,7 @@ export function calculateNumbersPer500Words(
       value: 0,
       rawValue: 0,
       description: "Count of specific numbers per 500 words",
+      confidence: 0.2,
     };
   }
 
@@ -29,10 +30,13 @@ export function calculateNumbersPer500Words(
     score = Math.max(100 - (per500 - idealRange[1]) * 2, 50);
   }
 
+  const confidence = Math.min(1, Math.max(0.5, content.wordCount / 200));
+
   return {
     name: "Numbers Per 500 Words",
     value: Math.min(score, 100),
     rawValue: per500.toFixed(2),
     description: `Found ${numberCount} numbers (${per500.toFixed(1)} per 500 words)`,
+    confidence,
   };
 }

@@ -21,6 +21,7 @@ export function detectMechanismPresence(content: ParsedContent): MetricCheck {
       value: 0,
       rawValue: false,
       description: "Explanation of how the solution works",
+      confidence: 0.2,
     };
   }
 
@@ -52,10 +53,13 @@ export function detectMechanismPresence(content: ParsedContent): MetricCheck {
     mechanismScore = Math.min(mechanismScore + 10, 100);
   }
 
+  const confidence = Math.min(1, Math.max(0.5, (indicators.length / 5) + (content.wordCount / 500)));
+
   return {
     name: "Mechanism Presence",
     value: mechanismScore,
     rawValue: indicators.length > 0,
     description: `Found ${indicators.length} mechanism indicator(s)`,
+    confidence,
   };
 }
