@@ -268,8 +268,6 @@ export const useProjectStore = create<ProjectState>((set, get) => ({
           updated_at: updatedProject.updatedAt,
         })
         .eq("id", updatedProject.id);
-
-      analytics.projectUpdated(updatedProject.id, updates as Record<string, unknown>);
     } catch (err) {
       // non-blocking in connect-later mode
     }

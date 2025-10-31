@@ -99,7 +99,6 @@ export async function runAnalysis(
       status: "analyzing",
     });
 
-    analyticsServer.analysisRun(projectId, project.user_id || undefined);
 
     const results: Record<string, unknown> = {
       inputsHash: computeInputsHash({
@@ -256,16 +255,12 @@ export async function runAnalysis(
       | { overallScore?: number }
       | undefined;
     if (scoringResult?.overallScore) {
-      analyticsServer.firstScoreShown(
-        projectId,
-        scoringResult.overallScore,
-        project.user_id || undefined
-      );
+      analyticsServer.firstScoreShown(scoringResult.overallScore);
     }
 
     const totalDuration = Date.now() - startTime;
     logger.info("Analysis complete", { projectId, duration: totalDuration });
-    analyticsServer.analysisCompleted(projectId, totalDuration);
+    analyticsServer.analysisRun(totalDuration);
 
     return { success: true };
   } catch (error) {

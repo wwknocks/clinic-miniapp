@@ -125,8 +125,6 @@ export function StepInputsNew() {
         pdfUrl: result.data.pdfUrl,
       });
 
-      analytics.pdfUploaded(project.id, file.size);
-
       setTimeout(() => {
         setUploadProgress(0);
       }, 1000);

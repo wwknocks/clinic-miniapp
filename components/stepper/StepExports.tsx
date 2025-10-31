@@ -43,12 +43,14 @@ export function StepExports() {
 
     if (type !== "json" && isFreePlanLimitReached) {
       setPaywallOpen(true);
+      analytics.paywallShown();
       return;
     }
 
     setExporting((prev) => ({ ...prev, [type]: true }));
 
     try {
+      analytics.exportClicked(type);
       const action = type === "pdf" ? exportPDF : type === "pptx" ? exportPPTX : exportJSON;
       const result = await action(project.id);
 
@@ -62,7 +64,7 @@ export function StepExports() {
           label: type.toUpperCase(),
         };
         recordAsset(meta);
-        analytics.exportDownloaded(project.id, type);
+        analytics.exportSucceeded();
         addToast({
           title: `${type.toUpperCase()} ready`,
           description: `${result.data.fileName} • ${(result.data.size / 1024).toFixed(0)} KB`,
@@ -91,6 +93,7 @@ export function StepExports() {
     if (!project) return;
     if (isFreePlanLimitReached) {
       setPaywallOpen(true);
+      analytics.paywallShown();
       return;
     }
 
@@ -105,7 +108,8 @@ export function StepExports() {
       label: "LinkedIn Kit",
     };
     recordAsset(asset);
-    analytics.exportDownloaded(project.id, "linkedin_kit");
+    analytics.exportClicked("linkedin_kit");
+    analytics.exportSucceeded();
     addToast({ title: "LinkedIn Kit generated", description: asset.fileName, variant: "success" });
   };
 
@@ -336,7 +340,10 @@ export function StepExports() {
 
       <PaywallDialog
         open={paywallOpen}
-        onOpenChange={setPaywallOpen}
+        onOpenChange={(open) => {
+          setPaywallOpen(open);
+          if (open) analytics.paywallShown();
+        }}
         title="Upgrade to unlock unlimited exports"
         description="You've used your free export. Upgrade to continue generating reports and kits."
         plans={[
@@ -358,6 +365,8 @@ export function StepExports() {
           },
         ]}
         onSelectPlan={(plan) => {
+          analytics.upgradeClicked(plan);
+          analytics.upgradeSucceeded(plan);
           setPaywallOpen(false);
           addToast({ title: `Selected ${plan}`, description: "Billing not implemented in demo.", variant: "success" });
         }}
