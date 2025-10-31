@@ -14,7 +14,7 @@ const forgotPasswordSchema = z.object({
 });
 
 export default function ForgotPasswordPage() {
-  const { toast } = useToast();
+  const { addToast } = useToast();
   const [isLoading, setIsLoading] = useState(false);
   const [emailSent, setEmailSent] = useState(false);
   const [errors, setErrors] = useState<{
@@ -47,7 +47,7 @@ export default function ForgotPasswordPage() {
       const result = await resetPassword(email);
 
       if (!result.success) {
-        toast({
+        addToast({
           title: "Request failed",
           description: result.error || "An unexpected error occurred",
           variant: "error",
@@ -57,14 +57,14 @@ export default function ForgotPasswordPage() {
       }
 
       setEmailSent(true);
-      toast({
+      addToast({
         title: "Email sent",
         description: result.message || "Password reset email sent successfully",
         variant: "success",
       });
       setIsLoading(false);
     } catch (error) {
-      toast({
+      addToast({
         title: "Request failed",
         description: "An unexpected error occurred. Please try again.",
         variant: "error",

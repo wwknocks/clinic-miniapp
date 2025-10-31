@@ -135,7 +135,16 @@ export async function runAnalysis(
       try {
         const pdfBuffer = await fetchPdfContent(projectData.pdfPath as string);
         const pdfParse = await import("pdf-parse");
-        const parsed = await pdfParse.default(pdfBuffer);
+        const pdf =
+          (
+            pdfParse as {
+              default?: (buffer: Buffer) => Promise<{ text: string }>;
+            }
+          ).default ||
+          (pdfParse as unknown as (
+            buffer: Buffer
+          ) => Promise<{ text: string }>);
+        const parsed = await pdf(pdfBuffer);
         pdfText = parsed.text;
       } catch (error) {
         logger.warn("Failed to extract PDF text for LLM", { projectId, error });
@@ -210,7 +219,7 @@ export async function runAnalysis(
     };
 
     await AdminProjectService.update(projectId, {
-      data: updatedData,
+      data: JSON.parse(JSON.stringify(updatedData)),
       status: "complete",
       updated_at: new Date().toISOString(),
     });

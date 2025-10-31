@@ -1,63 +1,59 @@
 import { z } from "zod";
 
-export const inputSchema = z
-  .object({
-    sourceType: z.enum(["url", "pdf"], {
-      required_error: "Please select a source type",
-    }),
-    url: z
-      .string()
-      .url("Please enter a valid URL")
-      .optional()
-      .or(z.literal("")),
-    pdfId: z.string().optional(),
-    pdfPath: z.string().optional(),
-    pdfUrl: z.string().optional(),
-    icp: z
-      .string()
-      .min(10, "ICP details should be at least 10 characters")
-      .optional()
-      .or(z.literal("")),
-    priceTerms: z
-      .string()
-      .min(5, "Price/terms should be at least 5 characters")
-      .optional()
-      .or(z.literal("")),
-    proofLinks: z
-      .array(z.string().url("Please enter a valid URL"))
-      .optional()
-      .default([]),
-    mechanism: z
-      .string()
-      .min(10, "Mechanism description should be at least 10 characters")
-      .optional()
-      .or(z.literal("")),
-    primaryObjection: z
-      .string()
-      .min(5, "Primary objection should be at least 5 characters")
-      .optional()
-      .or(z.literal("")),
-    goal: z
-      .string()
-      .min(5, "Goal should be at least 5 characters")
-      .optional()
-      .or(z.literal("")),
-  })
-  .refine(
-    (data) => {
-      if (data.sourceType === "url") {
-        return !!data.url && data.url.length > 0;
-      }
-      if (data.sourceType === "pdf") {
-        return !!data.pdfId || !!data.pdfPath;
-      }
-      return true;
-    },
-    {
-      message: "Please provide either a URL or upload a PDF",
-      path: ["sourceType"],
+const inputSchemaBase = z.object({
+  sourceType: z.enum(["url", "pdf"], {
+    required_error: "Please select a source type",
+  }),
+  url: z.string().url("Please enter a valid URL").optional().or(z.literal("")),
+  pdfId: z.string().optional(),
+  pdfPath: z.string().optional(),
+  pdfUrl: z.string().optional(),
+  icp: z
+    .string()
+    .min(10, "ICP details should be at least 10 characters")
+    .optional()
+    .or(z.literal("")),
+  priceTerms: z
+    .string()
+    .min(5, "Price/terms should be at least 5 characters")
+    .optional()
+    .or(z.literal("")),
+  proofLinks: z
+    .array(z.string().url("Please enter a valid URL"))
+    .optional()
+    .default([]),
+  mechanism: z
+    .string()
+    .min(10, "Mechanism description should be at least 10 characters")
+    .optional()
+    .or(z.literal("")),
+  primaryObjection: z
+    .string()
+    .min(5, "Primary objection should be at least 5 characters")
+    .optional()
+    .or(z.literal("")),
+  goal: z
+    .string()
+    .min(5, "Goal should be at least 5 characters")
+    .optional()
+    .or(z.literal("")),
+});
+
+export const inputSchema = inputSchemaBase.refine(
+  (data) => {
+    if (data.sourceType === "url") {
+      return !!data.url && data.url.length > 0;
     }
-  );
+    if (data.sourceType === "pdf") {
+      return !!data.pdfId || !!data.pdfPath;
+    }
+    return true;
+  },
+  {
+    message: "Please provide either a URL or upload a PDF",
+    path: ["sourceType"],
+  }
+);
 
 export type InputFormData = z.infer<typeof inputSchema>;
 
@@ -83,7 +79,7 @@ export const validateField = (
   value: unknown
 ): string | null => {
   try {
-    const fieldSchema = inputSchema.shape[fieldName];
+    const fieldSchema = inputSchemaBase.shape[fieldName];
     if (fieldSchema) {
       fieldSchema.parse(value);
     }

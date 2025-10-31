@@ -27,7 +27,7 @@ const signupSchema = z.object({
 
 export default function SignupPage() {
   const router = useRouter();
-  const { toast } = useToast();
+  const { addToast } = useToast();
   const [isLoading, setIsLoading] = useState(false);
   const [acceptTerms, setAcceptTerms] = useState(false);
   const [errors, setErrors] = useState<{
@@ -77,7 +77,7 @@ export default function SignupPage() {
       const result = await signUp(email, password, fullName);
 
       if (!result.success) {
-        toast({
+        addToast({
           title: "Signup failed",
           description: result.error || "An unexpected error occurred",
           variant: "error",
@@ -86,7 +86,7 @@ export default function SignupPage() {
         return;
       }
 
-      toast({
+      addToast({
         title: "Account created!",
         description:
           "Welcome to the platform. Please check your email to verify your account.",
@@ -96,7 +96,7 @@ export default function SignupPage() {
       router.push("/");
       router.refresh();
     } catch (error) {
-      toast({
+      addToast({
         title: "Signup failed",
         description: "An unexpected error occurred. Please try again.",
         variant: "error",
