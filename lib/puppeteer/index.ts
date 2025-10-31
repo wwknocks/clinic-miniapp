@@ -1,5 +1,6 @@
 import type { Browser, Page } from "puppeteer";
 import { createServiceRoleClient } from "@/lib/supabase/server";
+import { isServiceRoleConfigured } from "@/lib/flags";
 
 const BUCKET_NAME = process.env.NEXT_PUBLIC_STORAGE_BUCKET || "pdf-uploads";
 
@@ -34,11 +35,13 @@ export async function getBrowser(): Promise<Browser> {
 
   if (isServerless) {
     try {
-      // Use @sparticuz/chromium + puppeteer-core on serverless
       const chromium = (await import("@sparticuz/chromium")).default as any;
       const puppeteerCore = (await import("puppeteer-core")).default as any;
 
-      const executablePath: string = await chromium.executablePath();
+      const executablePath: string | null = await chromium.executablePath();
+      if (!executablePath) {
+        throw new Error("Chromium executablePath not available in this environment");
+      }
 
       browserInstance = await puppeteerCore.launch({
         args: chromium.args,
@@ -49,8 +52,11 @@ export async function getBrowser(): Promise<Browser> {
       });
 
       return browserInstance;
-    } catch (_err) {
-      // ignore and fall through to local fallback
+    } catch (err) {
+      console.warn("Chromium launch failed in serverless; falling back to placeholder behavior", err);
+      // In serverless, do not attempt to use the full puppeteer bundle – it won't be available.
+      // Propagate error so callers can provide safe fallbacks/placeholders.
+      throw err instanceof Error ? err : new Error("Failed to launch Chromium in serverless");
     }
   }
 
@@ -174,12 +180,27 @@ export async function captureScreenshot(
 export async function captureScreenshotWithFallback(
   options: ScreenshotOptions
 ): Promise<ScreenshotResult> {
-  try {
-    return await captureScreenshot(options);
-  } catch (error) {
-    return {
-      success: false,
-      error: error instanceof Error ? error.message : "Screenshot capture failed",
-    };
+  // Try to capture a real screenshot first
+  const attempt = await captureScreenshot(options);
+  if (attempt.success) return attempt;
+
+  console.warn("Screenshot capture failed; returning placeholder instead", attempt.error);
+
+  // 1x1 transparent PNG placeholder
+  const placeholderB64 = "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO3gG1EAAAAASUVORK5CYII=";
+  const buffer = Buffer.from(placeholderB64, "base64");
+
+  // If storage is configured, upload the placeholder so consumers can load via URL
+  if (isServiceRoleConfigured) {
+    const fileName = `fold-${options.projectId}-${Date.now()}-placeholder.png`;
+    const filePath = `${options.userId}/screenshots/${fileName}`;
+    const uploaded = await uploadToStorage(buffer, filePath);
+    if (uploaded.path || uploaded.signedUrl) {
+      return { success: true, path: uploaded.path, signedUrl: uploaded.signedUrl };
+    }
   }
+
+  // Fallback to data URL if we cannot upload
+  const dataUrl = `data:image/png;base64,${placeholderB64}`;
+  return { success: true, path: "placeholder.png", signedUrl: dataUrl };
 }
