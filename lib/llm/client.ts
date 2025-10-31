@@ -92,8 +92,16 @@ let openaiClient: OpenAI | null = null;
 
 function getClient(): OpenAI {
   if (!openaiClient) {
+    const apiKey = process.env.OPENAI_API_KEY;
+
+    if (!apiKey) {
+      throw new Error(
+        "OPENAI_API_KEY is not set. Please configure OpenAI API key in environment variables."
+      );
+    }
+
     openaiClient = new OpenAI({
-      apiKey: process.env.OPENAI_API_KEY,
+      apiKey: apiKey,
       baseURL: LLM_CONFIG.endpoint,
       timeout: LLM_CONFIG.requestTimeout,
     });
