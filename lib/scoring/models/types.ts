@@ -12,6 +12,7 @@ export interface MetricCheck {
   value: number;
   rawValue?: number | string | boolean;
   description?: string;
+  confidence?: number;
 }
 
 export interface LeverDelta {

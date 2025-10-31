@@ -197,6 +197,9 @@ export async function runAnalysis(
         url: projectData.url as string,
         projectId,
         userId: project.user_id || "anonymous",
+        width: 1200,
+        height: 1200,
+        foldHeight: 1200,
       });
 
       if (
@@ -208,6 +211,14 @@ export async function runAnalysis(
           path: screenshotResult.path,
           signedUrl: screenshotResult.signedUrl,
         };
+        // Also expose explicit fold screenshot fields for consumers
+        (results as any).foldScreenshot = {
+          path: screenshotResult.path,
+          signedUrl: screenshotResult.signedUrl,
+        };
+        (results as any).foldScreenshotPath = screenshotResult.path;
+        (results as any).foldScreenshotSignedUrl = screenshotResult.signedUrl;
+
         analyticsServer.screenshotCaptured(
           projectId,
           true,

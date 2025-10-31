@@ -23,6 +23,7 @@ export function calculateTimeToFirstValue(content: ParsedContent): MetricCheck {
       value: 0,
       rawValue: "unknown",
       description: "Speed of value delivery indicators",
+      confidence: 0.2,
     };
   }
 
@@ -42,6 +43,7 @@ export function calculateTimeToFirstValue(content: ParsedContent): MetricCheck {
       value: 0,
       rawValue: "none",
       description: "No time-to-value indicators found",
+      confidence: Math.min(1, Math.max(0.5, content.wordCount / 200)),
     };
   }
 
@@ -73,10 +75,13 @@ export function calculateTimeToFirstValue(content: ParsedContent): MetricCheck {
   const bonusScore = Math.min((matches.length - 1) * 3, 15);
   score = Math.min(score + bonusScore, 100);
 
+  const confidence = Math.min(1, 0.6 + Math.min(matches.length, 5) * 0.08);
+
   return {
     name: "Time to First Value",
     value: score,
     rawValue: matches[0],
     description: `Found ${matches.length} time-to-value indicator(s)`,
+    confidence,
   };
 }

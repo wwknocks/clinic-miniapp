@@ -25,6 +25,7 @@ export function detectCTA(content: ParsedContent): MetricCheck {
       value: 0,
       rawValue: false,
       description: "Call-to-action presence and quality",
+      confidence: 0.2,
     };
   }
 
@@ -58,10 +59,13 @@ export function detectCTA(content: ParsedContent): MetricCheck {
     score = Math.max(100 - (ctaCount - 5) * 5, 60);
   }
 
+  const confidence = Math.min(1, Math.max(0.5, content.wordCount / 200));
+
   return {
     name: "CTA Detection",
     value: score,
     rawValue: ctaCount,
     description: `Found ${ctaCount} call-to-action elements`,
+    confidence,
   };
 }

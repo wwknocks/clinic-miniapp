@@ -28,6 +28,7 @@ export function calculateProofDensity(content: ParsedContent): MetricCheck {
       value: 0,
       rawValue: 0,
       description: "Number of proof elements per 100 words",
+      confidence: 0.2,
     };
   }
 
@@ -44,10 +45,13 @@ export function calculateProofDensity(content: ParsedContent): MetricCheck {
 
   const normalizedScore = Math.min(density * 10, 100);
 
+  const confidence = Math.min(1, Math.max(0.5, content.wordCount / 200));
+
   return {
     name: "Proof Density",
     value: normalizedScore,
     rawValue: proofCount,
     description: `Found ${proofCount} proof elements in ${content.wordCount} words`,
+    confidence,
   };
 }
