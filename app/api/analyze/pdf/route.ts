@@ -1,6 +1,10 @@
 import { NextResponse } from "next/server";
 import { analyzeContent } from "@/lib/scoring";
 
+export const runtime = "nodejs";
+export const dynamic = "force-dynamic";
+export const maxDuration = 120;
+
 export async function POST(req: Request) {
   try {
     const body = await req.json().catch(() => ({}));

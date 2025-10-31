@@ -8,10 +8,8 @@
       "memory": 3008,
       "maxDuration": 120,
       "externalDependencies": [
-        "puppeteer"
-      ],
-      "includeFiles": [
-        "node_modules/puppeteer/**/.local-chromium/**"
+        "@sparticuz/chromium",
+        "puppeteer-core"
       ],
       "excludeFiles": "{**/*.md,**/__tests__/**,e2e/**,fixtures/**,**/*.test.*}"
     },
@@ -20,10 +18,8 @@
       "memory": 3008,
       "maxDuration": 120,
       "externalDependencies": [
-        "puppeteer"
-      ],
-      "includeFiles": [
-        "node_modules/puppeteer/**/.local-chromium/**"
+        "@sparticuz/chromium",
+        "puppeteer-core"
       ],
       "excludeFiles": "{**/*.md,**/__tests__/**,e2e/**,fixtures/**,**/*.test.*}"
     },

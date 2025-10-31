@@ -27,30 +27,36 @@ export async function getBrowser(): Promise<Browser> {
     return browserInstance;
   }
 
-  // Try chrome-aws-lambda + puppeteer-core first
-  try {
-    // eslint-disable-next-line @typescript-eslint/no-var-requires
-    const chromium = (await import("chrome-aws-lambda")).default as any;
-    const executablePath: string | null = await chromium.executablePath;
-    const args: string[] = chromium.args || [];
-    const headless: boolean = chromium.headless !== false;
+  // Detect serverless/production environment (Vercel/AWS Lambda)
+  const isServerless = Boolean(
+    process.env.AWS_REGION || process.env.LAMBDA_TASK_ROOT || process.env.VERCEL
+  );
 
-    if (executablePath) {
-      const puppeteerCore = await import("puppeteer-core");
+  if (isServerless) {
+    try {
+      // Use @sparticuz/chromium + puppeteer-core on serverless
+      const chromium = (await import("@sparticuz/chromium")).default as any;
+      const puppeteerCore = (await import("puppeteer-core")).default as any;
+
+      const executablePath: string = await chromium.executablePath();
+
       browserInstance = await puppeteerCore.launch({
+        args: chromium.args,
+        defaultViewport: chromium.defaultViewport,
         executablePath,
-        args,
-        headless,
+        headless: chromium.headless,
+        ignoreHTTPSErrors: true,
       });
+
       return browserInstance;
+    } catch (_err) {
+      // ignore and fall through to local fallback
     }
-  } catch (_err) {
-    // ignore and fall back
   }
 
-  // Local fallback to full puppeteer (bundled Chromium)
-  const puppeteerFull = await import("puppeteer");
-  browserInstance = await (puppeteerFull as any).default.launch({
+  // Local/dev fallback to full puppeteer (bundled Chromium)
+  const puppeteerFull = (await import("puppeteer")).default as any;
+  browserInstance = await puppeteerFull.launch({
     headless: true,
     args: [
       "--no-sandbox",
