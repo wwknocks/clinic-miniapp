@@ -26,6 +26,9 @@ import type {
   ABTestPlanOutput,
 } from "@/lib/llm";
 
+export const runtime = "nodejs";
+export const dynamic = "force-dynamic";
+
 export type GeneratorTask =
   | { id: string; type: "copy_rewrite"; inputs: CopyRewriterInputs }
   | { id: string; type: "objection_pack"; inputs: ObjectionPackInputs; options?: { handlerCount?: number } }

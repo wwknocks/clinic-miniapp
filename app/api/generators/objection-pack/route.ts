@@ -2,6 +2,9 @@ import { NextResponse } from "next/server";
 import { generateObjectionPack, type ObjectionPackInputs } from "@/lib/llm";
 import type { ObjectionPackOutput } from "@/lib/llm";
 
+export const runtime = "nodejs";
+export const dynamic = "force-dynamic";
+
 function buildError(message: string, errorType: string, hint?: string, status = 400) {
   return NextResponse.json({ success: false, error: message, errorType, hint }, { status });
 }

@@ -5,6 +5,9 @@ import {
 } from "@/lib/llm";
 import type { CopyRewriteOutput } from "@/lib/llm";
 
+export const runtime = "nodejs";
+export const dynamic = "force-dynamic";
+
 function buildError(message: string, errorType: string, hint?: string) {
   return NextResponse.json({ success: false, error: message, errorType, hint }, { status: 400 });
 }
