@@ -483,7 +483,7 @@ export function StepInputsNew() {
           ))}
           <Button
             type="button"
-            variant="outline"
+            variant="ghost"
             size="sm"
             onClick={addProofLink}
             className="w-full"

@@ -104,33 +104,33 @@ export function StepperContainer() {
           <div className="space-y-4">
             <div className="flex items-start justify-between gap-4">
               <div className="space-y-2 flex-1">
-                <h1 className="text-32 font-bold">Offer Wind Tunnel</h1>
-                <p className="text-15 text-text-secondary max-w-2xl">
-                  Make confident career decisions with AI-powered offer
-                  analysis. Get comprehensive insights on compensation,
-                  benefits, and growth potential.
+                <h1 className="text-40 font-bold">
+                  Run your offer through a wind tunnel
+                </h1>
+                <p className="text-18 text-text-secondary max-w-2xl">
+                  In 10 minutes: score, fixes, LinkedIn kit. One export free.
                 </p>
               </div>
             </div>
 
-            {/* Disclaimer */}
-            <Card variant="glass" padding="sm">
-              <div className="flex items-start gap-3 p-4">
-                <AlertCircle className="w-5 h-5 text-accent flex-shrink-0 mt-0.5" />
-                <div className="space-y-1">
-                  <p className="text-13 font-medium text-text-primary">
-                    Educational Tool Disclaimer
-                  </p>
-                  <p className="text-11 text-text-secondary">
-                    This tool provides analysis and recommendations for
-                    educational purposes. Always consult with financial
-                    advisors, career counselors, or legal professionals before
-                    making important career decisions. Individual circumstances
-                    vary significantly.
-                  </p>
+            {/* Preview mode banner */}
+            {(!process.env.NEXT_PUBLIC_SUPABASE_URL ||
+              !process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY) && (
+              <Card variant="glass" padding="sm">
+                <div className="flex items-start gap-3 p-4">
+                  <AlertCircle className="w-5 h-5 text-accent flex-shrink-0 mt-0.5" />
+                  <div className="space-y-1">
+                    <p className="text-13 font-medium text-text-primary">
+                      Preview Mode
+                    </p>
+                    <p className="text-11 text-text-secondary">
+                      Data won&apos;t persist. This is a demo environment -
+                      configure Supabase to enable full functionality.
+                    </p>
+                  </div>
                 </div>
-              </div>
-            </Card>
+              </Card>
+            )}
           </div>
         </div>
       </header>

@@ -22,7 +22,7 @@ export function UserDropdown({ user }: UserDropdownProps) {
   const [isLoading, setIsLoading] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
   const router = useRouter();
-  const { toast } = useToast();
+  const { addToast } = useToast();
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -48,7 +48,7 @@ export function UserDropdown({ user }: UserDropdownProps) {
       const result = await signOut();
 
       if (!result.success) {
-        toast({
+        addToast({
           title: "Sign out failed",
           description: result.error || "An unexpected error occurred",
           variant: "error",
@@ -57,7 +57,7 @@ export function UserDropdown({ user }: UserDropdownProps) {
         return;
       }
 
-      toast({
+      addToast({
         title: "Signed out",
         description: "You've been successfully signed out",
         variant: "success",
@@ -66,7 +66,7 @@ export function UserDropdown({ user }: UserDropdownProps) {
       router.push("/login");
       router.refresh();
     } catch (error) {
-      toast({
+      addToast({
         title: "Sign out failed",
         description: "An unexpected error occurred",
         variant: "error",

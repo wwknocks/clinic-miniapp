@@ -5,7 +5,8 @@ export async function parsePDF(buffer: Buffer): Promise<ParsedContent> {
   try {
     const pdf =
       (pdfParse as { default?: (buffer: Buffer) => Promise<{ text: string }> })
-        .default || (pdfParse as (buffer: Buffer) => Promise<{ text: string }>);
+        .default ||
+      (pdfParse as unknown as (buffer: Buffer) => Promise<{ text: string }>);
     const data = await pdf(buffer);
 
     const text = data.text.replace(/\s+/g, " ").trim();

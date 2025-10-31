@@ -16,7 +16,7 @@ const loginSchema = z.object({
 
 export default function LoginPage() {
   const router = useRouter();
-  const { toast } = useToast();
+  const { addToast } = useToast();
   const [isLoading, setIsLoading] = useState(false);
   const [errors, setErrors] = useState<{
     email?: string;
@@ -50,7 +50,7 @@ export default function LoginPage() {
       const result = await signIn(email, password);
 
       if (!result.success) {
-        toast({
+        addToast({
           title: "Login failed",
           description: result.error || "An unexpected error occurred",
           variant: "error",
@@ -59,7 +59,7 @@ export default function LoginPage() {
         return;
       }
 
-      toast({
+      addToast({
         title: "Welcome back!",
         description: "You've successfully logged in",
         variant: "success",
@@ -68,7 +68,7 @@ export default function LoginPage() {
       router.push("/");
       router.refresh();
     } catch (error) {
-      toast({
+      addToast({
         title: "Login failed",
         description: "An unexpected error occurred. Please try again.",
         variant: "error",
