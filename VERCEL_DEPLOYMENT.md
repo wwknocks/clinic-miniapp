@@ -73,6 +73,18 @@ NEXT_PUBLIC_POSTHOG_HOST=https://app.posthog.com
 NEXT_PUBLIC_STORAGE_BUCKET=pdf-uploads
 ```
 
+### Stripe (Billing - optional)
+
+If you plan to enable billing, add the following:
+
+```bash
+NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY=pk_live_...
+STRIPE_SECRET_KEY=sk_live_...
+STRIPE_WEBHOOK_SECRET=whsec_...
+```
+
+Note: You will also need to configure a webhook endpoint in Stripe to receive checkout and subscription events. See the Stripe Webhook section below.
+
 ### LLM Configuration (Optional - has defaults)
 
 ```bash
@@ -108,11 +120,30 @@ LLM_LOG_USAGE=true
    - Deploy or redeploy to apply changes
 
 4. **Verify Deployment**
-   - Check build logs for any warnings
-   - Visit the deployed URL
-   - Confirm homepage loads without errors
-   - Test authentication (if Supabase configured)
-   - Test analysis features (if OpenAI configured)
+    - Check build logs for any warnings
+    - Visit the deployed URL
+    - Confirm homepage loads without errors
+    - Test authentication (if Supabase configured)
+    - Test analysis features (if OpenAI configured)
+
+## Serverless Function Tuning (Puppeteer/Chromium)
+
+This project uses Puppeteer to capture screenshots and generate PDFs/PPTX.
+On Vercel, these routes require higher memory and longer timeouts.
+
+- vercel.json sets Node.js 20 runtime, 3008 MB memory, and up to 120s for analysis and app/** routes
+- Chrome binaries are included via externalDependencies/includeFiles so headless Chrome can launch in Serverless Functions
+- If you see "Failed to launch Chrome" or memory errors (ENOMEM), redeploy ensuring the vercel.json is present and not overridden
+
+## Stripe Webhook Setup (optional)
+
+If you enable billing later:
+
+1. In Stripe Dashboard → Developers → Webhooks, create an endpoint:
+   - URL: https://your-domain.vercel.app/api/webhooks/stripe
+   - Events: checkout.session.completed, customer.subscription.updated, customer.subscription.deleted
+2. Copy the signing secret and set STRIPE_WEBHOOK_SECRET in Vercel
+3. Set NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY and STRIPE_SECRET_KEY as described above
 
 ## Troubleshooting
 

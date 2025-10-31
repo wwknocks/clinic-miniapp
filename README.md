@@ -187,6 +187,50 @@ npm run build
 npm start
 ```
 
+## Deployment on Vercel
+
+1. Connect your Git repository to Vercel and import the project.
+2. In Project Settings → Environment Variables, add the following (see .env.example for details):
+   - Supabase
+     - NEXT_PUBLIC_SUPABASE_URL
+     - NEXT_PUBLIC_SUPABASE_ANON_KEY
+     - SUPABASE_SERVICE_ROLE_KEY
+     - NEXT_PUBLIC_STORAGE_BUCKET (default: pdf-uploads)
+   - OpenAI
+     - OPENAI_API_KEY
+     - OPENAI_MODEL (e.g. gpt-4o-mini)
+     - OPENAI_ENDPOINT (defaults to https://api.openai.com/v1)
+   - PostHog (optional)
+     - NEXT_PUBLIC_POSTHOG_KEY
+     - NEXT_PUBLIC_POSTHOG_HOST
+   - Stripe (for billing; optional until you enable payments)
+     - NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY
+     - STRIPE_SECRET_KEY
+     - STRIPE_WEBHOOK_SECRET
+
+3. Serverless function tuning (handled via vercel.json):
+   - Analysis and export code paths use Puppeteer and can be memory/time intensive
+   - The Vercel config sets Node.js 20 runtime, 3008 MB memory, and longer timeouts for app/** and analysis routes
+   - Chrome binaries from Puppeteer are included via externalDependencies/includeFiles to ensure headless Chrome works in Serverless Functions
+
+4. Stripe Webhook (only if you enable billing):
+   - Create a Stripe webhook endpoint pointing to: https://your-domain.vercel.app/api/webhooks/stripe
+   - Subscribe to: checkout.session.completed, customer.subscription.updated, customer.subscription.deleted
+   - Copy the signing secret and set STRIPE_WEBHOOK_SECRET in Vercel
+
+5. Puppeteer notes:
+   - Headless Chrome is required for screenshots and PDF/PPTX exports
+   - If you see "Failed to launch Chrome" or missing shared libraries, ensure the project is deployed with the provided vercel.json
+   - If running on a Hobby plan, you may need to reduce concurrency or try exports one at a time
+
+6. Troubleshooting serverless timeouts:
+   - Increase maxDuration and memory in vercel.json for heavy routes (analysis, exports)
+   - Make sure analyzed URLs respond quickly; our fetch timeout is ~45s
+   - Avoid large HTML inputs or very large images on the analyzed page
+   - Check Vercel logs for signs of memory pressure (ENOMEM) or timeouts and adjust accordingly
+
+See VERCEL_DEPLOYMENT.md for a deeper, step-by-step guide.
+
 ## Connect-later mode
 
 You can run the app without configuring any backend services.
