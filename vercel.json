@@ -1,33 +1,10 @@
 {
-  "framework": "nextjs",
-  "buildCommand": "next build",
-  "outputDirectory": ".next",
+  "version": 2,
   "functions": {
-    "app/api/analyze/**": {
-      "runtime": "nodejs20.x",
-      "memory": 3008,
-      "maxDuration": 120,
-      "externalDependencies": [
-        "@sparticuz/chromium",
-        "puppeteer-core"
-      ],
-      "excludeFiles": "{**/*.md,**/__tests__/**,e2e/**,fixtures/**,**/*.test.*}"
-    },
-    "app/**": {
-      "runtime": "nodejs20.x",
-      "memory": 3008,
-      "maxDuration": 120,
-      "externalDependencies": [
-        "@sparticuz/chromium",
-        "puppeteer-core"
-      ],
-      "excludeFiles": "{**/*.md,**/__tests__/**,e2e/**,fixtures/**,**/*.test.*}"
-    },
-    "api/**": {
+    "app/**/route.{js,ts}": {
       "runtime": "nodejs20.x",
       "memory": 1536,
-      "maxDuration": 60,
-      "excludeFiles": "{**/*.md,**/__tests__/**,e2e/**,fixtures/**,**/*.test.*}"
+      "maxDuration": 60
     }
   }
 }
