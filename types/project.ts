@@ -1,5 +1,14 @@
 export interface GeneratedAssetMeta {
-  type: "pdf" | "pptx" | "json" | "linkedin_kit" | "copy_rewrite" | "objection_pack";
+  type:
+    | "pdf"
+    | "pptx"
+    | "json"
+    | "png"
+    | "ics"
+    | "zip"
+    | "linkedin_kit"
+    | "copy_rewrite"
+    | "objection_pack";
   fileName: string;
   url: string;
   createdAt: string;
