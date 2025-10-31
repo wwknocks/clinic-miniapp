@@ -2,6 +2,9 @@ import { NextResponse } from "next/server";
 import { generate7DayABPlan, type ABTestPlanInputs } from "@/lib/llm";
 import type { ABTestPlanOutput } from "@/lib/llm";
 
+export const runtime = "nodejs";
+export const dynamic = "force-dynamic";
+
 export async function POST(req: Request) {
   try {
     const body = (await req.json().catch(() => ({}))) as Partial<ABTestPlanInputs> & {
