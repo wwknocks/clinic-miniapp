@@ -15,11 +15,12 @@ import { Sparkles, CheckCircle, AlertCircle } from "lucide-react";
 import { fadeInUp } from "@/lib/motion";
 import { useProjectStore } from "@/lib/stores/useProjectStore";
 import { runAnalysis, getAnalysisStatus } from "@/app/actions/analysis-actions";
+import { analytics } from "@/lib/analytics";
 
 type AnalysisState = "idle" | "running" | "complete" | "error";
 
 export function StepAnalyze() {
-  const { project, updateProject } = useProjectStore();
+  const { project, updateProject, refreshProject } = useProjectStore();
   const [analysisState, setAnalysisState] = useState<AnalysisState>("idle");
   const [progress, setProgress] = useState(0);
   const [statusMessage, setStatusMessage] = useState("");
@@ -35,11 +36,12 @@ export function StepAnalyze() {
         setProgress(100);
         setStatusMessage("Analysis complete!");
         await updateProject({ status: "complete" });
+        await refreshProject();
       } else if (result.data.status === "analyzing") {
         setTimeout(() => void checkAnalysisStatus(), 2000);
       }
     }
-  }, [project, updateProject]);
+  }, [project, updateProject, refreshProject]);
 
   useEffect(() => {
     if (
@@ -63,6 +65,7 @@ export function StepAnalyze() {
     setProgress(0);
     setStatusMessage("Initializing analysis...");
 
+    analytics.analysisStarted(project.id);
     await updateProject({ status: "analyzing" });
 
     const progressInterval = setInterval(() => {
@@ -106,7 +109,10 @@ export function StepAnalyze() {
         const updatedProject = await getAnalysisStatus(project.id);
         if (updatedProject.success) {
           await updateProject({ status: "complete" });
+          await refreshProject();
         }
+
+        analytics.analysisCompleted(project.id);
       } else {
         setAnalysisState("error");
         setError(result.error || "Analysis failed");
