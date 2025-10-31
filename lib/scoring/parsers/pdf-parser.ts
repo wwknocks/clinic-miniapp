@@ -1,16 +1,18 @@
-import * as pdfParse from "pdf-parse";
+import * as pdfParseModule from "pdf-parse";
 import { ParsedContent } from "../models/types";
+
+// Handle both CommonJS and ES module exports
+const pdfParse =
+  typeof pdfParseModule === "function"
+    ? pdfParseModule
+    : (pdfParseModule as any).default || pdfParseModule;
 
 export async function parsePDF(buffer: Buffer): Promise<ParsedContent> {
   try {
-    const pdf =
-      (pdfParse as { default?: (buffer: Buffer) => Promise<{ text: string }> })
-        .default ||
-      (pdfParse as unknown as (buffer: Buffer) => Promise<{ text: string }>);
-    const data = await pdf(buffer);
+    const data = await pdfParse(buffer);
 
     const text = data.text.replace(/\s+/g, " ").trim();
-    const words = text.split(/\s+/).filter((word) => word.length > 0);
+    const words = text.split(/\s+/).filter((word: string) => word.length > 0);
     const wordCount = words.length;
 
     const headingPattern = /^[A-Z][A-Z\s]{2,}$/gm;
@@ -18,7 +20,7 @@ export async function parsePDF(buffer: Buffer): Promise<ParsedContent> {
 
     const linkPattern = /(https?:\/\/[^\s]+)/g;
     const linkMatches = text.match(linkPattern) || [];
-    const links = linkMatches.map((href) => ({ text: href, href }));
+    const links = linkMatches.map((href: string) => ({ text: href, href }));
 
     return {
       text,
