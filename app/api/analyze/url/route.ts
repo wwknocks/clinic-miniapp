@@ -3,6 +3,10 @@ import { analyzeContent } from "@/lib/scoring";
 import { captureScreenshotWithFallback } from "@/lib/puppeteer";
 import { probeCTAInFold } from "@/lib/puppeteer/dom-probe";
 
+export const runtime = "nodejs";
+export const dynamic = "force-dynamic";
+export const maxDuration = 120;
+
 export async function GET(req: Request) {
   const { searchParams } = new URL(req.url);
   const url = searchParams.get("url") || undefined;
