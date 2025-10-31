@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import { m } from "framer-motion";
 import {
   Card,
@@ -10,10 +11,54 @@ import {
 } from "@/components/ui/Card";
 import { Button } from "@/components/ui/Button";
 import { Badge } from "@/components/ui/Badge";
-import { FileText, FileDown, FileJson, Share2 } from "lucide-react";
+import { FileText, FileDown, FileJson, Share2, Loader2 } from "lucide-react";
 import { fadeInUp, staggerChildren } from "@/lib/motion";
+import { exportPDF, exportPPTX, exportJSON } from "@/app/actions/export-actions";
+import { useProjectStore } from "@/lib/stores/useProjectStore";
+import { useToast } from "@/components/ui";
 
 export function StepExports() {
+  const { project } = useProjectStore();
+  const { addToast } = useToast();
+  const [exporting, setExporting] = useState<{ pdf: boolean; pptx: boolean; json: boolean }>({
+    pdf: false,
+    pptx: false,
+    json: false,
+  });
+
+  const handleExport = async (type: "pdf" | "pptx" | "json") => {
+    if (!project) return;
+
+    setExporting((prev) => ({ ...prev, [type]: true }));
+
+    try {
+      const action = type === "pdf" ? exportPDF : type === "pptx" ? exportPPTX : exportJSON;
+      const result = await action(project.id);
+
+      if (result.success && result.data) {
+        addToast({
+          title: `${type.toUpperCase()} ready`,
+          description: `${result.data.fileName} • ${(result.data.size / 1024).toFixed(0)} KB`,
+          variant: "success",
+        });
+      } else {
+        addToast({
+          title: `Export failed`,
+          description: result.error || `Could not generate ${type.toUpperCase()}`,
+          variant: "error",
+        });
+      }
+    } catch (e) {
+      addToast({
+        title: `Export failed`,
+        description: e instanceof Error ? e.message : "An unknown error occurred",
+        variant: "error",
+      });
+    } finally {
+      setExporting((prev) => ({ ...prev, [type]: false }));
+    }
+  };
+
   return (
     <m.div
       variants={fadeInUp}
@@ -61,9 +106,17 @@ export function StepExports() {
                   Perfect for sharing with advisors or keeping for your records
                 </p>
               </div>
-              <Button variant="solid" className="gap-2">
-                <FileDown className="w-4 h-4" />
-                Export PDF
+              <Button variant="solid" className="gap-2" disabled={exporting.pdf} onClick={() => void handleExport("pdf")}
+                aria-busy={exporting.pdf} aria-live="polite">
+                {exporting.pdf ? (
+                  <>
+                    <Loader2 className="w-4 h-4 animate-spin" /> Exporting...
+                  </>
+                ) : (
+                  <>
+                    <FileDown className="w-4 h-4" /> Export PDF
+                  </>
+                )}
               </Button>
             </div>
           </CardContent>
@@ -93,9 +146,17 @@ export function StepExports() {
                   Great for presenting to mentors or career coaches
                 </p>
               </div>
-              <Button variant="solid" className="gap-2">
-                <FileDown className="w-4 h-4" />
-                Export PPTX
+              <Button variant="solid" className="gap-2" disabled={exporting.pptx} onClick={() => void handleExport("pptx")}
+                aria-busy={exporting.pptx} aria-live="polite">
+                {exporting.pptx ? (
+                  <>
+                    <Loader2 className="w-4 h-4 animate-spin" /> Exporting...
+                  </>
+                ) : (
+                  <>
+                    <FileDown className="w-4 h-4" /> Export PPTX
+                  </>
+                )}
               </Button>
             </div>
           </CardContent>
@@ -125,9 +186,17 @@ export function StepExports() {
                   Useful for importing into other tools or databases
                 </p>
               </div>
-              <Button variant="ghost" className="gap-2">
-                <FileDown className="w-4 h-4" />
-                Export JSON
+              <Button variant="ghost" className="gap-2" disabled={exporting.json} onClick={() => void handleExport("json")}
+                aria-busy={exporting.json} aria-live="polite">
+                {exporting.json ? (
+                  <>
+                    <Loader2 className="w-4 h-4 animate-spin" /> Exporting...
+                  </>
+                ) : (
+                  <>
+                    <FileDown className="w-4 h-4" /> Export JSON
+                  </>
+                )}
               </Button>
             </div>
           </CardContent>

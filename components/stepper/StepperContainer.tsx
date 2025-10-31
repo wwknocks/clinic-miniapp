@@ -113,19 +113,18 @@ export function StepperContainer() {
               </div>
             </div>
 
-            {/* Preview mode banner */}
+            {/* Connect-later banner */}
             {(!process.env.NEXT_PUBLIC_SUPABASE_URL ||
               !process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY) && (
               <Card variant="glass" padding="sm">
-                <div className="flex items-start gap-3 p-4">
+                <div className="flex items-start gap-3 p-4" role="status" aria-live="polite">
                   <AlertCircle className="w-5 h-5 text-accent flex-shrink-0 mt-0.5" />
                   <div className="space-y-1">
                     <p className="text-13 font-medium text-text-primary">
-                      Preview Mode
+                      Backend not connected yet.
                     </p>
                     <p className="text-11 text-text-secondary">
-                      Data won&apos;t persist. This is a demo environment -
-                      configure Supabase to enable full functionality.
+                      You&apos;re in connect-later mode. Data won&apos;t persist. Configure Supabase to enable full functionality.
                     </p>
                   </div>
                 </div>
