@@ -86,6 +86,9 @@ export default function SignupPage() {
         return;
       }
 
+      const { analytics } = await import("@/lib/analytics");
+      analytics.signup();
+
       addToast({
         title: "Account created!",
         description:

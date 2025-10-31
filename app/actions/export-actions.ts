@@ -6,6 +6,7 @@ import { generateArtifacts } from "@/lib/exports/pipeline";
 import { uploadArtifacts } from "@/lib/exports/upload";
 import { AdminProjectService } from "@/db/projects";
 import type { GeneratedAssetMeta, ProjectData } from "@/types/project";
+import { analyticsServer } from "@/lib/analytics-server";
 
 interface ExportResult {
   success: boolean;
@@ -117,6 +118,7 @@ export async function exportPDF(projectId: string): Promise<ExportResult> {
         label: "PDF Report",
       };
       await appendAssetsToProject(projectId, [meta]);
+      analyticsServer.exportSucceeded();
       return { success: true, data: { ...meta, type: "pdf" } } as ExportResult;
     }
 
@@ -162,6 +164,7 @@ export async function exportPPTX(projectId: string): Promise<ExportResult> {
         label: "PPTX Deck",
       };
       await appendAssetsToProject(projectId, [meta]);
+      analyticsServer.exportSucceeded();
       return { success: true, data: { ...meta, type: "pptx" } } as ExportResult;
     }
 
@@ -213,6 +216,7 @@ export async function exportJSON(projectId: string): Promise<ExportResult> {
         label: "JSON Data",
       };
       await appendAssetsToProject(projectId, [meta]);
+      analyticsServer.exportSucceeded();
       return { success: true, data: { ...meta, type: "json" } } as ExportResult;
     }
 

@@ -299,6 +299,49 @@ function MyComponent() {
 - [class-variance-authority](https://cva.style/)
 - [Inter Font](https://fonts.google.com/specimen/Inter)
 
+## Analytics (PostHog)
+
+This project includes lightweight PostHog instrumentation for key funnel events. The PostHog browser snippet is injected into the root layout only when environment variables are present and is deferred to load lazily for performance.
+
+Environment variables (also shown in `.env.example`):
+
+```
+NEXT_PUBLIC_POSTHOG_KEY=phc_...            # Your PostHog project API key
+NEXT_PUBLIC_POSTHOG_HOST=https://app.posthog.com  # Optional; defaults to PostHog Cloud
+```
+
+Notes:
+- If these variables are not set, no analytics code runs and nothing throws. In development, events are logged to the console instead for easy verification.
+- The Node server uses the PostHog Node client and will no-op when the key is absent.
+
+Event schema (event name → properties):
+- signup → none
+- project_created → { project_id }
+- inputs_completed → { project_id, ...input flags }
+- analysis_run → { ms }
+- first_score_shown → { overall }
+- export_clicked → { type }
+- export_succeeded → none
+- paywall_shown → none
+- upgrade_clicked → { plan? }
+- upgrade_succeeded → { plan? }
+
+Where events fire:
+- Signup page: signup on successful account creation
+- Stepper initialization: project_created when a new project is created
+- Inputs step: inputs_completed when required inputs and optional fields are provided
+- Analyze step: analysis_run with duration in ms when analysis completes
+- Results step: first_score_shown when the first overall score is produced (server-side)
+- Exports: export_clicked when the user clicks an export; export_succeeded on success
+- Paywall: paywall_shown when the paywall is displayed; upgrade_clicked/upgrade_succeeded when the user selects a plan
+
+Preview/Production configuration:
+- You can use separate PostHog projects/keys for preview and production deployments. Set the appropriate `NEXT_PUBLIC_POSTHOG_KEY` per environment. If the key is omitted in preview, analytics is simply disabled.
+
+Smoke test / local verification:
+- Run `npm test` to execute a simple analytics smoke test which asserts that events are logged to the console in development when no PostHog client is present.
+- In the browser during local development, open DevTools Console and navigate through the workflow to see `[Analytics]` logs for each event.
+
 ## License
 
 MIT

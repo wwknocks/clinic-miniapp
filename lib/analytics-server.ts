@@ -27,9 +27,12 @@ export const analyticsServer = {
 
     const posthog = getPostHogClient();
     if (posthog) {
+      const props = properties || {};
       const distinctId =
-        (properties?.userId as string) ||
-        (properties?.projectId as string) ||
+        (props["userId"] as string) ||
+        (props["user_id"] as string) ||
+        (props["project_id"] as string) ||
+        (props["projectId"] as string) ||
         "anonymous";
       posthog.capture({
         distinctId,
@@ -39,20 +42,26 @@ export const analyticsServer = {
     }
   },
 
-  analysisRun: (projectId: string, userId?: string) => {
+  // Required schema
+  analysisRun: (ms: number) => {
     analyticsServer.track({
       event: "analysis_run",
-      properties: { projectId, userId },
+      properties: { ms },
     });
   },
 
-  firstScoreShown: (projectId: string, score: number, userId?: string) => {
+  firstScoreShown: (overall: number) => {
     analyticsServer.track({
       event: "first_score_shown",
-      properties: { projectId, score, userId },
+      properties: { overall },
     });
   },
 
+  exportSucceeded: () => {
+    analyticsServer.track({ event: "export_succeeded" });
+  },
+
+  // Legacy helpers (kept for compatibility where still referenced)
   screenshotCaptured: (
     projectId: string,
     success: boolean,
@@ -68,13 +77,6 @@ export const analyticsServer = {
     analyticsServer.track({
       event: "llm_call_completed",
       properties: { projectId, duration, userId },
-    });
-  },
-
-  analysisCompleted: (projectId: string, duration?: number) => {
-    analyticsServer.track({
-      event: "analysis_completed",
-      properties: { project_id: projectId, duration },
     });
   },
 };

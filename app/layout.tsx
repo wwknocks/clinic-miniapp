@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import { MotionProvider } from "@/components/providers/motion-provider";
+import { PostHogProvider } from "@/components/providers/posthog-provider";
 import { ToastProvider, UserDropdown } from "@/components/ui";
 import { createClient } from "@/lib/supabase/server";
 import { ProfileService } from "@/db/profiles";
@@ -45,6 +46,7 @@ export default async function RootLayout({
   return (
     <html lang="en" className="dark">
       <body className={inter.variable}>
+        <PostHogProvider />
         <MotionProvider>
           <ToastProvider>
             {user && profile && !isAuthPage && (

@@ -65,7 +65,7 @@ export function StepAnalyze() {
     setProgress(0);
     setStatusMessage("Initializing analysis...");
 
-    analytics.analysisStarted(project.id);
+    const start = Date.now();
     await updateProject({ status: "analyzing" });
 
     const progressInterval = setInterval(() => {
@@ -112,7 +112,8 @@ export function StepAnalyze() {
           await refreshProject();
         }
 
-        analytics.analysisCompleted(project.id);
+        const ms = Date.now() - start;
+        analytics.analysisRun(ms);
       } else {
         setAnalysisState("error");
         setError(result.error || "Analysis failed");

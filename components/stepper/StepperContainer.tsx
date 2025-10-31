@@ -43,14 +43,6 @@ export function StepperContainer() {
     if (contentRef.current) {
       contentRef.current.focus();
     }
-
-    // Track step changes
-    if (project) {
-      analytics.stepChanged(
-        project.currentStep,
-        steps[project.currentStep - 1].label
-      );
-    }
   }, [project?.currentStep]);
 
   if (!project) {
