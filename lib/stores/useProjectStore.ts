@@ -1,6 +1,7 @@
 import { create } from "zustand";
 import { Project, ProjectState, ProjectData } from "@/types/project";
 import { supabase } from "@/lib/supabase";
+import { isConnectLaterMode } from "@/lib/flags";
 
 const TOTAL_STEPS = 4;
 
@@ -14,6 +15,23 @@ const createDefaultProject = (): Project => ({
   status: "draft",
 });
 
+const SAMPLE_PROJECT_DATA: ProjectData = {
+  sourceType: "url",
+  url: "https://www.apple.com/iphone/",
+  icp: "Tech-savvy consumers and professionals looking for premium smartphones with advanced camera, performance, and ecosystem integration.",
+  priceTerms:
+    "Starting at $799. Trade-in offers available. Monthly financing through approved carriers. AppleCare+ optional.",
+  proofLinks: [
+    "https://www.apple.com/newsroom/",
+    "https://support.apple.com/iphone",
+  ],
+  mechanism:
+    "Powered by A-series chips with Neural Engine, iPhone delivers industry-leading performance and efficiency. The camera system with computational photography enables stunning photos and videos, while iOS and the App Store provide a seamless, secure experience.",
+  primaryObjection:
+    "Price sensitivity compared to competing devices and concerns about ecosystem lock-in.",
+  goal: "Evaluate offer clarity and conversion elements; identify top improvements for landing page messaging.",
+};
+
 export const useProjectStore = create<ProjectState>((set, get) => ({
   project: null,
   isLoading: false,
@@ -24,6 +42,12 @@ export const useProjectStore = create<ProjectState>((set, get) => ({
 
     try {
       const newProject = createDefaultProject();
+
+      // Preload sample data in connect-later mode
+      if (isConnectLaterMode) {
+        newProject.title = "Sample Project – iPhone Offer";
+        newProject.data = { ...SAMPLE_PROJECT_DATA };
+      }
 
       // Try to save to Supabase if configured
       try {

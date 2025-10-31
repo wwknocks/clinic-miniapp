@@ -187,6 +187,22 @@ npm run build
 npm start
 ```
 
+## Connect-later mode
+
+You can run the app without configuring any backend services.
+
+- If Supabase environment variables are not set, the app automatically enters connect-later mode
+- A sample project is preloaded so you can click through Inputs → Analyze → Results → Exports
+- Analysis and exports use mocked data so no external services are required
+
+To force connect-later mode locally, set:
+
+```env
+NEXT_PUBLIC_CONNECT_LATER=true
+```
+
+When you are ready to connect the backend, add your Supabase and optional LLM keys in `.env.local`.
+
 ## Project Structure
 
 ```

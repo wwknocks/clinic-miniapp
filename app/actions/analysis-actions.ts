@@ -9,6 +9,7 @@ import { captureScreenshotWithFallback } from "@/lib/puppeteer";
 import { analyticsServer } from "@/lib/analytics-server";
 import { computeInputsHash, isCacheValid } from "@/lib/analysis/cache";
 import { createServiceRoleClient } from "@/lib/supabase/server";
+import { isServiceRoleConfigured } from "@/lib/flags";
 
 export interface AnalysisProgress {
   stage:
@@ -27,6 +28,12 @@ export interface RunAnalysisResult {
   error?: string;
   cached?: boolean;
 }
+
+// In-memory fallback store for connect-later mode
+const mockAnalysisStatus = new Map<
+  string,
+  { status: "draft" | "analyzing" | "complete"; hasResults: boolean; updatedAt: string }
+>();
 
 async function fetchContentFromUrl(url: string): Promise<string> {
   const response = await fetch(url, {
@@ -65,6 +72,16 @@ export async function runAnalysis(
 
   try {
     logger.info("Starting analysis", { projectId });
+
+    // Connect-later mode: no service role configured, use in-memory stub
+    if (!isServiceRoleConfigured) {
+      mockAnalysisStatus.set(projectId, {
+        status: "complete",
+        hasResults: true,
+        updatedAt: new Date().toISOString(),
+      });
+      return { success: true };
+    }
 
     const project = await ProjectService.getById(projectId);
     if (!project) {
@@ -243,9 +260,11 @@ export async function runAnalysis(
   } catch (error) {
     logError(error, { action: "runAnalysis", projectId });
 
-    await AdminProjectService.update(projectId, {
-      status: "draft",
-    }).catch(() => {});
+    if (isServiceRoleConfigured) {
+      await AdminProjectService.update(projectId, {
+        status: "draft",
+      }).catch(() => {});
+    }
 
     const errorInfo = handleError(error);
     return { success: false, error: errorInfo.message };
@@ -254,6 +273,18 @@ export async function runAnalysis(
 
 export async function getAnalysisStatus(projectId: string) {
   try {
+    if (!isServiceRoleConfigured) {
+      const data = mockAnalysisStatus.get(projectId);
+      return {
+        success: true,
+        data: {
+          status: data?.status || "complete",
+          hasResults: data?.hasResults ?? true,
+          updatedAt: data?.updatedAt || new Date().toISOString(),
+        },
+      };
+    }
+
     const project = await ProjectService.getById(projectId);
 
     if (!project) {

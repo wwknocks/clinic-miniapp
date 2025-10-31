@@ -215,6 +215,53 @@ export async function callLLM(
   rateLimiter.registerRequest();
 
   try {
+    const anthropicKey = process.env.ANTHROPIC_API_KEY;
+
+    if (anthropicKey) {
+      // Anthropic Claude 3.5 (Sonnet) via HTTP API
+      const response = await retryWithBackoff(async () => {
+        const res = await fetch("https://api.anthropic.com/v1/messages", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "x-api-key": anthropicKey,
+            "anthropic-version": "2023-06-01",
+          },
+          body: JSON.stringify({
+            model: "claude-3-5-sonnet-20241022",
+            max_tokens: maxTokens,
+            temperature,
+            system: systemPrompt,
+            messages: [{ role: "user", content: userPrompt }],
+          }),
+        });
+        if (!res.ok) {
+          const text = await res.text();
+          const err = new Error(`Anthropic API error: ${res.status} ${text}`) as any;
+          (err.status = res.status);
+          throw err;
+        }
+        return (await res.json()) as {
+          content: Array<{ type: string; text?: string }>;
+          usage?: { input_tokens: number; output_tokens: number };
+        };
+      });
+
+      const contentText =
+        response.content?.map((c) => (c as any).text || "").join("\n") || "";
+      const usage: LLMUsage | undefined = response.usage
+        ? {
+            promptTokens: response.usage.input_tokens,
+            completionTokens: response.usage.output_tokens,
+            totalTokens:
+              response.usage.input_tokens + response.usage.output_tokens,
+          }
+        : undefined;
+
+      if (usage) tokenBudget.logUsage(usage);
+      return { content: contentText, usage };
+    }
+
     const response = await retryWithBackoff(async () => {
       const client = getClient();
       return await client.chat.completions.create({
