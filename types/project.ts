@@ -1,3 +1,13 @@
+export interface GeneratedAssetMeta {
+  type: "pdf" | "pptx" | "json" | "linkedin_kit" | "copy_rewrite" | "objection_pack";
+  fileName: string;
+  url: string;
+  createdAt: string;
+  size?: number;
+  // optional human label for UI
+  label?: string;
+}
+
 export interface ProjectData {
   // Input step data - Basic info (legacy)
   offerTitle?: string;
@@ -56,6 +66,11 @@ export interface ProjectData {
     cachedAt?: string;
   };
 
+  // Generated assets from Export step or LLM kits
+  generatedAssets?: GeneratedAssetMeta[];
+  // Track free plan usage for gating
+  freeExportsUsed?: number;
+
   // Export preferences
   exportFormat?: "pdf" | "pptx" | "json";
 
@@ -85,6 +100,7 @@ export interface ProjectState {
   loadProject: (id: string) => Promise<void>;
   updateProject: (updates: Partial<Project>) => Promise<void>;
   updateProjectData: (data: Partial<ProjectData>) => void;
+  refreshProject: () => Promise<void>;
   setCurrentStep: (step: number) => void;
   nextStep: () => void;
   previousStep: () => void;

@@ -1,7 +1,8 @@
 import { create } from "zustand";
-import { Project, ProjectState, ProjectData } from "@/types/project";
+import { Project, ProjectState, ProjectData, GeneratedAssetMeta } from "@/types/project";
 import { supabase } from "@/lib/supabase";
 import { isConnectLaterMode } from "@/lib/flags";
+import { analytics } from "@/lib/analytics";
 
 const TOTAL_STEPS = 4;
 
@@ -32,6 +33,97 @@ const SAMPLE_PROJECT_DATA: ProjectData = {
   goal: "Evaluate offer clarity and conversion elements; identify top improvements for landing page messaging.",
 };
 
+function getSampleResults(): ProjectData["results"] {
+  const now = new Date().toISOString();
+  return {
+    scoringResult: {
+      overallScore: 78,
+      dimensionScores: {
+        value: 82,
+        urgency: 65,
+        certainty: 74,
+        effort: 70,
+        specificity: 80,
+        proof: 76,
+      },
+      metrics: {
+        proofDensity: { name: "Proof Density", value: 0.62, description: "Ratio of proof elements to total content" },
+        numbersPerFiveHundredWords: { name: "Numbers/500w", value: 3.1, description: "Numeric specificity per 500 words" },
+        ctaDetection: { name: "CTA Detection", value: 0.85, description: "Clarity and presence of primary CTA" },
+        guaranteeParsing: { name: "Guarantee", value: 0.5, description: "Strength of risk reversal" },
+        timeToFirstValue: { name: "Time-to-Value", value: 0.7, description: "How quickly user sees first value" },
+        mechanismPresence: { name: "Mechanism", value: 0.8, description: "Clarity of how it works" },
+      },
+      leverDeltas: [
+        {
+          lever: "urgency",
+          currentScore: 65,
+          potentialScore: 85,
+          delta: 20,
+          evLiftPercentage: 0.12,
+          evPerHour: 0.06,
+          estimatedHours: 4,
+        },
+        {
+          lever: "certainty",
+          currentScore: 74,
+          potentialScore: 90,
+          delta: 16,
+          evLiftPercentage: 0.1,
+          evPerHour: 0.05,
+          estimatedHours: 3,
+        },
+        {
+          lever: "proof",
+          currentScore: 76,
+          potentialScore: 90,
+          delta: 14,
+          evLiftPercentage: 0.08,
+          evPerHour: 0.04,
+          estimatedHours: 3,
+        },
+      ],
+      timestamp: now,
+    },
+    llmOutputs: {
+      strengths: [
+        "Clear premium positioning and strong ecosystem lock-in",
+        "High perceived value through camera and performance claims",
+        "Trust built via brand authority and support infrastructure",
+      ],
+      weaknesses: [
+        "Limited urgency drivers beyond launch windows",
+        "Guarantee and risk reversal not prominent",
+        "Price anchoring could be stronger against alternatives",
+      ],
+      recommendations: [
+        "Introduce time-bound incentive (e.g., limited bonus or financing window)",
+        "Add comparison table vs. top competitors to justify price",
+        "Highlight 30-day return policy prominently as risk reversal",
+      ],
+      fixSuggestions: [
+        "Add urgency banner with countdown for launch promotions",
+        "Add proof slider with 3 recent customer stories",
+        "Rewrite headline to include quantifiable outcome and timeframe",
+      ],
+      objectionHandlers: [
+        "If price: Offer trade-in calculator and financing breakdown",
+        "If ecosystem lock-in: Emphasize cross-device continuity and migration ease",
+      ],
+      conversionKits: [
+        "LinkedIn carousel summarizing top outcomes with visuals",
+        "Lead magnet: 'iPhone Setup Playbook' PDF",
+      ],
+    },
+    screenshot: {
+      path: "/mock/iphone-screenshot.png",
+      signedUrl: "https://via.placeholder.com/1200x800.png?text=Offer+Screenshot",
+    },
+    inputsHash: "mock-hash",
+    cachedAt: now,
+  };
+}
+
 export const useProjectStore = create<ProjectState>((set, get) => ({
   project: null,
   isLoading: false,
@@ -41,12 +133,50 @@ export const useProjectStore = create<ProjectState>((set, get) => ({
     set({ isLoading: true, error: null });
 
     try {
+      // First, attempt to load most recent project if it exists
+      try {
+        const { data, error } = await supabase
+          .from("projects")
+          .select("*")
+          .order("created_at", { ascending: false })
+          .limit(1)
+          .maybeSingle();
+
+        if (!error && data) {
+          const existing: Project = {
+            id: data.id,
+            userId: data.user_id || undefined,
+            title: data.title,
+            currentStep: data.current_step || 1,
+            data: (data.data as ProjectData) || {},
+            createdAt: data.created_at,
+            updatedAt: data.updated_at,
+            status: data.status || "draft",
+          };
+
+          // In connect-later mode, merge in sample data/results to demo the flow
+          if (isConnectLaterMode) {
+            existing.title = existing.title || "Sample Project – iPhone Offer";
+            existing.data = { ...SAMPLE_PROJECT_DATA, ...existing.data };
+            if (!existing.data.results) {
+              existing.data.results = getSampleResults();
+            }
+          }
+
+          set({ project: existing, isLoading: false });
+          return;
+        }
+      } catch (e) {
+        // ignore and continue with creating a new project
+      }
+
+      // Otherwise create a new project
       const newProject = createDefaultProject();
 
       // Preload sample data in connect-later mode
       if (isConnectLaterMode) {
         newProject.title = "Sample Project – iPhone Offer";
-        newProject.data = { ...SAMPLE_PROJECT_DATA };
+        newProject.data = { ...SAMPLE_PROJECT_DATA, results: getSampleResults() };
       }
 
       // Try to save to Supabase if configured
@@ -65,7 +195,7 @@ export const useProjectStore = create<ProjectState>((set, get) => ({
           console.warn("Could not save to Supabase:", error.message);
         }
       } catch (err) {
-        console.warn("Supabase not configured or error occurred:", err);
+        // not configured - fine in connect later mode
       }
 
       set({ project: newProject, isLoading: false });
@@ -122,7 +252,7 @@ export const useProjectStore = create<ProjectState>((set, get) => ({
       ...project,
       ...updates,
       updatedAt: new Date().toISOString(),
-    };
+    } as Project;
 
     set({ project: updatedProject });
 
@@ -138,8 +268,10 @@ export const useProjectStore = create<ProjectState>((set, get) => ({
           updated_at: updatedProject.updatedAt,
         })
         .eq("id", updatedProject.id);
+
+      analytics.projectUpdated(updatedProject.id, updates as Record<string, unknown>);
     } catch (err) {
-      console.warn("Could not sync to Supabase:", err);
+      // non-blocking in connect-later mode
     }
   },
 
@@ -150,6 +282,42 @@ export const useProjectStore = create<ProjectState>((set, get) => ({
     updateProject({
       data: { ...project.data, ...data },
     });
+  },
+
+  refreshProject: async () => {
+    const { project } = get();
+    if (!project) return;
+    try {
+      const { data, error } = await supabase
+        .from("projects")
+        .select("*")
+        .eq("id", project.id)
+        .single();
+
+      if (error || !data) return;
+
+      const server: Project = {
+        id: data.id,
+        userId: data.user_id || undefined,
+        title: data.title,
+        currentStep: data.current_step,
+        data: (data.data as ProjectData) || {},
+        createdAt: data.created_at,
+        updatedAt: data.updated_at,
+        status: data.status,
+      };
+
+      // Merge server data, preferring server-side results/fields
+      const merged: Project = {
+        ...project,
+        ...server,
+        data: { ...project.data, ...server.data },
+      };
+
+      set({ project: merged });
+    } catch (e) {
+      // ignore
+    }
   },
 
   setCurrentStep: (step: number) => {
